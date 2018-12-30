@@ -26,3 +26,15 @@
 *.exe
 *.out
 *.app
+
+
+
+
+# Don't track content of these folders
+cmake-build-debug/
+
+# Compiled source #
+*.o
+
+# csv files#
+*.csv
