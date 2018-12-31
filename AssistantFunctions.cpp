@@ -48,7 +48,6 @@ void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_
         string tweetWord;
         Tweet currTweet;
 
-        iss >> tweetWord;
         while (iss >> tweetWord ){
             currTweet.context.push_back(tweetWord);
         }

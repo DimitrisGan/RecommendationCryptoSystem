@@ -4,6 +4,16 @@
 
 #include "Tweet.h"
 
+using namespace std;
+
+
+
+/*void calculateTweetsScore( unordered_map <string , double > &tweetsScore_umap , const unordered_map<string ,float> &vaderLexicon_umap){
+
+}*/
+
+
+
 void Tweet::printTweet(){
 
     cout << "Tweet : [";
@@ -13,6 +23,7 @@ void Tweet::printTweet(){
     cout <<"]"<<endl;
 
 }
+
 ostream &operator<<(ostream &out, const Tweet &tweet)
 {
     out << "Context:\t[";

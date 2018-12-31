@@ -4,6 +4,7 @@
 
 #include "AssistantFunctions.h"
 #include "Tweet.h"
+#include "myCryptoVector.h"
 
 
 int main(int argc , char** argv) {
@@ -92,6 +93,10 @@ int main(int argc , char** argv) {
 
     ReadTweetsInputDat_saveIt(inTweetsDatasetFile, tweets_umap,userTweetsRelation_ummap);
 
+
+    unordered_map <string , myCryptoVector > userTweetsSentimScore_umap;
+
+     calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
 
 
 
