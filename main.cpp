@@ -80,7 +80,14 @@ int main(int argc , char** argv) {
     vector <string> CoinsList;
     unordered_map<string ,int> coins_umap;
 
+
+
     ReadCoinsFile_saveIt(inCoinsFileName , CoinsList , coins_umap );
+
+    for (const auto &coinPair : coins_umap){
+        cout << coinPair.second << " :"<< coinPair.first <<endl;
+    }
+
     unordered_map<string ,float> vaderLexicon_umap;
 
     ReadVaderLexicon_saveIt(inVadarLexinconFile , vaderLexicon_umap);

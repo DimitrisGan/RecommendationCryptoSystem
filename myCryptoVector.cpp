@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <set>
+#include <assert.h>
 #include "myCryptoVector.h"
 #include "Tweet.h"
 
@@ -34,16 +35,36 @@ set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &user
 vector<pair<int , float>> calculateTweetsScore(const string &tweetId, const unordered_map <string , Tweet > &tweets_umap,
                                     const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
 
+    cout << "\n\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n\n";
+
+    set <int> coinsMentionedInTweet;
+    float totalScore=0;
 
     Tweet tweetContext = tweets_umap.at(tweetId);
 
     for (const auto &wordInTweet : tweetContext.context ){
         cout << wordInTweet<<"\t";
+        //todo tsekarw an yparxei sto vader kai prosthetw to score
+        //todo tsekarw gia poia crypto anaferetai to tweet
+        if (coins_umap.count(wordInTweet) > 0){
+            coinsMentionedInTweet.insert(coins_umap.at(wordInTweet));
+            cout <<"\ncoins added EDW : "+wordInTweet<<endl;
+        }
+        if (vaderLexicon_umap.count(wordInTweet) > 0){ //it means that the word exists in vader Lexicon
+            totalScore+= vaderLexicon_umap.at(wordInTweet);
+        }
     }
 
+    cout <<endl;
+    for ( auto &coinIndex : coinsMentionedInTweet) {
+        cout << "coinIndex = "<<coinIndex<<endl;
+    }
+
+    cout << "totalScore = " << totalScore <<endl;
 
 
     vector<pair<int , float>> coinsIndexesAndScore;
+
     return coinsIndexesAndScore;
 }
 
@@ -74,7 +95,7 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
 
         }
-        break;
+//        break;
 
 
         /* for (const auto &tweetPair : tweets_umap) {
