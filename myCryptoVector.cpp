@@ -2,11 +2,16 @@
 // Created by dimitrisgan on 31/12/2018.
 //
 
-#include <unordered_map>
-#include <set>
-#include <assert.h>
+
 #include "myCryptoVector.h"
-#include "Tweet.h"
+
+
+
+
+
+
+
+
 
 
 // Function to check if the key is present or not
@@ -32,13 +37,12 @@ set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &user
 
 
 /*returns a vector of coins indexes to add and totalscore */
-vector<pair<int , float>> calculateTweetsScore(const string &tweetId, const unordered_map <string , Tweet > &tweets_umap,
+set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
                                     const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
 
     cout << "\n\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n\n";
 
     set <int> coinsMentionedInTweet;
-    float totalScore=0;
 
     Tweet tweetContext = tweets_umap.at(tweetId);
 
@@ -46,16 +50,17 @@ vector<pair<int , float>> calculateTweetsScore(const string &tweetId, const unor
         cout << wordInTweet<<"\t";
         //todo tsekarw an yparxei sto vader kai prosthetw to score
         //todo tsekarw gia poia crypto anaferetai to tweet
-        if (coins_umap.count(wordInTweet) > 0){
-            coinsMentionedInTweet.insert(coins_umap.at(wordInTweet));
-            cout <<"\ncoins added EDW : "+wordInTweet<<endl;
+        if (coins_umap.count(wordInTweet) > 0){ // if word exists in Coins Lexicon
+            coinsMentionedInTweet.insert(coins_umap.at(wordInTweet)); //insert it in mentionCoinsInTweet
         }
+
         if (vaderLexicon_umap.count(wordInTweet) > 0){ //it means that the word exists in vader Lexicon
-            totalScore+= vaderLexicon_umap.at(wordInTweet);
+            totalScore+= vaderLexicon_umap.at(wordInTweet); //add it to the existing totalScore
         }
     }
-
     cout <<endl;
+
+    /////////////////// diagnostic Prints Here
     for ( auto &coinIndex : coinsMentionedInTweet) {
         cout << "coinIndex = "<<coinIndex<<endl;
     }
@@ -63,9 +68,8 @@ vector<pair<int , float>> calculateTweetsScore(const string &tweetId, const unor
     cout << "totalScore = " << totalScore <<endl;
 
 
-    vector<pair<int , float>> coinsIndexesAndScore;
 
-    return coinsIndexesAndScore;
+    return coinsMentionedInTweet;
 }
 
 
@@ -90,10 +94,15 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
         for (auto it=range.first;it!=range.second;++it){
             cout << it->first<< " : "<<it->second<<endl;
 
-            vector<pair<int , float>> CoinsIndexes2addScoreInUser = calculateTweetsScore(it->second /*tweetId*/, tweets_umap ,vaderLexicon_umap , coins_umap );
-//            vector<pair<int , float>> CoinsIndexes2addScoreInUser = calculateTweetsScore("4209"/*tweetId*/, tweets_umap ,vaderLexicon_umap , coins_umap );
+            float totalScore=0;
+            set<int> CoinsIndexes2addScoreInUser = calculateTweetsScore(it->second /*tweetId*/,totalScore , tweets_umap ,vaderLexicon_umap , coins_umap );
 
+            //todo to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myCryptoVector
+            myCryptoVector u;
+//            u.setMyCryptoVector(set <int> CoinsIndexes2addScoreInUser , float totalScore);
+            u.setMyCryptoVector(CoinsIndexes2addScoreInUser , totalScore);
 
+            u.printCryptoVector();
         }
 //        break;
 
@@ -116,4 +125,33 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
        }*/
     }
 
+}
+
+myCryptoVector::myCryptoVector() {
+
+    float inf = std::numeric_limits<float>::infinity();
+
+    vector <float> CryptoSc(100,inf);
+
+    this->CryptoScore = CryptoSc;
+
+}
+
+
+
+void myCryptoVector::printCryptoVector(){
+    cout<<"[";
+    for (auto coinScore : this->CryptoScore){
+        cout<<coinScore<<",";
+    }
+    cout<<"]\n";
+}
+//myCryptoVector()  : CryptoScore( 100, value ) {}
+
+
+void myCryptoVector::setMyCryptoVector(set<int> coinsIndexes2addScoreInUser , float totalScore){
+
+    for (auto coinIndex : coinsIndexes2addScoreInUser){
+        this->CryptoScore[coinIndex] = totalScore;
+    }
 }
