@@ -20,6 +20,7 @@ using namespace std;
 
 
 
+
 struct myCryptoVector { //a.k.a U={u1,u2,..,un where n = number of the cryptos in the assignment
     //todo fitaxnw constructor pou na arxikopoiei 100 theseis vector me apeiro
     vector <double> CryptoScore;
@@ -112,5 +113,10 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
 
 void printUsersSentimentCryptoScoreMap(const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap);
+
+
+void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVector > &userTweetsSentimScoreNormalized_umap,
+                                                    const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap );
+
 
 #endif //RECOMMENDATIONCRYPTOSYSTEM_MYCRYPTOVECTOR_H

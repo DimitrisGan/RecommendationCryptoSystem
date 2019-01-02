@@ -47,14 +47,14 @@ set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &user
 set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
                                     const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
 
-    cout << "\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n";
+//    cout << "\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n";
 
     set <int> coinsMentionedInTweet;
 
     Tweet tweetContext = tweets_umap.at(tweetId);
 
     for (const auto &wordInTweet : tweetContext.context ){
-        cout << wordInTweet<<"\t";
+//        cout << wordInTweet<<"\t";
 
         if (coins_umap.count(wordInTweet) > 0){ // if word exists in Coins Lexicon
             coinsMentionedInTweet.insert(coins_umap.at(wordInTweet)); //insert it in mentionCoinsInTweet
@@ -94,11 +94,11 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
     for (const auto &userId : multiMapKeys ) { //gia kathe user
 
-        cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOR USER #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n";
+//        cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOR USER #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n";
 
 
         myCryptoVector u;
-        u.printCryptoVector();
+//        u.printCryptoVector();
 
 
         auto range =userTweetsRelation_ummap.equal_range(userId); //
@@ -124,17 +124,17 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
 //            cout << "BEFORE U = " <<endl;
 //            u.printCryptoVector();
-            cout << "ADD WITH CURRENT U"<<endl;
-            current_u.printCryptoVector();
+//            cout << "ADD WITH CURRENT U"<<endl;
+//            current_u.printCryptoVector();
 
             u = u + current_u; //add to u UsersVector the tweetsVector
         }
 
 
 //        cout << "AFTER U = " <<endl;
-        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-
-        u.printCryptoVector();
+//        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+//
+//        u.printCryptoVector();
 
         //TODO to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myCryptoVector
 
@@ -145,6 +145,15 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
 }
 
+
+
+void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVector > &userTweetsSentimScoreNormalized_umap,
+                                                    const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap )
+
+{
+
+
+}
 
 
 // ================================================================================================================
@@ -166,7 +175,9 @@ myCryptoVector::myCryptoVector() {
 
 void myCryptoVector::printCryptoVector(){
     cout<<"[";
+    int i=0;
     for (auto coinScore : this->CryptoScore){
+//        cout<<""<<i++<<" :"<<coinScore<<",";
         cout<<coinScore<<",";
     }
     cout<<"]\n";
@@ -189,6 +200,7 @@ void myCryptoVector::setCryptoScore(const vector<double> &CryptoScore) {
 
 void printUsersSentimentCryptoScoreMap(const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap){
     for (auto user : userTweetsSentimScore_umap){
+
         cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<user.first <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
         user.second.printCryptoVector();
 

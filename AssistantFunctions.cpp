@@ -14,6 +14,10 @@
 using namespace std;
 
 
+
+
+
+
 void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_map<string, Tweet> &tweets_umap,
                                unordered_multimap<string, string> &userTweetsRelation_ummap){
 
@@ -48,16 +52,20 @@ void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_
         string tweetWord;
         Tweet currTweet;
 
-        while (iss >> tweetWord ){
+//        while (iss >> tweetWord ){
+//        cout <<"TWEET :\n";
+
+        while (getline(iss, tweetWord, '\t') ){
             currTweet.context.push_back(tweetWord);
+//            cout << tweetWord <<endl;
         }
 
         tweets_umap.insert(make_pair(tweetId,currTweet));
 
 
     }
-    printMultiUMap(userTweetsRelation_ummap);
-    printTweetsUmap(tweets_umap);
+//    printMultiUMap(userTweetsRelation_ummap);
+//    printTweetsUmap(tweets_umap);
 
     inFile.close();
 
@@ -174,7 +182,10 @@ void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsL
 
         CoinsList.push_back(CoinName); //add the first Column of CoinsFile in the vector
 
-        while (iss >> CoinName) {
+
+//        while (iss >> CoinName) {
+        while (getline(iss, CoinName, '\t')) {
+            if (CoinName.empty() || CoinName == "\t")continue;
             CoinsUmap[CoinName] = index;
         }
 
@@ -185,6 +196,9 @@ void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsL
 }
 
 
+//==================================================================================================================
+//==================================================================================================================
+//==================================================================================================================
 /*
 
 void Write2_OutFile(std::ofstream& outFile ,string &OutFileName , string &algOptions , int &DistMetricFlag ,

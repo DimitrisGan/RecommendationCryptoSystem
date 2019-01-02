@@ -69,8 +69,8 @@ int main(int argc , char** argv) {
 
     string inCoinsFileName = "coins_queries.csv";
     string inVadarLexinconFile = "vader_lexicon.csv";
-//    string inTweetsDatasetFile = "10_tweets_dataset_small.csv";
-    string inTweetsDatasetFile = "tweets_dataset_small.csv";
+    string inTweetsDatasetFile = "10_tweets_dataset_small.csv";
+//    string inTweetsDatasetFile = "tweets_dataset_small.csv";
 
 //    string inTweetsDatasetAfterTFIDFFile = "tweets_dataset_small.csv";
 //    string configFileName = "cluster.conf";
@@ -105,8 +105,13 @@ int main(int argc , char** argv) {
 
      calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
 
+    unordered_map <string , myCryptoVector > userTweetsSentimScoreNormalized_umap;
+
+    calculateNormalizeUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap,userTweetsSentimScore_umap );
+
 
     printUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap);
+
 
 
         return 0;
