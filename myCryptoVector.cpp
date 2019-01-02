@@ -3,13 +3,20 @@
 //
 
 
+#include <cmath>
 #include "myCryptoVector.h"
 
 
 
 
 
+double calculateSentimentScore(float totalScore){
+    double Si;
+    double denominator = sqrt(pow(totalScore,2) + ALPHA);
+    Si  = totalScore / denominator;
 
+    return Si;
+}
 
 
 
@@ -40,7 +47,7 @@ set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &user
 set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
                                     const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
 
-    cout << "\n\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n\n";
+    cout << "\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n";
 
     set <int> coinsMentionedInTweet;
 
@@ -48,8 +55,7 @@ set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const
 
     for (const auto &wordInTweet : tweetContext.context ){
         cout << wordInTweet<<"\t";
-        //todo tsekarw an yparxei sto vader kai prosthetw to score
-        //todo tsekarw gia poia crypto anaferetai to tweet
+
         if (coins_umap.count(wordInTweet) > 0){ // if word exists in Coins Lexicon
             coinsMentionedInTweet.insert(coins_umap.at(wordInTweet)); //insert it in mentionCoinsInTweet
         }
@@ -61,11 +67,9 @@ set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const
     cout <<endl;
 
     /////////////////// diagnostic Prints Here
-    for ( auto &coinIndex : coinsMentionedInTweet) {
-        cout << "coinIndex = "<<coinIndex<<endl;
-    }
-
-    cout << "totalScore = " << totalScore <<endl;
+//    for ( auto &coinIndex : coinsMentionedInTweet) {
+//        cout << "coinIndex = "<<coinIndex<<endl;
+//    }
 
 
 
@@ -88,50 +92,71 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
      set<string> multiMapKeys = extractMultiMapKeys (userTweetsRelation_ummap); //In this set now I have all the keys of the multiset
 
 
-    for (const auto &userId : multiMapKeys ) {
+    for (const auto &userId : multiMapKeys ) { //gia kathe user
+
+        cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOR USER #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n";
+
+
+        myCryptoVector u;
+        u.printCryptoVector();
+
 
         auto range =userTweetsRelation_ummap.equal_range(userId); //
-        for (auto it=range.first;it!=range.second;++it){
-            cout << it->first<< " : "<<it->second<<endl;
+        //TODO  edw logika tha ftiaksw to u!!!!!!
+
+
+        for (auto it=range.first;it!=range.second;++it){ //gia kathe Tweet you current User
+//            cout << it->first<< " : "<<it->second<<endl;
 
             float totalScore=0;
             set<int> CoinsIndexes2addScoreInUser = calculateTweetsScore(it->second /*tweetId*/,totalScore , tweets_umap ,vaderLexicon_umap , coins_umap );
 
-            //todo to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myCryptoVector
-            myCryptoVector u;
+
+            double sentimentScore = calculateSentimentScore(totalScore);
+            myCryptoVector current_u;
 //            u.setMyCryptoVector(set <int> CoinsIndexes2addScoreInUser , float totalScore);
-            u.setMyCryptoVector(CoinsIndexes2addScoreInUser , totalScore);
 
-            u.printCryptoVector();
+            //TODO EDW LOGIKA THA KALESW THN ADD2USERSVECTORU!!!!!!!
+            current_u.setMyCryptoVector(CoinsIndexes2addScoreInUser , sentimentScore);
+
+
+//            current_u.printCryptoVector();
+
+//            cout << "BEFORE U = " <<endl;
+//            u.printCryptoVector();
+            cout << "ADD WITH CURRENT U"<<endl;
+            current_u.printCryptoVector();
+
+            u = u + current_u; //add to u UsersVector the tweetsVector
         }
-//        break;
 
 
-        /* for (const auto &tweetPair : tweets_umap) {
-             for (const auto &word : tweetPair.second.context) {
- //            if (vaderLexicon_umap.)
+//        cout << "AFTER U = " <<endl;
+        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
 
-                 if (check_key(vaderLexicon_umap, word) == "Present") { //if word is present in the vader lexicon
+        u.printCryptoVector();
 
-                 }
+        //TODO to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myCryptoVector
 
-             }
-         }*/
+        //todo EDW THA TO KANW INSERT STO MAP userTweetsSentimScore_umap
+        userTweetsSentimScore_umap.insert(make_pair(userId , u));
 
-    /*   for (auto tweet : user.second ){
-           for (auto word : tweet ){
-
-           }
-       }*/
     }
 
 }
 
+
+
+// ================================================================================================================
+// ================================================================================================================
+
+
+
 myCryptoVector::myCryptoVector() {
 
-    float inf = std::numeric_limits<float>::infinity();
+    double inf = std::numeric_limits<double>::infinity();
 
-    vector <float> CryptoSc(100,inf);
+    vector <double> CryptoSc(100,inf);
 
     this->CryptoScore = CryptoSc;
 
@@ -149,9 +174,23 @@ void myCryptoVector::printCryptoVector(){
 //myCryptoVector()  : CryptoScore( 100, value ) {}
 
 
-void myCryptoVector::setMyCryptoVector(set<int> coinsIndexes2addScoreInUser , float totalScore){
+void myCryptoVector::setMyCryptoVector(set<int> coinsIndexes2addScoreInUser , double Si){
 
     for (auto coinIndex : coinsIndexes2addScoreInUser){
-        this->CryptoScore[coinIndex] = totalScore;
+        this->CryptoScore[coinIndex] = Si;
+    }
+}
+
+void myCryptoVector::setCryptoScore(const vector<double> &CryptoScore) {
+    myCryptoVector::CryptoScore = CryptoScore;
+}
+
+
+
+void printUsersSentimentCryptoScoreMap(const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap){
+    for (auto user : userTweetsSentimScore_umap){
+        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<user.first <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+        user.second.printCryptoVector();
+
     }
 }
