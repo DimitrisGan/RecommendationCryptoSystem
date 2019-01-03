@@ -5,9 +5,7 @@
 #include "ClusterAPI.h"
 
 using namespace std;
-
-kClusters ClusterProcedure(unordered_map<string, myVector> &in_umap , const string &configFileName , unsigned int d){
-
+void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &in_umap , const string &configFileName , unsigned int d){
 //    configFileName = "cluster.conf";
 
     /*int Radius=0;*/
@@ -107,7 +105,7 @@ kClusters ClusterProcedure(unordered_map<string, myVector> &in_umap , const stri
 
     (*init_ptr)(k , in_umap , k_initial_vectors ); //initialization returns the k initial Centroids
 
-    kClusters allClusters(k  , k_initial_vectors); //initialize k clusters entities with the initial Centroids
+    allClusters.initializeClusters(k  , k_initial_vectors); //initialize k clusters entities with the initial Centroids
 
 
 //========================================================================================
@@ -172,7 +170,6 @@ kClusters ClusterProcedure(unordered_map<string, myVector> &in_umap , const stri
     delete assign_ptr;assign_ptr = nullptr;
     delete update_ptr;assign_ptr = nullptr;
 
-    return allClusters;
 
 }
 

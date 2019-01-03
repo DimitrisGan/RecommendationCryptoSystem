@@ -44,11 +44,12 @@
 
 
 
-#define ITERATIONS 3 //TODO VALTO 20
+#define ITERATIONS 1 //TODO VALTO 20
 
 using namespace std;
 
-kClusters ClusterProcedure(unordered_map<string, myVector> &in_umap , const string &configFileName , unsigned int d);
+
+void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &in_umap , const string &configFileName , unsigned int d);
 
 
 

@@ -34,6 +34,17 @@ kClusters::kClusters(unsigned int k , vector <myVector> listCentroids ){
 
 }
 
+void kClusters::initializeClusters(unsigned int k , vector <myVector> listCentroids ){
+    std::vector<Cluster> listClusters;
+    listClusters.reserve(k);
+    unsigned id=0;
+    for ( auto& centroid :  listCentroids) {
+        this->clusters.push_back(new Cluster(centroid ,id));
+        id++;
+    }
+
+}
+
 vector<Cluster *> &kClusters::getClusters()  {
     return clusters;
 }

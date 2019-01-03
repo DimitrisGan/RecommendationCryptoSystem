@@ -15,6 +15,7 @@
 #include <limits>
 
 #include "MyVector.h"
+#include "Cluster.h"
 
 #define ALPHA 15
 
@@ -114,11 +115,19 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &u
                                            const unordered_map<string ,int> &coins_umap );
 
 
-void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > &userTweetsSentimScore_umap);
-
 
 void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
                                                     const unordered_map <string , myVector > &userTweetsSentimScore_umap );
+
+
+void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector > &virtualUserTweetsSentimScore_umap ,
+                                              kClusters &TwitterCluster ,
+                                              const unordered_map <string , Tweet > &tweets_umap,
+                                              const unordered_map<string ,float> &vaderLexicon_umap ,
+                                              const unordered_map<string ,int> &coins_umap );
+
+
+void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > &userTweetsSentimScore_umap);
 
 
 #endif //RECOMMENDATIONCRYPTOSYSTEM_MYCRYPTOVECTOR_H

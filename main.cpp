@@ -136,10 +136,20 @@ int main(int argc , char** argv) {
     ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, d );
 
 
-    kClusters TwitterCluster = ClusterProcedure(in_Tf_Idf_Tweets_umap , configFileName , d);
+    kClusters TwitterCluster;
+    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , d);
 
     TwitterCluster.print_allClusters();
 
+    unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
+//
+//
+    calculateVirtualUsersFromTwitterCluster (virtualUserTweetsSentimScore_umap ,TwitterCluster ,tweets_umap ,vaderLexicon_umap ,coins_umap );
+
+
+
+    cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
+    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScore_umap);
 
 
 

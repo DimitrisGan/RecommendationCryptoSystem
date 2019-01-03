@@ -63,6 +63,11 @@ public:
     void print_ClustersDatasetSize();
 
 
+    void initializeClusters(unsigned int k , vector <myVector> listCentroids );
+    kClusters()= default;
+
+
+
 };
 
 

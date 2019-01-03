@@ -47,4 +47,4 @@ add_executable(RecommendationCryptoSystem
     Tweet.cpp
     Tweet.h
     Update.cpp
-    Update.h ClusterAPI.cpp ClusterAPI.h AbstractLAH_CUBE.cpp)
+    Update.h ClusterAPI.cpp ClusterAPI.h AbstractLSH_CUBE.cpp)
