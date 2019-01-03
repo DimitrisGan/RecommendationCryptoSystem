@@ -107,11 +107,11 @@ int main(int argc , char** argv) {
     printMultiUMap(userTweetsRelation_ummap);
 
 
-    unordered_map <string , myCryptoVector > userTweetsSentimScore_umap;
+    unordered_map <string , myVector > userTweetsSentimScore_umap; //todo
 
      calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
 
-    unordered_map <string , myCryptoVector > userTweetsSentimScoreNormalized_umap;
+    unordered_map <string , myVector > userTweetsSentimScoreNormalized_umap; //todo
 
     calculateNormalizeUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap,userTweetsSentimScore_umap );
 
@@ -121,7 +121,6 @@ int main(int argc , char** argv) {
     printUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap);
 
 
-    //todo makeVirtualvVectord() //after Clustering
 
     return 0;
 }

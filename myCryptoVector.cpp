@@ -7,8 +7,7 @@
 #include "myCryptoVector.h"
 
 
-
-
+class myVector;
 
 double calculateSentimentScore(float totalScore){
     double Si;
@@ -79,7 +78,7 @@ set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const
 
 
 /*calculating U vectors*/
-void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap,
+void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
                                            const unordered_multimap <string ,string> &userTweetsRelation_ummap,
                                            const unordered_map <string , Tweet > &tweets_umap,
                                            const unordered_map<string ,float> &vaderLexicon_umap ,
@@ -97,7 +96,8 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 //        cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOR USER #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n";
 
 
-        myCryptoVector u;
+        myVector u;
+        u.initializeToInf(static_cast<int>(coins_umap.size()));
 //        u.printCryptoVector();
 
 
@@ -113,11 +113,12 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
 
             double sentimentScore = calculateSentimentScore(totalScore);
-            myCryptoVector current_u;
+            myVector current_u;
+            current_u.initializeToInf(static_cast<int>(coins_umap.size()));
 //            u.setMyCryptoVector(set <int> CoinsIndexes2addScoreInUser , float totalScore);
 
             //TODO EDW LOGIKA THA KALESW THN ADD2USERSVECTORU!!!!!!!
-            current_u.setMyCryptoVector(CoinsIndexes2addScoreInUser , sentimentScore);
+            current_u.setVectorToSpecificIndexes(CoinsIndexes2addScoreInUser , sentimentScore);
 
 
 //            current_u.printCryptoVector();
@@ -136,7 +137,7 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 //
 //        u.printCryptoVector();
 
-        //TODO to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myCryptoVector
+        //TODO to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myVector
 
         //todo EDW THA TO KANW INSERT STO MAP userTweetsSentimScore_umap
         userTweetsSentimScore_umap.insert(make_pair(userId , u));
@@ -148,13 +149,13 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
 
 
-double calculateAverageU(const myCryptoVector &u ){
+double calculateAverageU(const myVector &u ){
     double avrg=0;
     double sum=0;
     double counter=0;
     double inf = std::numeric_limits<double>::infinity();
 
-    for (auto coord : u.CryptoScore){
+    for (auto coord : u.getCoords()){
         if (coord != inf){
          counter++;
          sum+=coord;
@@ -176,14 +177,14 @@ double calculateAverageU(const myCryptoVector &u ){
 }
 
 
-myCryptoVector  normalizeU(const myCryptoVector &u , const double& avrg){
-    myCryptoVector uNormilized;
+myVector  normalizeU(const myVector &u , const double& avrg){
+    myVector uNormilized;
     vector<double> normalizedCoords;
 
     double inf = std::numeric_limits<double>::infinity();
 
 
-    for (auto coord : u.CryptoScore){
+    for (auto coord : u.getCoords()){
         if (coord == inf){ //all infs convert them to Zeros
             normalizedCoords.push_back(0);
         }
@@ -193,7 +194,7 @@ myCryptoVector  normalizeU(const myCryptoVector &u , const double& avrg){
     }
 
 
-    uNormilized.setCryptoScore(normalizedCoords);
+    uNormilized.setCoords(normalizedCoords);
 
     return uNormilized;
 }
@@ -209,22 +210,22 @@ int isZeroVector(const vector <double> &coords){
 
 
 
-void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVector > &userTweetsSentimScoreNormalized_umap,
-                                                    const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap )
+void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
+                                                    const unordered_map <string , myVector > &userTweetsSentimScore_umap )
 
 {
     for (const auto &u : userTweetsSentimScore_umap){
 
         double averageU = calculateAverageU(u.second );
-        myCryptoVector uNormilized;
+        myVector uNormilized;
 
 
         if (averageU != 0){  //means that the user has only 1 tweet or that refers to only one crypto
 
-            //    convertInfs2Zeros(unordered_map <string , myCryptoVector > &userTweetsSentimScoreNormalized_umap,
+            //    convertInfs2Zeros(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
             uNormilized = normalizeU( u.second , averageU);
 
-            if(! isZeroVector(uNormilized.CryptoScore)){
+            if(! isZeroVector(uNormilized.getCoords())){
 
                 userTweetsSentimScoreNormalized_umap.insert(make_pair(u.first,uNormilized));
             }
@@ -243,53 +244,53 @@ void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myCr
 
 
 
-// ================================================================================================================
-// ================================================================================================================
-
-
-
-myCryptoVector::myCryptoVector() {
-
-    double inf = std::numeric_limits<double>::infinity();
-
-    vector <double> CryptoSc(100,inf);
-
-    this->CryptoScore = CryptoSc;
-
-}
-
-
-
-void myCryptoVector::printCryptoVector(){
-    cout<<"[";
-    int i=0;
-    for (auto coinScore : this->CryptoScore){
-//        cout<<""<<i++<<" :"<<coinScore<<",";
-        cout<<coinScore<<",";
-    }
-    cout<<"]\n";
-}
-//myCryptoVector()  : CryptoScore( 100, value ) {}
-
-
-void myCryptoVector::setMyCryptoVector(set<int> coinsIndexes2addScoreInUser , double Si){
-
-    for (auto coinIndex : coinsIndexes2addScoreInUser){
-        this->CryptoScore[coinIndex] = Si;
-    }
-}
-
-void myCryptoVector::setCryptoScore(const vector<double> &CryptoScore) {
-    myCryptoVector::CryptoScore = CryptoScore;
-}
-
-
-
-void printUsersSentimentCryptoScoreMap(const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap){
+void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > &userTweetsSentimScore_umap){
     for (auto user : userTweetsSentimScore_umap){
 
         cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<user.first <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-        user.second.printCryptoVector();
+        user.second.print_vector();
 
     }
 }
+
+// ================================================================================================================
+// ================================================================================================================
+
+
+
+//myVector::myVector() {
+//
+//    double inf = std::numeric_limits<double>::infinity();
+//
+//    vector <double> CryptoSc(100,inf);
+//
+//    this->CryptoScore = CryptoSc;
+//
+//}
+//
+//
+//
+//void myVector::printCryptoVector(){
+//    cout<<"[";
+//    int i=0;
+//    for (auto coinScore : this->CryptoScore){
+////        cout<<""<<i++<<" :"<<coinScore<<",";
+//        cout<<coinScore<<",";
+//    }
+//    cout<<"]\n";
+//}
+////myCryptoVector()  : CryptoScore( 100, value ) {}
+//
+//
+//void myVector::setMyCryptoVector(set<int> coinsIndexes2addScoreInUser , double Si){
+//
+//    for (auto coinIndex : coinsIndexes2addScoreInUser){
+//        this->CryptoScore[coinIndex] = Si;
+//    }
+//}
+//
+//void myVector::setCryptoScore(const vector<double> &CryptoScore) {
+//    myVector::CryptoScore = CryptoScore;
+//}
+
+

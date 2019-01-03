@@ -81,7 +81,7 @@ double myVector::euclidean_norm(){
 
 void myVector::print_vector() const{
 //    cout.precision(dbl::max_digits10 + 1);
-    cout.precision(8);
+//    cout.precision(8);
 
 
 //    std::ostringstream strs;
@@ -89,15 +89,14 @@ void myVector::print_vector() const{
 
 //    std::cout << "[VECTOR COORDS] :\t";
 
-    std::cout  << std::setw(2)   << getCoords().at(0) <<"\t\t";
+//    std::cout  << std::setw(2)   << getCoords().at(0) <<"\t\t";
 
-    /*   for (auto &coords : getCoords()) {
+       for (auto &coords : getCoords()) {
    //        strs << coords;
    //        std::string str = strs.str();
-           std::cout  << std::setw(2)   << coords <<"\t\t";
+           std::cout  /*<< std::setw(2)*/   << coords <<"\t";
        }
        printf("\n" );
-   */
 }
 
 
@@ -105,4 +104,23 @@ bool myVector::operator==(const myVector & q){
     return this->getCoords() == q.getCoords();
 
 }
+
+
+void myVector::initializeToInf(int size) {
+    double inf = std::numeric_limits<double>::infinity();
+
+    vector <double> CryptoSc(100,inf);
+
+    this->coords = CryptoSc;
+
+}
+
+void myVector::setVectorToSpecificIndexes(set<int> coinsIndexes2addScoreInUser, double Si) {
+
+    for (auto coinIndex : coinsIndexes2addScoreInUser){
+        this->coords[coinIndex] = Si;
+    }
+}
+
+
 
