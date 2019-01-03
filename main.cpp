@@ -5,6 +5,7 @@
 #include "AssistantFunctions.h"
 #include "Tweet.h"
 #include "myCryptoVector.h"
+#include "ClusterAPI.h"
 
 
 int main(int argc , char** argv) {
@@ -72,6 +73,10 @@ int main(int argc , char** argv) {
 //    string inTweetsDatasetFile = "10_tweets_dataset_small.csv";
     string inTweetsDatasetFile = "tweets_dataset_small.csv";
 
+    string inFileName = "twitter_dataset_small_v2.csv";
+    string configFileName = "cluster.conf";
+
+
 //    string inTweetsDatasetAfterTFIDFFile = "tweets_dataset_small.csv";
 //    string configFileName = "cluster.conf";
 //    string OutFileName;
@@ -119,6 +124,23 @@ int main(int argc , char** argv) {
     printUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap);
 
     printUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap);
+
+
+
+    //todo ClusterProcesing()
+    unsigned int d = 0;
+//    int DistMetricFlag =1;
+
+    unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
+
+    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, d );
+
+
+    kClusters TwitterCluster = ClusterProcedure(in_Tf_Idf_Tweets_umap , configFileName , d);
+
+    TwitterCluster.print_allClusters();
+
+
 
 
 

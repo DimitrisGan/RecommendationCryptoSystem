@@ -16,6 +16,10 @@
 
 #include "MyVector.h"
 #include "Tweet.h"
+
+#include "HyperCube.h"
+#include "LSH.h"
+
 /*
 #include "AbstractLSH_CUBE.h"
 #include "Cluster.h"
@@ -44,7 +48,6 @@ void print_map (const unordered_map<string ,float> &VaderUmap);
 void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsList , unordered_map<string ,int> &CoinsUmap ); //todo thelei 5h sthlh kai opou den yparxei prwth
 void print_map(const unordered_map<string, int> &CoinsUmap) ;
 
-void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<string ,float> &VaderUmap);
 
 /*
 

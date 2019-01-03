@@ -12,71 +12,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e927f2fe-36a0-4b57-ab9d-a21267481b08" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ClusterAPI.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datasmall" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/execut" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myVec/MyVector.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myVec/MyVector.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myVectorsU.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/.idea/project2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/AbstractLSH_CUBE.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Assignment.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Assignment.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/AssistantFunctions.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/AssistantFunctions.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Cluster.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Cluster.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CosineSimilarityCube.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CosineSimilarityCube.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CosineSimilarityLSH.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CosineSimilarityLSH.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CubeAbstract.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CubeFunctions.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/CubeFunctions.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/EuclideanSpaceCube.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/EuclideanSpaceCube.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/EuclideanSpaceLSH.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/EuclideanSpaceLSH.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/EvaluationMetric.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/EvaluationMetric.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/HashTablesStructures.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/HashTablesStructures.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/HyperCube.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/HyperCube.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Initialization.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Initialization.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/LSH.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/LSH.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/LshSimple.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Metrics.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Metrics.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/MyVector.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/MyVector.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/SearchingAlgorithms.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/SearchingAlgorithms.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Update.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/Update.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/cluster" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/cluster.conf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project2/out" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AbstractLAH_CUBE.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClusterAPI.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AssistantFunctions.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/AssistantFunctions.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AssistantFunctions.h" beforeDir="false" afterPath="$PROJECT_DIR$/AssistantFunctions.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyVector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MyVector.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyVector.h" beforeDir="false" afterPath="$PROJECT_DIR$/MyVector.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/project2/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClusterAPI.h" beforeDir="false" afterPath="$PROJECT_DIR$/ClusterAPI.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myCryptoVector.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/myCryptoVector.h" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -102,28 +46,36 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="8282" />
-          <entry key="h" value="1582" />
+          <entry key="conf" value="1" />
+          <entry key="cpp" value="8654" />
+          <entry key="h" value="1753" />
           <entry key="txt" value="30" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="30" />
-          <entry key="ObjectiveC" value="9864" />
+          <entry key="ObjectiveC" value="10407" />
+          <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="cpp" value="13" />
-          <entry key="h" value="17" />
+          <entry key="RecommendationCryptoSystem (disassembly)" value="3" />
+          <entry key="conf" value="2" />
+          <entry key="cpp" value="25" />
+          <entry key="csv" value="1" />
+          <entry key="h" value="36" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeLists.txt" value="1" />
-          <entry key="ObjectiveC" value="30" />
+          <entry key="CSV" value="1" />
+          <entry key="Disassembly" value="3" />
+          <entry key="ObjectiveC" value="61" />
+          <entry key="PLAIN_TEXT" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -131,22 +83,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myCryptoVector.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1860">
-              <caret line="124" selection-start-line="124" selection-end-line="124" />
-              <folding>
-                <element signature="e#154#173#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MyVector.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="34" column="37" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
+            <state relative-caret-position="74">
+              <caret line="58" selection-start-line="58" selection-end-line="58" />
               <folding>
                 <element signature="e#161#180#0" expanded="true" />
               </folding>
@@ -155,10 +95,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LSH.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-50">
+              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1920">
-              <caret line="128" selection-start-line="128" selection-end-line="128" />
+            <state relative-caret-position="423">
+              <caret line="140" column="39" selection-start-line="140" selection-start-column="39" selection-end-line="140" selection-end-column="39" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -167,10 +116,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Cluster.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+              <folding>
+                <element signature="e#103#120#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AssistantFunctions.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2070">
-              <caret line="309" column="142" selection-start-line="309" selection-start-column="134" selection-end-line="309" selection-end-column="142" />
+            <state relative-caret-position="368">
+              <caret line="540" column="112" selection-start-line="540" selection-start-column="112" selection-end-line="540" selection-end-column="112" />
               <folding>
                 <element signature="e#48#66#0" expanded="true" />
               </folding>
@@ -179,39 +140,32 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AssistantFunctions.h">
+        <entry file="file://$PROJECT_DIR$/twitter_dataset_small_v2.csv">
+          <provider selected="true" editor-type-id="csv-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ClusterAPI.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="122" selection-start-line="122" selection-end-line="122" />
+            <state relative-caret-position="415">
+              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
               <folding>
-                <element signature="e#125#144#0" expanded="true" />
+                <element signature="e#507#526#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+        <entry file="file://$PROJECT_DIR$/cluster.conf">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
+            <state relative-caret-position="75">
+              <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myCryptoVector.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="250" column="24" selection-start-line="250" selection-start-column="24" selection-end-line="250" selection-end-column="24" />
-              <folding>
-                <element signature="e#49#65#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MyVector.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
@@ -220,13 +174,19 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ClusterAPI.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>private</find>
-      <find>10</find>
-      <find>14</find>
       <find>private bitcoin</find>
       <find>0</find>
       <find>:</find>
@@ -252,8 +212,11 @@
       <find>43</find>
       <find>myCryptoVector</find>
       <find>myCryptoV</find>
-      <find>myVector</find>
       <find>USER'S U  #</find>
+      <find>myVector</find>
+      <find>constructLshDatastructure</find>
+      <find>CubeAbstract</find>
+      <find>d</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -265,15 +228,25 @@
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/Tweet.h" />
         <option value="$PROJECT_DIR$/Tweet.cpp" />
-        <option value="$PROJECT_DIR$/ClusterAPI.h" />
         <option value="$PROJECT_DIR$/myVector.cpp" />
-        <option value="$PROJECT_DIR$/MyVector.h" />
         <option value="$PROJECT_DIR$/myCryptoVector.h" />
-        <option value="$PROJECT_DIR$/main.cpp" />
-        <option value="$PROJECT_DIR$/AssistantFunctions.cpp" />
-        <option value="$PROJECT_DIR$/AssistantFunctions.h" />
         <option value="$PROJECT_DIR$/myCryptoVector.cpp" />
         <option value="$PROJECT_DIR$/MyVector.cpp" />
+        <option value="$PROJECT_DIR$/Cluster.h" />
+        <option value="$PROJECT_DIR$/Cluster.cpp" />
+        <option value="$PROJECT_DIR$/Assignment.h" />
+        <option value="$PROJECT_DIR$/AssistantFunctions.h" />
+        <option value="$PROJECT_DIR$/AssistantFunctions.cpp" />
+        <option value="$PROJECT_DIR$/HyperCube.h" />
+        <option value="$PROJECT_DIR$/HyperCube.cpp" />
+        <option value="$PROJECT_DIR$/AbstractLSH_CUBE.h" />
+        <option value="$PROJECT_DIR$/AbstractLAH_CUBE.cpp" />
+        <option value="$PROJECT_DIR$/LSH.h" />
+        <option value="$PROJECT_DIR$/cluster.conf" />
+        <option value="$PROJECT_DIR$/MyVector.h" />
+        <option value="$PROJECT_DIR$/ClusterAPI.cpp" />
+        <option value="$PROJECT_DIR$/ClusterAPI.h" />
+        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -358,23 +331,23 @@
       <workItem from="1546251904682" duration="15462000" />
       <workItem from="1546346075658" duration="7109000" />
       <workItem from="1546444832272" duration="30283000" />
-      <workItem from="1546513663443" duration="5919000" />
+      <workItem from="1546513663443" duration="17242000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87208000" />
+    <option name="totallyTimeSpent" value="98531000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1920" height="1055" extended-state="7" />
+    <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.59195405" visible="true" weight="0.26574174" />
-      <window_info id="Structure" order="1" sideWeight="0.40804598" side_tool="true" visible="true" weight="0.26574174" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.83709675" visible="true" weight="0.26574174" />
+      <window_info id="Structure" order="1" sideWeight="0.16290322" side_tool="true" weight="0.26574174" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.13945946" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24756756" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24648649" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.69945943" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -397,11 +370,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/project2/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-540" />
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/7/bits/stl_vector.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="244">
@@ -433,9 +401,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ClusterAPI.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file:///usr/include/c++/7/bits/unordered_map.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
@@ -447,13 +412,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1147">
           <caret line="111" column="13" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ClusterAPI.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
@@ -477,57 +435,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyVector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="34" column="37" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
-          <folding>
-            <element signature="e#161#180#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/myVec/MyVector.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1920">
-          <caret line="128" selection-start-line="128" selection-end-line="128" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AssistantFunctions.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2070">
-          <caret line="309" column="142" selection-start-line="309" selection-start-column="134" selection-end-line="309" selection-end-column="142" />
-          <folding>
-            <element signature="e#48#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AssistantFunctions.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="122" selection-start-line="122" selection-end-line="122" />
-          <folding>
-            <element signature="e#125#144#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -541,10 +452,228 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project2/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="13" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project2/cluster.conf">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Update.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cluster.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="15" selection-start-line="6" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Initialization.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="45" column="6" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LshSimple.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+          <folding>
+            <element signature="e#114#138#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assignment.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assignment.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AssistantFunctions.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="57" selection-start-line="57" selection-end-line="63" />
+          <folding>
+            <element signature="e#125#144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HashTablesStructures.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CubeAbstract.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EuclideanSpaceCube.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HyperCube.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#64#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSH.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
+          <folding>
+            <element signature="e#86#100#0" expanded="true" />
+            <element signature="e#149#182#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HyperCube.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AbstractLAH_CUBE.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+          <folding>
+            <element signature="e#80#96#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AbstractLSH_CUBE.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="33" column="27" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
+          <folding>
+            <element signature="e#121#138#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cluster.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/twitter_dataset_small_v2.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AssistantFunctions.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="540" column="112" selection-start-line="540" selection-start-column="112" selection-end-line="540" selection-end-column="112" />
+          <folding>
+            <element signature="e#48#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSH.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-50">
+          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MyVector.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="96" column="59" selection-start-line="96" selection-start-column="59" selection-end-line="96" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyVector.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="74">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+          <folding>
+            <element signature="e#161#180#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClusterAPI.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="e#507#526#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ClusterAPI.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cluster.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+          <folding>
+            <element signature="e#103#120#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="140" column="39" selection-start-line="140" selection-start-column="39" selection-end-line="140" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
