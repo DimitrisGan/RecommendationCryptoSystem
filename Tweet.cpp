@@ -34,3 +34,21 @@ ostream &operator<<(ostream &out, const Tweet &tweet)
     return out;
 }
 
+
+
+void printTweetsCryptoReferencesNames(unordered_map <string , Tweet > tweets_umap , vector <string> CoinsList , unordered_map<string ,int> coins_umap){
+
+
+    for (auto tweet : tweets_umap){
+        cout << "\nPRINTING TWEET #"<<tweet.first<<endl;
+//        tweet.second.printTweet();
+        cout <<"[";
+        for (auto word : tweet.second.context){
+            if (coins_umap.count(word) > 0){
+                int index = coins_umap.at(word);
+                cout << CoinsList.at(index)<<",";
+            }
+        }
+        cout <<"]\n";
+    }
+}

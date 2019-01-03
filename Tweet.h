@@ -33,6 +33,8 @@ public:
 };
 
 
+void printTweetsCryptoReferencesNames(unordered_map <string , Tweet > tweets_umap , vector <string> CoinsList , unordered_map<string ,int> coins_umap);
+
 
 #endif //RECOMMENDATIONCRYPTOSYSTEM_TWEET_H
 

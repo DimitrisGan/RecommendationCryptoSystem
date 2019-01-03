@@ -96,10 +96,14 @@ int main(int argc , char** argv) {
 //    unordered_map <string , vector<string>> testMap;
 
     unordered_map <string , Tweet > tweets_umap;
+
+
     unordered_multimap <string ,string> userTweetsRelation_ummap;
 
     ReadTweetsInputDat_saveIt(inTweetsDatasetFile, tweets_umap,userTweetsRelation_ummap);
 
+    printTweetsUmap(tweets_umap);
+    printTweetsCryptoReferencesNames(tweets_umap ,CoinsList ,coins_umap);
     printMultiUMap(userTweetsRelation_ummap);
 
 
@@ -115,7 +119,6 @@ int main(int argc , char** argv) {
     printUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap);
 
     printUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap);
-
 
 
 

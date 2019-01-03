@@ -182,6 +182,7 @@ void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsL
 
         CoinsList.push_back(CoinName); //add the first Column of CoinsFile in the vector
 
+        CoinsUmap[CoinName] = index;
 
 //        while (iss >> CoinName) {
         while (getline(iss, CoinName, '\t')) {
