@@ -121,7 +121,6 @@ int main(int argc , char** argv) {
     printUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap);
 
 
-    //todo makeVirtualvVectord() //after Clustering
 
     return 0;
 }
