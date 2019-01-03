@@ -147,13 +147,100 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVecto
 
 
 
+
+double calculateAverageU(const myCryptoVector &u ){
+    double avrg=0;
+    double sum=0;
+    double counter=0;
+    double inf = std::numeric_limits<double>::infinity();
+
+    for (auto coord : u.CryptoScore){
+        if (coord != inf){
+         counter++;
+         sum+=coord;
+        }
+        else{
+            continue; // is inf
+        }
+    }
+
+    if (counter == 0  ) {
+        return 0;
+    }
+    avrg = sum / counter;
+//    if (avrg == 0){ //means that the user has only 1 tweet or that refers to only one crypto
+//        avrg = inf;
+//    }
+
+    return avrg;
+}
+
+
+myCryptoVector  normalizeU(const myCryptoVector &u , const double& avrg){
+    myCryptoVector uNormilized;
+    vector<double> normalizedCoords;
+
+    double inf = std::numeric_limits<double>::infinity();
+
+
+    for (auto coord : u.CryptoScore){
+        if (coord == inf){ //all infs convert them to Zeros
+            normalizedCoords.push_back(0);
+        }
+        else{
+            normalizedCoords.push_back(coord - avrg);
+        }
+    }
+
+
+    uNormilized.setCryptoScore(normalizedCoords);
+
+    return uNormilized;
+}
+
+
+int isZeroVector(const vector <double> &coords){
+    for (auto coord : coords){
+        if (coord != 0)
+            return 0;
+    }
+    return  1;
+}
+
+
+
 void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myCryptoVector > &userTweetsSentimScoreNormalized_umap,
                                                     const unordered_map <string , myCryptoVector > &userTweetsSentimScore_umap )
 
 {
+    for (const auto &u : userTweetsSentimScore_umap){
 
+        double averageU = calculateAverageU(u.second );
+        myCryptoVector uNormilized;
+
+
+        if (averageU != 0){  //means that the user has only 1 tweet or that refers to only one crypto
+
+            //    convertInfs2Zeros(unordered_map <string , myCryptoVector > &userTweetsSentimScoreNormalized_umap,
+            uNormilized = normalizeU( u.second , averageU);
+
+            if(! isZeroVector(uNormilized.CryptoScore)){
+
+                userTweetsSentimScoreNormalized_umap.insert(make_pair(u.first,uNormilized));
+            }
+
+            else{
+                continue;
+            }
+
+
+        }
+
+    }
 
 }
+
+
 
 
 // ================================================================================================================
