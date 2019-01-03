@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <limits>
 #include <sstream>
+#include <set>
 
 
 using namespace std;
@@ -28,6 +29,11 @@ public:
 
     myVector(vector<double> coords) : coords(std::move(coords)) {}
     ~myVector() = default;
+
+
+    void initializeToInf(int size);
+    void setVectorToSpecificIndexes(set<int> coinsIndexes2addScoreInUser , double Si);
+
 
     const vector<double> &getCoords() const ;
     vector<double> getCoordsByValue();
@@ -52,32 +58,53 @@ public:
 
         assert(this->coords.size() == q.coords.size());
 
-            vector<double >::const_iterator  ItA, ItB;
-
-            ItA = this->getCoords().begin();
-            ItB = q.getCoords().begin();
-
-            unsigned int index=0;
-            while(true)
-            {
-                    result.coords[index] = *ItA + *ItB;
-                    index++;
+        vector<double >::const_iterator  ItA, ItB;
+        double inf = std::numeric_limits<double>::infinity();
 
 
-                    if(ItA != this->getCoords().end())
-                    {
-                            ++ItA;
-                    }
-                    if(ItB != q.getCoords().end())
-                    {
-                            ++ItB;
-                    }
-                    if(ItA == this->getCoords().end() && ItB == q.getCoords().end())
-                    {
-                            break;
-                    }
+        ItA = this->getCoords().begin();
+        ItB = q.getCoords().begin();
+
+        unsigned int index=0;
+        while(true)
+        {
+
+
+            if (*ItA == inf && *ItB == inf){
+                result.coords[index] = inf;
 
             }
+            if (*ItA == inf && *ItB != inf){// to current
+                result.coords[index] = *ItB;
+
+            }
+            if (*ItA != inf && *ItB == inf){// to current
+                result.coords[index] = *ItA;
+
+            }
+            if (*ItA != inf && *ItB != inf){// to current
+                result.coords[index] = *ItA + *ItB;
+
+            }
+
+            index++;
+
+
+
+            if(ItA != this->getCoords().end())
+            {
+                ++ItA;
+            }
+            if(ItB != q.getCoords().end())
+            {
+                ++ItB;
+            }
+            if(ItA == this->getCoords().end() && ItB == q.getCoords().end())
+            {
+                break;
+            }
+
+        }
 
         return result;
     }
