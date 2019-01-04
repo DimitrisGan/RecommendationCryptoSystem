@@ -25,6 +25,9 @@ AbstractLshCube* constructLshDatastructure(const int &DistMetricFlag ,   Lsh *ls
 
     assert(lsh_ptr != nullptr);
 
+
+
+
     return lsh_ptr;
 }
 

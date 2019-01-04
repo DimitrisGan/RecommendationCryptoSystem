@@ -128,16 +128,16 @@ int main(int argc , char** argv) {
 
 
     //todo ClusterProcesing()
-    unsigned int d = 0;
+    unsigned int dim_tfidfVec = 0;
 //    int DistMetricFlag =1;
 
     unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
 
-    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, d );
+    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dim_tfidfVec );
 
 
     kClusters TwitterCluster;
-    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , d);
+    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dim_tfidfVec);
 
     TwitterCluster.print_allClusters();
 
@@ -153,8 +153,37 @@ int main(int argc , char** argv) {
 
 
 
+    //==========================================================================
 
-    return 0;
+
+
+    //todo ftiaxnw to lsh gia ta normalized u
+
+    Lsh *lsh_ptr= nullptr;
+
+    unsigned k_hf = 7;
+    unsigned int W = 1;
+    auto M_lsh = static_cast<long long int>(pow(2, 32) - 5);
+    unsigned L = 5;
+    unsigned  TableSize = static_cast<unsigned int>(pow(2, k_hf));
+
+    unsigned int dim_sentScoreVectors = 100;
+
+    cout <<dim_tfidfVec<<endl;
+
+
+
+
+
+//    AbstractLshCube* Lsh_ForNormalizedU = constructLshDatastructure(1/*Cosine*/,   lsh_ptr , k_hf ,
+//                                               W , dim_sentScoreVectors , M_lsh ,L , userTweetsSentimScoreNormalized_umap ) ;
+
+
+     Lsh *lshForNormalizedUVectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreNormalized_umap);
+
+
+
+        return 0;
 }
 
 

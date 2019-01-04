@@ -46,7 +46,7 @@ Lsh::Lsh (unsigned  int TableSize, unsigned int& k ,unsigned int& d , unsigned i
 
     MHT_ptr->SaveDataset2_All_HastTables(in_umap);
 
-//    MHT_ptr->print_MHT();
+    MHT_ptr->print_MHT();
 
 }
 
