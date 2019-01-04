@@ -13,13 +13,19 @@
 #include <unordered_map>
 
 
-//using namespace std;
-//
-//string NN_search( myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , vector <string>& list2search  );
-//
-//vector <string > RangeN_search(myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , vector <string>& list2search , int& R);
-//
-//string TrueNN_search( myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap  ); //Brute Force
-//
+using namespace std;
+
+vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
+                                 set<string> &list2search, int number);
+vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
+                                 vector<string> &list2search, int number);
+string NN_search( myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , vector <string>& list2search  );
+string NN_search( myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , set <string>& list2search  );
+
+vector <string > RangeN_search(myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , vector <string>& list2search , int& R);
+vector <string > RangeN_search(myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , set <string>& list2search , int& R);
+
+string TrueNN_search( myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap  ); //Brute Force
+
 
 #endif //PROJECT_EM_SEARCHINGALGORITHMS_H

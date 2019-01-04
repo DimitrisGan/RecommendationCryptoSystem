@@ -130,4 +130,36 @@ void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector >
 void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > &userTweetsSentimScore_umap);
 
 
+
+double calculateAverageU(const myVector &u );
+
+
+myVector  normalizeU(const myVector &u , const double& avrg);
+
+
+int isZeroVector(const vector <double> &coords);
+
+
+
+double calculateSentimentScore(float totalScore);
+
+
+
+
+// Function to check if the key is present or not
+string check_key(const unordered_map<string ,float> &m, const string &key); // m = vaderLexicon_umap
+
+
+
+
+set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &userTweetsRelation_ummap);
+
+/*returns a vector of coins indexes to add and totalscore */
+set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
+                                 const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap );
+
+
+
+
+
 #endif //RECOMMENDATIONCRYPTOSYSTEM_MYCRYPTOVECTOR_H

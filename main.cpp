@@ -6,6 +6,7 @@
 #include "Tweet.h"
 #include "myCryptoVector.h"
 #include "ClusterAPI.h"
+#include "SearchingAlgorithms.h"
 
 
 int main(int argc , char** argv) {
@@ -114,8 +115,10 @@ int main(int argc , char** argv) {
 
     unordered_map <string , myVector > userTweetsSentimScore_umap; //todo
 
+    /*U USERS-VECTORS*/
      calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
 
+    /*U NORMALIZED-USERS-VECTORS*/
     unordered_map <string , myVector > userTweetsSentimScoreNormalized_umap; //todo
 
     calculateNormalizeUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap,userTweetsSentimScore_umap );
@@ -126,6 +129,9 @@ int main(int argc , char** argv) {
     printUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap);
 
 
+
+    //================== making the virtual clusters ================
+/*
 
     //todo ClusterProcesing()
     unsigned int dim_tfidfVec = 0;
@@ -141,6 +147,9 @@ int main(int argc , char** argv) {
 
     TwitterCluster.print_allClusters();
 
+    */
+/*C VIRTUAL-USERS-VECTORS*//*
+
     unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
 //
 //
@@ -151,6 +160,7 @@ int main(int argc , char** argv) {
     cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
     printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScore_umap);
 
+*/
 
 
     //==========================================================================
@@ -164,13 +174,10 @@ int main(int argc , char** argv) {
     unsigned k_hf = 7;
     unsigned int W = 1;
     auto M_lsh = static_cast<long long int>(pow(2, 32) - 5);
-    unsigned L = 5;
+    unsigned L = 1;
     unsigned  TableSize = static_cast<unsigned int>(pow(2, k_hf));
 
-    unsigned int dim_sentScoreVectors = 100;
-
-    cout <<dim_tfidfVec<<endl;
-
+    unsigned int dim_sentScoreVectors = static_cast<unsigned int>(CoinsList.size());
 
 
 
@@ -179,11 +186,57 @@ int main(int argc , char** argv) {
 //                                               W , dim_sentScoreVectors , M_lsh ,L , userTweetsSentimScoreNormalized_umap ) ;
 
 
-     Lsh *lshForNormalizedUVectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreNormalized_umap);
+    /*SAVE THE NORMALIZED U's IN THE LSH*/
+     Lsh *lshForNormalized_U_Vectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreNormalized_umap); //lsh-cosine for normalized u's
+
+     vector<pair<string, vector<int>>> recommendedCryptosForEachUser;
+
+     //=============================== add function to this ===================================
+
+    //     recommendCryptoForEveryU( ,Lsh *lshForNormalized_U_Vectors_ptr )
+
+//    set<string> multiMapKeys = extractMultiMapKeys (userTweetsRelation_ummap); //In this set now I have all the keys of the multiset
+
+
+    int R =200;
+    int P = 5;
+    DistanceMetrics *metric = new CosineMetric;
+    for ( auto &u :  userTweetsSentimScoreNormalized_umap){
+        set <string> list2search = lshForNormalized_U_Vectors_ptr->getSuperSet(u.second , userTweetsSentimScoreNormalized_umap);
+
+
+        string answer =NN_search( u.second , metric , userTweetsSentimScoreNormalized_umap , list2search  );
+        vector<string> bestP_u  = NN_searchForBestP(u.second, metric, userTweetsSentimScoreNormalized_umap, list2search, P);
+//        vector<string> NN_searchForBestP (myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , vector <string>& list2search  ,int &number){
+
+//        assert(bestP_u.size() <=P);
+
+        cout << "Items in list2search:\t";
+        for (auto item: list2search){
+            cout <<item <<"\t";
+        }
+        cout <<endl;
+//        cout << answer<<endl;
+        cout << "P Best Items in list2search:\t";
+        for (auto item: bestP_u){
+            cout <<item <<"\t";
+        }
+        cout <<endl;
+        cout <<endl;
+
+
+        //        break;
+
+    }
 
 
 
-        return 0;
+
+        //todo Lsh *lshForNormalizedU_V_ectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , virtualUserTweetsSentimScore_umap);
+
+
+
+    return 0;
 }
 
 
