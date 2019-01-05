@@ -116,7 +116,7 @@ int main(int argc , char** argv) {
     unordered_map <string , myVector > userTweetsSentimScore_umap; //todo
 
     /*U USERS-VECTORS*/
-     calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
+    calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
 
     /*U NORMALIZED-USERS-VECTORS*/
     unordered_map <string , myVector > userTweetsSentimScoreNormalized_umap; //todo
@@ -187,11 +187,11 @@ int main(int argc , char** argv) {
 
 
     /*SAVE THE NORMALIZED U's IN THE LSH*/
-     Lsh *lshForNormalized_U_Vectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreNormalized_umap); //lsh-cosine for normalized u's
+    Lsh *lshForNormalized_U_Vectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreNormalized_umap); //lsh-cosine for normalized u's
 
-     vector<pair<string, vector<int>>> recommendedCryptosForEachUser;
+    vector<pair<string, vector<int>>> recommendedCryptosForEachUser;
 
-     //=============================== add function to this ===================================
+    //=============================== add function to this  todo findBestPForU===================================
 
     //     recommendCryptoForEveryU( ,Lsh *lshForNormalized_U_Vectors_ptr )
 
@@ -232,9 +232,20 @@ int main(int argc , char** argv) {
 
 
 
-        //todo Lsh *lshForNormalizedU_V_ectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , virtualUserTweetsSentimScore_umap);
+    //todo Lsh *lshForNormalizedU_V_ectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , virtualUserTweetsSentimScore_umap);
+
+    //=======================================================================================================
+
+    //================== Evaluate the R coins && recommend the best <number> ================
+    /*Input : u , bestP_u , userTweetsSentimScoreNormalized_umap
+     *Output: vector of coins Indexes to recommed*/
 
 
+    //
+
+    //todo na ftiaxtei suanrthsh
+//    vector <int>  RecommendedCoinsIndexes =recommend5BestCoinsForUser(u ,bestP_u ,userTweetsSentimScore_umap  );
+//    vector <double>  RecommendedCoinsIndexes =EvaluateAllCrypto(u ,bestP_u ,userTweetsSentimScoreNormalized_umap  );
 
     return 0;
 }
