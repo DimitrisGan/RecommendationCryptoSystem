@@ -44,7 +44,7 @@ set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &user
 
 /*returns a vector of coins indexes to add and totalscore */
 set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
-                                    const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
+                                 const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
 
 //    cout << "\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n";
 
@@ -88,7 +88,7 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &u
     //kanw extract ta keys se ena set
     //meta pairnw ena ena ta aknw query kai vriskw ta tweets ids
 
-     set<string> multiMapKeys = extractMultiMapKeys (userTweetsRelation_ummap); //In this set now I have all the keys of the multiset
+    set<string> multiMapKeys = extractMultiMapKeys (userTweetsRelation_ummap); //In this set now I have all the keys of the multiset
 
 
     for (const auto &userId : multiMapKeys ) { //gia kathe user
@@ -148,6 +148,19 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &u
 
 
 
+void calculateAverageU_umap(unordered_map<string, double> &userTweetsAverageSentimScore_umap,
+                            const unordered_map<string, myVector> &userTweetsSentimScore_umap){
+
+    for (const auto &u : userTweetsSentimScore_umap) {
+        double averageScore = calculateAverageU(u.second);
+        userTweetsAverageSentimScore_umap.insert(make_pair(u.first,averageScore));
+
+    }
+
+}
+
+
+
 
 double calculateAverageU(const myVector &u ){
     double avrg=0;
@@ -157,8 +170,8 @@ double calculateAverageU(const myVector &u ){
 
     for (auto coord : u.getCoords()){
         if (coord != inf){
-         counter++;
-         sum+=coord;
+            counter++;
+            sum+=coord;
         }
         else{
             continue; // is inf
@@ -318,6 +331,37 @@ void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > 
         user.second.print_vector();
 
     }
+}
+
+
+
+void changeInfsToAverageSentimentsAndDiscardZeroVectors(
+        unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+        const unordered_map<string, myVector> &userTweetsSentimScore_umap,
+        const unordered_map<string, double> &userTweetsAverageSentimScore_umap) {
+
+    double inf = std::numeric_limits<double>::infinity();
+
+    for (const auto &u : userTweetsSentimScore_umap){
+        vector <double> newCoords;
+        for (auto coord : u.second.getCoords()){
+            if (coord == inf){
+                newCoords.push_back(userTweetsAverageSentimScore_umap.at(u.first));
+            }
+            else{
+                newCoords.push_back(coord);
+            }
+        }
+
+        int zeroVectorFlag =  isZeroVector(newCoords);
+        if (zeroVectorFlag){continue;}
+
+
+        myVector newU (newCoords);
+        userTweetsSentimScoreWithoutInfsAndZeroVectors_umap.insert(make_pair(u.first,newU));
+    }
+
+
 }
 
 // ================================================================================================================

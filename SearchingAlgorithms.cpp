@@ -7,8 +7,8 @@
 
 
 
-vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
-                                 vector<string> &list2search, int number){
+vector<string> NN_searchForBestP(myVector &q, const string &qId, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
+                                 vector<string> &list2search, int number) {
 
     vector<string> bestP ;
     myVector p;
@@ -20,10 +20,14 @@ vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered
         if(list2search.size() < number && i== list2search.size())
             break;
 
+
         double smallest_dist = numeric_limits<double>::infinity();
         double curr_dist;
 
         for (auto &p_id : list2search) {
+
+            if (p_id == qId)
+                continue;
 
             if (std::find(bestP.begin(), bestP.end(),p_id)!=bestP.end()){ //if is already in the bestP vector then continue
                 continue;
@@ -49,7 +53,7 @@ vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered
 
 
 
-vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
+vector<string> NN_searchForBestP(myVector &q, const string &qId, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
                                  set<string> &list2search, int number){
 
     vector<string> bestP ;
@@ -66,6 +70,9 @@ vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered
         double curr_dist;
 
         for (auto &p_id : list2search) {
+
+            if (p_id == qId)
+                continue;
 
             if (std::find(bestP.begin(), bestP.end(),p_id)!=bestP.end()){ //if is already in the bestP vector then continue
                 continue;

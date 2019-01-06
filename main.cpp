@@ -118,52 +118,69 @@ int main(int argc , char** argv) {
     /*U USERS-VECTORS*/
     calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
 
-    /*U NORMALIZED-USERS-VECTORS*/
-    unordered_map <string , myVector > userTweetsSentimScoreNormalized_umap; //todo
+    /*U USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*/
+    unordered_map <string , myVector > userTweetsSentimScoreWithoutInfsAndZeroVectors_umap; //todo
+    unordered_map <string , double > userTweetsAverageSentimScore_umap;
 
-    calculateNormalizeUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap,userTweetsSentimScore_umap );
+    //todo upologizw vector me tous m.o
+    //todo allazw ta inf sta m.o sto --> userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
+    calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap);
 
-
-    printUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap);
-
-    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap);
-
-
-
-    //================== making the virtual clusters ================
-/*
-
-    //todo ClusterProcesing()
-    unsigned int dim_tfidfVec = 0;
-//    int DistMetricFlag =1;
-
-    unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
-
-    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dim_tfidfVec );
+    for (auto avrgScore : userTweetsAverageSentimScore_umap){
+        cout << avrgScore.first << "\t: "<<avrgScore.second<<endl;
+    }
+    changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                       userTweetsSentimScore_umap, userTweetsAverageSentimScore_umap);
 
 
-    kClusters TwitterCluster;
-    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dim_tfidfVec);
+//    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
-    TwitterCluster.print_allClusters();
-
-    */
-/*C VIRTUAL-USERS-VECTORS*//*
-
-    unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
+//    /*U NORMALIZED-USERS-VECTORS*/
+////    unordered_map <string , myVector > userTweetsSentimScoreNormalized_umap; //todo tha fygei
+//
+////    calculateNormalizeUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap,userTweetsSentimScore_umap );
 //
 //
-    calculateVirtualUsersFromTwitterCluster (virtualUserTweetsSentimScore_umap ,TwitterCluster ,tweets_umap ,vaderLexicon_umap ,coins_umap );
-
-
-
-    cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
-    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScore_umap);
-
-*/
-
-
-    //==========================================================================
+//    printUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap);
+//
+////    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap);
+//
+//
+//
+//    //================== making the virtual clusters ================
+///*
+//
+//    //todo ClusterProcesing()
+//    unsigned int dim_tfidfVec = 0;
+////    int DistMetricFlag =1;
+//
+//    unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
+//
+//    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dim_tfidfVec );
+//
+//
+//    kClusters TwitterCluster;
+//    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dim_tfidfVec);
+//
+//    TwitterCluster.print_allClusters();
+//
+//    */
+///*C VIRTUAL-USERS-VECTORS*//*
+//
+//    unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
+////
+////
+//    calculateVirtualUsersFromTwitterCluster (virtualUserTweetsSentimScore_umap ,TwitterCluster ,tweets_umap ,vaderLexicon_umap ,coins_umap );
+//
+//
+//
+//    cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
+//    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScore_umap);
+//
+//*/
+//
+//
+//    //==========================================================================
 
 
 
@@ -187,7 +204,7 @@ int main(int argc , char** argv) {
 
 
     /*SAVE THE NORMALIZED U's IN THE LSH*/
-    Lsh *lshForNormalized_U_Vectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreNormalized_umap); //lsh-cosine for normalized u's
+    Lsh *lshForNormalized_U_Vectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
 
     vector<pair<string, vector<int>>> recommendedCryptosForEachUser;
 
@@ -198,31 +215,30 @@ int main(int argc , char** argv) {
 //    set<string> multiMapKeys = extractMultiMapKeys (userTweetsRelation_ummap); //In this set now I have all the keys of the multiset
 
 
-    int R =200;
     int P = 5;
     DistanceMetrics *metric = new CosineMetric;
-    for ( auto &u :  userTweetsSentimScoreNormalized_umap){
-        set <string> list2search = lshForNormalized_U_Vectors_ptr->getSuperSet(u.second , userTweetsSentimScoreNormalized_umap);
+    for ( auto &u :  userTweetsSentimScoreWithoutInfsAndZeroVectors_umap){
+        set <string> list2search = lshForNormalized_U_Vectors_ptr->getSuperSet(u.second , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
-        string answer =NN_search( u.second , metric , userTweetsSentimScoreNormalized_umap , list2search  );
-        vector<string> bestP_u  = NN_searchForBestP(u.second, metric, userTweetsSentimScoreNormalized_umap, list2search, P);
+        string answer =NN_search( u.second , metric , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap , list2search  );
+        vector<string> bestP_u  = NN_searchForBestP(u.second,u.first, metric, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, list2search, P);
 //        vector<string> NN_searchForBestP (myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , vector <string>& list2search  ,int &number){
 
 //        assert(bestP_u.size() <=P);
 
-        cout << "Items in list2search:\t";
-        for (auto item: list2search){
-            cout <<item <<"\t";
-        }
-        cout <<endl;
-//        cout << answer<<endl;
-        cout << "P Best Items in list2search:\t";
-        for (auto item: bestP_u){
-            cout <<item <<"\t";
-        }
-        cout <<endl;
-        cout <<endl;
+//        cout << "Items in list2search:\t";
+//        for (auto item: list2search){
+//            cout <<item <<"\t";
+//        }
+//        cout <<endl;
+////        cout << answer<<endl;
+//        cout << "P Best Items in list2search for uId ="<<u.first<<" :\t";
+//        for (auto item: bestP_u){
+//            cout <<item <<"\t";
+//        }
+//        cout <<endl;
+//        cout <<endl;
 
 
         //        break;
@@ -232,7 +248,7 @@ int main(int argc , char** argv) {
 
 
 
-    //todo Lsh *lshForNormalizedU_V_ectors_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , virtualUserTweetsSentimScore_umap);
+
 
     //=======================================================================================================
 
@@ -241,12 +257,22 @@ int main(int argc , char** argv) {
      *Output: vector of coins Indexes to recommed*/
 
 
-    //
-
     //todo na ftiaxtei suanrthsh
 //    vector <int>  RecommendedCoinsIndexes =recommend5BestCoinsForUser(u ,bestP_u ,userTweetsSentimScore_umap  );
 //    vector <double>  RecommendedCoinsIndexes =EvaluateAllCrypto(u ,bestP_u ,userTweetsSentimScoreNormalized_umap  );
 
+    int number2recommend =5;
+    map<string,vector<string>> &RecommendedCoins2Users;
+    void  RecommendationSystem( RecommendedCoins2Users,bestP_u ,int number2recommend,
+                                 const vector <string> &CoinsList,
+                                 const unordered_map<string, double> &userTweetsAverageSentimScore_umap,
+                                 const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
+                                 unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+
+
+
+    cout <<"THE END"<<endl;
     return 0;
 }
 

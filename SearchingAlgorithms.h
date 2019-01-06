@@ -15,10 +15,12 @@
 
 using namespace std;
 
-vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
-                                 set<string> &list2search, int number);
-vector<string> NN_searchForBestP(myVector &q, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
+vector<string> NN_searchForBestP(myVector &q, const string &qId, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
                                  vector<string> &list2search, int number);
+
+vector<string> NN_searchForBestP(myVector &q, const string &qId, DistanceMetrics *metric, unordered_map<string, myVector> &in_umap,
+                                 set<string> &list2search, int number);
+
 string NN_search( myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , vector <string>& list2search  );
 string NN_search( myVector& q , DistanceMetrics *metric , unordered_map <string, myVector >& in_umap , set <string>& list2search  );
 

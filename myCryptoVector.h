@@ -105,7 +105,14 @@ using namespace std;
 //
 //};
 
+void changeInfsToAverageSentimentsAndDiscardZeroVectors(
+        unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfs_umap,
+        const unordered_map<string, myVector> &userTweetsSentimScore_umap,
+        const unordered_map<string, double> &userTweetsAverageSentimScore_umap);
 
+
+void calculateAverageU_umap(unordered_map<string, double> &userTweetsAverageSentimScore_umap,
+                            const unordered_map<string, myVector> &userTweetsSentimScore_umap);
 
 
 void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
