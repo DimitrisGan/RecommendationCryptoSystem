@@ -12,13 +12,53 @@
 using namespace std;
 
 
+void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsList , unordered_map<string ,int> &CoinsUmap ){
 
+
+    ifstream inFile;
+    inFile.open(inCoinsFileName);
+    if (!inFile) {
+        cout << "Unable to open inCoinsFile\n";
+        exit(1); // terminate with error
+    }
+
+    string line;
+
+    int index = 0;
+    while (getline(inFile, line, '\n')) {
+
+        // skip empty lines:
+        if (line.empty()) continue;
+
+        if (line[line.size() - 1] == '\r')
+            line.erase(line.size() - 1);
+
+        istringstream iss(line);
+        string CoinName;
+
+        iss>>CoinName;
+
+        CoinsList.push_back(CoinName); //add the first Column of CoinsFile in the vector
+
+        CoinsUmap[CoinName] = index;
+
+//        while (iss >> CoinName) {
+        while (getline(iss, CoinName, '\t')) {
+            if (CoinName.empty() || CoinName == "\t")continue;
+
+            CoinsUmap[CoinName] = index;
+        }
+
+        index++;
+    }
+    inFile.close();
+
+}
 
 
 
 void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_map<string, Tweet> &tweets_umap,
                                unordered_multimap<string, string> &userTweetsRelation_ummap){
-
     ifstream inFile;
     inFile.open(inTweetsDatasetFileName);
     if (!inFile) {
@@ -32,6 +72,10 @@ void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_
 
         // skip empty lines:
         if (line.empty()) continue;
+
+        if (line[line.size() - 1] == '\r')
+            line.erase(line.size() - 1);
+
 
         istringstream iss(line);
         string userId;
@@ -53,12 +97,15 @@ void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_
 //        while (iss >> tweetWord ){
 //        cout <<"TWEET :\n";
 
+//cout <<"Printing TweetId #"<<tweetId<<endl;
         while (getline(iss, tweetWord, '\t') ){
+            if (tweetWord.empty() || tweetWord == "\t")continue;
             currTweet.context.push_back(tweetWord);
-//            cout << tweetWord <<endl;
+//            cout <<"tweetWord:" << tweetWord <<endl;
         }
 
         tweets_umap.insert(make_pair(tweetId,currTweet));
+//        tweets_umap[tweetId] = currTweet;
 
 
     }
@@ -74,7 +121,9 @@ void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_
 
 void printTweetsUmap(const unordered_map<string, Tweet> &tweets_umap){
     for (auto myPair : tweets_umap){
-        cout << "TweetId #"<<myPair.first << " with "<<myPair.second<<endl;
+        cout << "TweetId #"<<myPair.first << " with ";
+        cout <<myPair.second;
+//        cout <<endl;
     }
 
 }
@@ -107,9 +156,7 @@ void printMultiUMap(const unordered_multimap<string, string> &userTweetsRelation
         cout << "]"<<endl;
         fixedUsers.push_back(myPair.first);
     }
-    /*for (const auto &myPair : userTweetsRelation_ummap){
-        cout << myPair.first << " : " << myPair.second <<endl;
-    }*/
+
 }
 
 
@@ -149,50 +196,6 @@ void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<strin
 
 
 
-
-void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsList , unordered_map<string ,int> &CoinsUmap ){
-
-
-    ifstream inFile;
-    inFile.open(inCoinsFileName);
-    if (!inFile) {
-        cout << "Unable to open inCoinsFile\n";
-        exit(1); // terminate with error
-    }
-
-    string line;
-
-    int index = 0;
-    while (getline(inFile, line, '\n')) {
-
-        // skip empty lines:
-        if (line.empty()) continue;
-
-
-
-        istringstream iss(line);
-        string CoinName;
-
-
-
-
-        iss>>CoinName;
-
-        CoinsList.push_back(CoinName); //add the first Column of CoinsFile in the vector
-
-        CoinsUmap[CoinName] = index;
-
-//        while (iss >> CoinName) {
-        while (getline(iss, CoinName, '\t')) {
-            if (CoinName.empty() || CoinName == "\t")continue;
-            CoinsUmap[CoinName] = index;
-        }
-
-        index++;
-    }
-    inFile.close();
-
-}
 
 
 //==================================================================================================================

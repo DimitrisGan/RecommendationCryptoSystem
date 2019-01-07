@@ -60,8 +60,10 @@ vector<string> NN_searchForBestP(myVector &q, const string &qId, DistanceMetrics
     myVector p;
     string b ;
 
+    if (list2search.size() == 1){return bestP;} //it means that lsh returned only the query vector
 
     for (int i = 0; i < number; ++i) {
+
 
         if(list2search.size() < number && i== list2search.size())
             break;

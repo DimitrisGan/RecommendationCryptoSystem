@@ -53,7 +53,11 @@ set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const
     Tweet tweetContext = tweets_umap.at(tweetId);
 
     for (const auto &wordInTweet : tweetContext.context ){
-//        cout << wordInTweet<<"\t";
+//        if (tweetId == "3591"){
+////            cout <<"mpika\n";
+//            cout << wordInTweet<<"\t";
+//
+//        }
 
         if (coins_umap.count(wordInTweet) > 0){ // if word exists in Coins Lexicon
             coinsMentionedInTweet.insert(coins_umap.at(wordInTweet)); //insert it in mentionCoinsInTweet
@@ -62,9 +66,14 @@ set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const
         if (vaderLexicon_umap.count(wordInTweet) > 0){ //it means that the word exists in vader Lexicon
             totalScore+= vaderLexicon_umap.at(wordInTweet); //add it to the existing totalScore
         }
-    }
-    cout <<endl;
 
+    }
+
+//    if (tweetId == "3591"){
+//        cout <<"\n\n NOW EXIT\n\n";
+//        exit(1);
+//
+//    }
     /////////////////// diagnostic Prints Here
 //    for ( auto &coinIndex : coinsMentionedInTweet) {
 //        cout << "coinIndex = "<<coinIndex<<endl;
@@ -102,7 +111,6 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &u
 
 
         auto range =userTweetsRelation_ummap.equal_range(userId); //
-        //TODO  edw logika tha ftiaksw to u!!!!!!
 
 
         for (auto it=range.first;it!=range.second;++it){ //gia kathe Tweet you current User
@@ -182,9 +190,7 @@ double calculateAverageU(const myVector &u ){
         return 0;
     }
     avrg = sum / counter;
-//    if (avrg == 0){ //means that the user has only 1 tweet or that refers to only one crypto
-//        avrg = inf;
-//    }
+
 
     return avrg;
 }
@@ -354,7 +360,9 @@ void changeInfsToAverageSentimentsAndDiscardZeroVectors(
         }
 
         int zeroVectorFlag =  isZeroVector(newCoords);
-        if (zeroVectorFlag){continue;}
+        if (zeroVectorFlag){
+            continue;
+        }
 
 
         myVector newU (newCoords);
