@@ -331,9 +331,10 @@ void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector >
 
 
 void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > &userTweetsSentimScore_umap){
+    int i=0;
     for (auto user : userTweetsSentimScore_umap){
 
-        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<user.first <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<i++<<": USER'S U  #"<<user.first <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
         user.second.print_vector();
 
     }

@@ -24,8 +24,9 @@ void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsL
 
     string line;
 
-    int index = 0;
+    int index = 0; //line number
     while (getline(inFile, line, '\n')) {
+        int column=0;
 
         // skip empty lines:
         if (line.empty()) continue;
@@ -34,20 +35,36 @@ void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsL
             line.erase(line.size() - 1);
 
         istringstream iss(line);
+
+        string CoinNameFirstColumn;
+        string CoinNameFifthColumn;
         string CoinName;
 
-        iss>>CoinName;
 
-        CoinsList.push_back(CoinName); //add the first Column of CoinsFile in the vector
+        iss>>CoinNameFirstColumn;
 
-        CoinsUmap[CoinName] = index;
+//        CoinsList.push_back(CoinName); //add the first Column of CoinsFile in the vector
+
+        CoinsUmap[CoinNameFirstColumn] = index;
 
 //        while (iss >> CoinName) {
         while (getline(iss, CoinName, '\t')) {
             if (CoinName.empty() || CoinName == "\t")continue;
-
+            column++;
+            if (column == 4){
+                CoinNameFifthColumn = CoinName;
+            }
             CoinsUmap[CoinName] = index;
         }
+
+        if (column < 5){
+            CoinsList.push_back(CoinNameFirstColumn);
+        }
+        else{
+            CoinsList.push_back(CoinNameFifthColumn);
+
+        }
+
 
         index++;
     }
