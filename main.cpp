@@ -8,6 +8,7 @@
 #include "ClusterAPI.h"
 #include "SearchingAlgorithms.h"
 #include "RecommendBestCoins.h"
+#include <cmath>
 
 
 int main(int argc , char** argv) {
@@ -74,6 +75,7 @@ int main(int argc , char** argv) {
     string inVadarLexinconFile = "vader_lexicon.csv";
 //    string inTweetsDatasetFile = "10_tweets_dataset_small.csv";
     string inTweetsDatasetFile = "tweets_dataset_small.csv";
+//    string inTweetsDatasetFile = "tweets_dataset_big.csv";
 
     string inFileName = "twitter_dataset_small_v2.csv";
     string configFileName = "cluster.conf";
@@ -95,7 +97,7 @@ int main(int argc , char** argv) {
         cout << coinPair.second << " :"<< coinPair.first <<endl;
     }
 
-    unordered_map<string ,float> vaderLexicon_umap;
+    unordered_map<string ,double> vaderLexicon_umap;
 
     ReadVaderLexicon_saveIt(inVadarLexinconFile , vaderLexicon_umap);
 
@@ -139,17 +141,39 @@ int main(int argc , char** argv) {
     //todo allazw ta inf sta m.o sto --> userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
     calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap);
 
+    int svise=0;
+    vector <pair<string,double>> pamekala;
     for (auto avrgScore : userTweetsAverageSentimScore_umap){
         cout << avrgScore.first << "\t: "<<avrgScore.second<<endl;
+        pamekala.push_back(make_pair(avrgScore.first,avrgScore.second));
+        if (avrgScore.second ==0){
+            svise++;
+        }
     }
+
+    std::sort(pamekala.begin(),pamekala.end(), [](pair<string,double> a, pair<string,double> b){ return a.second > b.second;} );
+
+
+    for (auto avrg : vaderLexicon_umap){
+        cout <<avrg.first <<":" <<avrg.second<<endl;
+
+    }
+
+
+
+    cout << "svise = "<<svise<<endl;
     changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                                                        userTweetsSentimScore_umap, userTweetsAverageSentimScore_umap);
 
 
 
+    cout << "\n\n userTweetsSentimScore_umap = " << userTweetsSentimScore_umap.size()<<endl;
     cout << "\n\n userTweetsSentimScoreWithoutInfsAndZeroVectors_umap = " << userTweetsSentimScoreWithoutInfsAndZeroVectors_umap.size()<<endl;
+    cout << "\n\n vaderLexicon_umap = " << vaderLexicon_umap.size()<<endl;
+    cout << "\n\n coins_umap = " << coins_umap.size()<<endl;
 
-    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+//    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
     exit(1);
 
@@ -159,7 +183,6 @@ int main(int argc , char** argv) {
 //    calculateNormalizeUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap,userTweetsSentimScore_umap );
 
 
-//    printUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap);
 //
     printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 

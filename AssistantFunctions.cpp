@@ -178,7 +178,7 @@ void printMultiUMap(const unordered_multimap<string, string> &userTweetsRelation
 
 
 
-void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<string ,float> &VaderUmap) {
+void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<string ,double> &VaderUmap) {
 
     ifstream inFile;
     inFile.open(inVaderFileName);
@@ -189,6 +189,7 @@ void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<strin
 
     string line;
 
+    //=-------------------------------------
     while (getline(inFile, line, '\n')) {
 
         // skip empty lines:
@@ -196,15 +197,17 @@ void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<strin
 
 
         istringstream iss(line);
-        string VaderName;
-        float score;
+        string VaderWord;
+        double score;
 
 
-        iss >> VaderName;
+        getline(iss, VaderWord, '\t');  // read up-to the first tab (discard tab).
         iss >> score;
 
 
-        VaderUmap[VaderName] = score;
+
+
+        VaderUmap[VaderWord] = score;
 
     }
 

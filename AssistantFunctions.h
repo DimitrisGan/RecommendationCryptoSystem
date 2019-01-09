@@ -42,7 +42,7 @@ void printTweetsIdsForGivenUserId(const string &userId , const unordered_multima
 void printMultiUMap(const unordered_multimap<string, string> &userTweetsRelation_ummap);
 void printTweetsUmap(const unordered_map<string, Tweet> &tweets_umap);
 
-void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<string ,float> &VaderUmap);
+void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<string ,double> &VaderUmap);
 void print_map (const unordered_map<string ,float> &VaderUmap);
 
 void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsList , unordered_map<string ,int> &CoinsUmap ); //todo thelei 5h sthlh kai opou den yparxei prwth

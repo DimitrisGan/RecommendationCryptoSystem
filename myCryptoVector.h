@@ -118,7 +118,7 @@ void calculateAverageU_umap(unordered_map<string, double> &userTweetsAverageSent
 void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
                                            const unordered_multimap <string ,string> &userTweetsRelation_ummap,
                                            const unordered_map <string , Tweet > &tweets_umap,
-                                           const unordered_map<string ,float> &vaderLexicon_umap ,
+                                           const unordered_map<string ,double> &vaderLexicon_umap ,
                                            const unordered_map<string ,int> &coins_umap );
 
 
@@ -162,8 +162,8 @@ string check_key(const unordered_map<string ,float> &m, const string &key); // m
 set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &userTweetsRelation_ummap);
 
 /*returns a vector of coins indexes to add and totalscore */
-set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
-                                 const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap );
+set<int>    calculateTweetsScore(const string &tweetId, double &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
+                                 const unordered_map<string ,double> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap );
 
 
 

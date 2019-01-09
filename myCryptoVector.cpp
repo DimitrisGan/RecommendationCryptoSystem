@@ -43,8 +43,8 @@ set<string> extractMultiMapKeys (const unordered_multimap <string ,string> &user
 
 
 /*returns a vector of coins indexes to add and totalscore */
-set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
-                                 const unordered_map<string ,float> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
+set<int>    calculateTweetsScore(const string &tweetId, double &totalScore ,const unordered_map <string , Tweet > &tweets_umap,
+                                 const unordered_map<string ,double> &vaderLexicon_umap  , const unordered_map<string ,int> &coins_umap ){
 
 //    cout << "\n\n======================== NEW TWEET #"<<tweetId <<" ====================\n\n";
 
@@ -87,10 +87,10 @@ set<int>    calculateTweetsScore(const string &tweetId, float &totalScore ,const
 
 
 /*calculating U vectors*/
-void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
+void    calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
                                            const unordered_multimap <string ,string> &userTweetsRelation_ummap,
                                            const unordered_map <string , Tweet > &tweets_umap,
-                                           const unordered_map<string ,float> &vaderLexicon_umap ,
+                                           const unordered_map<string ,double> &vaderLexicon_umap ,
                                            const unordered_map<string ,int> &coins_umap )
 {
 
@@ -116,7 +116,7 @@ void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &u
         for (auto it=range.first;it!=range.second;++it){ //gia kathe Tweet you current User
 //            cout << it->first<< " : "<<it->second<<endl;
 
-            float totalScore=0;
+            double totalScore=0;
             set<int> CoinsIndexes2addScoreInUser = calculateTweetsScore(it->second /*tweetId*/,totalScore , tweets_umap ,vaderLexicon_umap , coins_umap );
 
 
@@ -165,10 +165,11 @@ void calculateAverageU_umap(unordered_map<string, double> &userTweetsAverageSent
 
     }
 
+
 }
 
 
-
+//todo Όχι. Αυτοί μετά την κανονικοποίηση είναι [-1, 1, 0, ..., 0] επομένως δεν είναι μηδενικά διανύσματα.
 
 double calculateAverageU(const myVector &u ){
     double avrg=0;
@@ -265,7 +266,7 @@ void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVe
 void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector > &virtualUserTweetsSentimScore_umap ,
                                               kClusters &TwitterCluster ,
                                               const unordered_map <string , Tweet > &tweets_umap,
-                                              const unordered_map<string ,float> &vaderLexicon_umap ,
+                                              const unordered_map<string ,double> &vaderLexicon_umap ,
                                               const unordered_map<string ,int> &coins_umap )
 {
 
@@ -286,7 +287,7 @@ void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector >
         for (const auto tweetId : cluster->getDatapoints()){ //gia kathe Tweet you current User
 //            cout << it->first<< " : "<<it->second<<endl;
 
-            float totalScore=0;
+            double totalScore=0;
             set<int> CoinsIndexes2addScoreInUser = calculateTweetsScore(tweetId,totalScore , tweets_umap ,vaderLexicon_umap , coins_umap );
 
 
