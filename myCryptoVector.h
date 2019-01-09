@@ -130,7 +130,7 @@ void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVe
 void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector > &virtualUserTweetsSentimScore_umap ,
                                               kClusters &TwitterCluster ,
                                               const unordered_map <string , Tweet > &tweets_umap,
-                                              const unordered_map<string ,float> &vaderLexicon_umap ,
+                                              const unordered_map<string ,double> &vaderLexicon_umap ,
                                               const unordered_map<string ,int> &coins_umap );
 
 
@@ -148,13 +148,13 @@ int isZeroVector(const vector <double> &coords);
 
 
 
-double calculateSentimentScore(float totalScore);
+double calculateSentimentScore(double totalScore);
 
 
 
 
 // Function to check if the key is present or not
-string check_key(const unordered_map<string ,float> &m, const string &key); // m = vaderLexicon_umap
+string check_key(const unordered_map<string ,double> &m, const string &key); // m = vaderLexicon_umap
 
 
 

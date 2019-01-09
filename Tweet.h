@@ -17,7 +17,7 @@ using namespace std;
 
 
 
-void calculateTweetsScoreMap( const unordered_map<string ,float> &vaderLexicon_umap ,unordered_map <string , double > &tweetsScore_umap);
+void calculateTweetsScoreMap( const unordered_map<string ,double> &vaderLexicon_umap ,unordered_map <string , double > &tweetsScore_umap);
 
 
 class Tweet {

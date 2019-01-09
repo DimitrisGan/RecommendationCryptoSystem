@@ -9,7 +9,7 @@
 
 class myVector;
 
-double calculateSentimentScore(float totalScore){
+double calculateSentimentScore(double totalScore){
     double Si;
     double denominator = sqrt(pow(totalScore,2) + ALPHA);
     Si  = totalScore / denominator;
@@ -21,7 +21,7 @@ double calculateSentimentScore(float totalScore){
 
 
 // Function to check if the key is present or not
-string check_key(const unordered_map<string ,float> &m, const string &key) // m = vaderLexicon_umap
+string check_key(const unordered_map<string ,double> &m, const string &key) // m = vaderLexicon_umap
 {
     // Key is not present
     if (m.find(key) == m.end())
