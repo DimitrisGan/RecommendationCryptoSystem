@@ -59,7 +59,6 @@ vector<string> NN_searchForBestP(myVector &q, const string &q_id, DistanceMetric
     vector<string> bestP ;
     myVector p;
     double distance;
-    string b ;
 
 //    if (list2search.size() == 1){return bestP;} //it means that lsh returned only the query vector
 
@@ -107,12 +106,11 @@ vector<string> NN_searchForBestP(myVector &q, const string &q_id, DistanceMetric
 
     for (int i = 0; i < number; ++i) {
 
-        if(list2search.size() < number && i== (list2search.size()-1)) {break;}
+        if((list2search.size()-1) < number && i== (list2search.size()-1)) {break;}
         bestP.push_back(neighborVectorsDistance.at(i).first);
     }
 
     assert(bestP.size() <= number);
-
     return bestP;
 
 }
