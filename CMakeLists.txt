@@ -50,4 +50,4 @@ add_executable(RecommendationCryptoSystem
         Tweet.cpp
         Tweet.h
         Update.cpp
-        Update.h RecommendBestCoins.cpp RecommendBestCoins.h)
+        Update.h RecommendBestCoins.cpp RecommendBestCoins.h VirtualUsers.cpp VirtualUsers.h)

@@ -481,7 +481,7 @@ void ReadInFile_save2umap(const string &inFileName,unordered_map<string, myVecto
     ifstream inFile;
     inFile.open(inFileName);
     if (!inFile) {
-        cout << "Unable to open file\n";
+        cout << "Unable to open Dataset from project2\n";
         exit(1); // terminate with error
     }
 
@@ -523,7 +523,7 @@ void ReadCommaTypeFile_save2umap(const string &inFileName,unordered_map<string, 
     ifstream inFile;
     inFile.open(inFileName);
     if (!inFile) {
-        cout << "Unable to open input file";
+        cout << "Unable open Dataset from project1\n";
         exit(1); // terminate with error
     }
     string line;

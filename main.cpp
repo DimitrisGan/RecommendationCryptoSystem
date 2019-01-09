@@ -81,138 +81,96 @@ int main(int argc , char** argv) {
     string configFileName = "cluster.conf";
 
 
-//    string inTweetsDatasetAfterTFIDFFile = "tweets_dataset_small.csv";
-//    string configFileName = "cluster.conf";
-//    string OutFileName;
-//    ofstream outFile;
-
     vector <string> CoinsList;
     unordered_map<string ,int> coins_umap;
-
+    unordered_map<string ,double> vaderLexicon_umap;
 
 
     ReadCoinsFile_saveIt(inCoinsFileName , CoinsList , coins_umap );
 
-    for (const auto &coinPair : coins_umap){
-        cout << coinPair.second << " :"<< coinPair.first <<endl;
-    }
-
-    unordered_map<string ,double> vaderLexicon_umap;
+    int dimUserVectors = CoinsList.size();
 
     ReadVaderLexicon_saveIt(inVadarLexinconFile , vaderLexicon_umap);
 
 
-    for (auto vad : coins_umap){
-        cout << vad.first << "\t: "<<vad.second<<endl;
-
-    }
-    cout << "\n\n coins_umap = " << coins_umap.size()<<endl;
-
-
-
-
-    unordered_map <string , Tweet > tweets_umap;
-
-
+    unordered_map <string , Tweet > Tweets_umap;
     unordered_multimap <string ,string> userTweetsRelation_ummap;
 
-    ReadTweetsInputDat_saveIt(inTweetsDatasetFile, tweets_umap,userTweetsRelation_ummap);
-
-//    printTweetsUmap(tweets_umap);
-//
-//    printTweetsCryptoReferencesNames(tweets_umap ,CoinsList ,coins_umap);
-//    printMultiUMap(userTweetsRelation_ummap);
-
-//    cout << "\n\n tweets_umap = " << tweets_umap.size()<<endl;
-//    cout << "\n\n userTweetsRelation_ummap = " << userTweetsRelation_ummap.size()<<endl;
+    ReadTweetsInputDat_saveIt(inTweetsDatasetFile, Tweets_umap,userTweetsRelation_ummap);
 
 
-
-    unordered_map <string , myVector > userTweetsSentimScore_umap; //todo
+    unordered_map <string , myVector > userTweetsSentimScore_umap;
 
     /*U USERS-VECTORS*/
-    calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap,userTweetsRelation_ummap,tweets_umap,vaderLexicon_umap ,coins_umap );
+    calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap, userTweetsRelation_ummap, Tweets_umap,
+                                          vaderLexicon_umap,
+                                          coins_umap, dimUserVectors);
 
     /*U USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*/
-    unordered_map <string , myVector > userTweetsSentimScoreWithoutInfsAndZeroVectors_umap; //todo
+    unordered_map <string , myVector > userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
     unordered_map <string , double > userTweetsAverageSentimScore_umap;
 
-    //todo upologizw vector me tous m.o
-    //todo allazw ta inf sta m.o sto --> userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
+
     calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap);
-
-    for (auto avrgScore : userTweetsAverageSentimScore_umap){
-        cout << avrgScore.first << "\t: "<<avrgScore.second<<endl;
-
-    }
-
-
-
-
-
 
     changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                                                        userTweetsSentimScore_umap, userTweetsAverageSentimScore_umap);
-
-
-
-
-
 //    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
-    /*U NORMALIZED-USERS-VECTORS*/
-//    unordered_map <string , myVector > userTweetsSentimScoreNormalized_umap; //todo tha fygei
+    //================== making the virtual clusters ================
 
-//    calculateNormalizeUsersSentimentCryptoScoreMap(userTweetsSentimScoreNormalized_umap,userTweetsSentimScore_umap );
+    unsigned int dim_tfidfVec = 0;
+//    int DistMetricFlag =1;
 
+    unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
 
-//
-    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-
-
+    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dim_tfidfVec );
 
 
+    kClusters TwitterCluster;
+    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dim_tfidfVec);
 
-//
-//    //================== making the virtual clusters ================
-///*
-//
-//    //todo ClusterProcesing()
-//    unsigned int dim_tfidfVec = 0;
-////    int DistMetricFlag =1;
-//
-//    unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
-//
-//    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dim_tfidfVec );
+    TwitterCluster.print_allClusters();
+
+
+
+/*C VIRTUAL-USERS-VECTORS*/
+
+    unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
+    unordered_map <string , myVector > virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap_umap;
 //
 //
-//    kClusters TwitterCluster;
-//    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dim_tfidfVec);
-//
-//    TwitterCluster.print_allClusters();
-//
-//    */
-///*C VIRTUAL-USERS-VECTORS*//*
-//
-//    unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
-////
-////
-//    calculateVirtualUsersFromTwitterCluster (virtualUserTweetsSentimScore_umap ,TwitterCluster ,tweets_umap ,vaderLexicon_umap ,coins_umap );
-//
-//
-//
-//    cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
-//    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScore_umap);
-//
-//*/
-//
-//
+    calculateVirtualUsersFromTwitterCluster(virtualUserTweetsSentimScore_umap, TwitterCluster, Tweets_umap,
+                                            vaderLexicon_umap,
+                                            coins_umap, dimUserVectors);
+
+    exit(1);
+/*
+
+    */
+/*U USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*//*
+
+    unordered_map <string , myVector > userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
+    unordered_map <string , double > userTweetsAverageSentimScore_umap;
+
+
+    calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap);
+
+    changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                       userTweetsSentimScore_umap, userTweetsAverageSentimScore_umap);
+//    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+*/
+
+    cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
+    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScore_umap);
+
+
+    exit(1);
+
 //    //==========================================================================
 
-
-
-    //todo ftiaxnw to lsh gia ta normalized u
 
 
     unsigned k_hf =  4;
@@ -252,6 +210,7 @@ int main(int argc , char** argv) {
 //    vector <double>  RecommendedCoinsIndexes =EvaluateAllCrypto(u ,bestP_u ,userTweetsSentimScoreNormalized_umap  );
 
     map<string,vector<string>> RecommendedCoins2Users;
+    map<string,vector<string>> RecommendedCoins2VirtualUsers;
 
     RecommendationSystem(  RecommendedCoins2Users,
                            lsh_ptr,

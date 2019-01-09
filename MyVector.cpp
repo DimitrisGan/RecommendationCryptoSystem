@@ -109,9 +109,12 @@ bool myVector::operator==(const myVector & q){
 void myVector::initializeToInf(int size) {
     double inf = std::numeric_limits<double>::infinity();
 
-    vector <double> CryptoSc(100,inf);
+
+    vector <double> CryptoSc(size,inf);
 
     this->coords = CryptoSc;
+
+    assert(size == 100);
 
 }
 

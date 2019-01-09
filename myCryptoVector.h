@@ -115,11 +115,11 @@ void calculateAverageU_umap(unordered_map<string, double> &userTweetsAverageSent
                             const unordered_map<string, myVector> &userTweetsSentimScore_umap);
 
 
-void calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
-                                           const unordered_multimap <string ,string> &userTweetsRelation_ummap,
-                                           const unordered_map <string , Tweet > &tweets_umap,
-                                           const unordered_map<string ,double> &vaderLexicon_umap ,
-                                           const unordered_map<string ,int> &coins_umap );
+void calculateUsersSentimentCryptoScoreMap(unordered_map<string, myVector> &userTweetsSentimScore_umap,
+                                           const unordered_multimap<string, string> &userTweetsRelation_ummap,
+                                           const unordered_map<string, Tweet> &tweets_umap,
+                                           const unordered_map<string, double> &vaderLexicon_umap,
+                                           const unordered_map<string, int> &coins_umap, int userVectorSize);
 
 
 
@@ -127,11 +127,10 @@ void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVe
                                                     const unordered_map <string , myVector > &userTweetsSentimScore_umap );
 
 
-void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector > &virtualUserTweetsSentimScore_umap ,
-                                              kClusters &TwitterCluster ,
-                                              const unordered_map <string , Tweet > &tweets_umap,
-                                              const unordered_map<string ,double> &vaderLexicon_umap ,
-                                              const unordered_map<string ,int> &coins_umap );
+void calculateVirtualUsersFromTwitterCluster(unordered_map<string, myVector> &virtualUserTweetsSentimScore_umap,
+                                             kClusters &TwitterCluster, const unordered_map<string, Tweet> &tweets_umap,
+                                             const unordered_map<string, double> &vaderLexicon_umap,
+                                             const unordered_map<string, int> &coins_umap, int userVectorSize);
 
 
 void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > &userTweetsSentimScore_umap);

@@ -87,11 +87,11 @@ set<int>    calculateTweetsScore(const string &tweetId, double &totalScore ,cons
 
 
 /*calculating U vectors*/
-void    calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
-                                           const unordered_multimap <string ,string> &userTweetsRelation_ummap,
-                                           const unordered_map <string , Tweet > &tweets_umap,
-                                           const unordered_map<string ,double> &vaderLexicon_umap ,
-                                           const unordered_map<string ,int> &coins_umap )
+void calculateUsersSentimentCryptoScoreMap(unordered_map<string, myVector> &userTweetsSentimScore_umap,
+                                           const unordered_multimap<string, string> &userTweetsRelation_ummap,
+                                           const unordered_map<string, Tweet> &tweets_umap,
+                                           const unordered_map<string, double> &vaderLexicon_umap,
+                                           const unordered_map<string, int> &coins_umap, int userVectorSize)
 {
 
     //kanw extract ta keys se ena set
@@ -106,7 +106,7 @@ void    calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector >
 
 
         myVector u;
-        u.initializeToInf(static_cast<int>(coins_umap.size()));
+        u.initializeToInf(userVectorSize);
 //        u.printCryptoVector();
 
 
@@ -122,7 +122,7 @@ void    calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector >
 
             double sentimentScore = calculateSentimentScore(totalScore);
             myVector current_u;
-            current_u.initializeToInf(static_cast<int>(coins_umap.size()));
+            current_u.initializeToInf(userVectorSize);
 //            u.setMyCryptoVector(set <int> CoinsIndexes2addScoreInUser , float totalScore);
 
             //TODO EDW LOGIKA THA KALESW THN ADD2USERSVECTORU!!!!!!!
@@ -151,6 +151,80 @@ void    calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector >
         userTweetsSentimScore_umap.insert(make_pair(userId , u));
 
     }
+
+}
+
+
+
+//void    calculateUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScore_umap,
+//                                              const unordered_multimap <string ,string> &userTweetsRelation_ummap,
+//                                              const unordered_map <string , Tweet > &tweets_umap,
+//                                              const unordered_map<string ,double> &vaderLexicon_umap ,
+//                                              const unordered_map<string ,int> &coins_umap )
+
+
+void calculateVirtualUsersFromTwitterCluster(unordered_map<string, myVector> &virtualUserTweetsSentimScore_umap,
+                                             kClusters &TwitterCluster, const unordered_map<string, Tweet> &tweets_umap,
+                                             const unordered_map<string, double> &vaderLexicon_umap,
+                                             const unordered_map<string, int> &coins_umap, int userVectorSize)
+{
+
+
+
+    for (auto cluster : TwitterCluster.getClusters() ) { //gia kathe user
+
+//        cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOR USER #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n";
+
+
+        myVector c;
+        c.initializeToInf(userVectorSize);
+//        u.printCryptoVector();
+
+
+
+
+        for (const auto tweetId : cluster->getDatapoints()){ //gia kathe Tweet you current User
+//            cout << it->first<< " : "<<it->second<<endl;
+
+            double totalScore=0;
+            set<int> CoinsIndexes2addScoreInUser = calculateTweetsScore(tweetId,totalScore , tweets_umap ,vaderLexicon_umap , coins_umap );
+
+
+            double sentimentScore = calculateSentimentScore(totalScore);
+            myVector current_c;
+            current_c.initializeToInf(userVectorSize);
+//            u.setMyCryptoVector(set <int> CoinsIndexes2addScoreInUser , float totalScore);
+
+            //TODO EDW LOGIKA THA KALESW THN ADD2USERSVECTORU!!!!!!!
+            current_c.setVectorToSpecificIndexes(CoinsIndexes2addScoreInUser , sentimentScore);
+
+
+//            current_u.printCryptoVector();
+
+//            cout << "BEFORE U = " <<endl;
+//            u.printCryptoVector();
+//            cout << "ADD WITH CURRENT U"<<endl;
+//            current_u.printCryptoVector();
+
+            c = c + current_c; //add to u UsersVector the tweetsVector
+        }
+
+
+//        cout << "AFTER U = " <<endl;
+//        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+//
+//        u.printCryptoVector();
+
+        //TODO to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myVector
+
+        //todo EDW THA TO KANW INSERT STO MAP userTweetsSentimScore_umap
+
+        string clusterId = to_string(cluster->getId());
+//        cout << clusterId <<endl;
+        virtualUserTweetsSentimScore_umap.insert(make_pair(clusterId , c));
+
+    }
+
 
 }
 
@@ -230,104 +304,40 @@ int isZeroVector(const vector <double> &coords){
 
 
 
-void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
-                                                    const unordered_map <string , myVector > &userTweetsSentimScore_umap )
-
-{
-    for (const auto &u : userTweetsSentimScore_umap){
-
-        double averageU = calculateAverageU(u.second );
-        myVector uNormilized;
-
-
-        if (averageU != 0){  //means that the user has only 1 tweet or that refers to only one crypto
-
-            //    convertInfs2Zeros(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
-            uNormilized = normalizeU( u.second , averageU);
-
-            if(! isZeroVector(uNormilized.getCoords())){
-
-                userTweetsSentimScoreNormalized_umap.insert(make_pair(u.first,uNormilized));
-            }
-
-            else{
-                continue;
-            }
-
-
-        }
-
-    }
-
-}
-
-
-
-void calculateVirtualUsersFromTwitterCluster (unordered_map <string , myVector > &virtualUserTweetsSentimScore_umap ,
-                                              kClusters &TwitterCluster ,
-                                              const unordered_map <string , Tweet > &tweets_umap,
-                                              const unordered_map<string ,double> &vaderLexicon_umap ,
-                                              const unordered_map<string ,int> &coins_umap )
-{
-
-
-
-    for (auto cluster : TwitterCluster.getClusters() ) { //gia kathe user
-
-//        cout << "\n\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOR USER #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n";
-
-
-        myVector c;
-        c.initializeToInf(static_cast<int>(coins_umap.size()));
-//        u.printCryptoVector();
-
-
-
-
-        for (const auto tweetId : cluster->getDatapoints()){ //gia kathe Tweet you current User
-//            cout << it->first<< " : "<<it->second<<endl;
-
-            double totalScore=0;
-            set<int> CoinsIndexes2addScoreInUser = calculateTweetsScore(tweetId,totalScore , tweets_umap ,vaderLexicon_umap , coins_umap );
-
-
-            double sentimentScore = calculateSentimentScore(totalScore);
-            myVector current_c;
-            current_c.initializeToInf(static_cast<int>(coins_umap.size()));
-//            u.setMyCryptoVector(set <int> CoinsIndexes2addScoreInUser , float totalScore);
-
-            //TODO EDW LOGIKA THA KALESW THN ADD2USERSVECTORU!!!!!!!
-            current_c.setVectorToSpecificIndexes(CoinsIndexes2addScoreInUser , sentimentScore);
-
-
-//            current_u.printCryptoVector();
-
-//            cout << "BEFORE U = " <<endl;
-//            u.printCryptoVector();
-//            cout << "ADD WITH CURRENT U"<<endl;
-//            current_u.printCryptoVector();
-
-            c = c + current_c; //add to u UsersVector the tweetsVector
-        }
-
-
-//        cout << "AFTER U = " <<endl;
-//        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~ USER'S U  #"<<userId <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+//void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
+//                                                    const unordered_map <string , myVector > &userTweetsSentimScore_umap )
 //
-//        u.printCryptoVector();
+//{
+//    for (const auto &u : userTweetsSentimScore_umap){
+//
+//        double averageU = calculateAverageU(u.second );
+//        myVector uNormilized;
+//
+//
+//        if (averageU != 0){  //means that the user has only 1 tweet or that refers to only one crypto
+//
+//            //    convertInfs2Zeros(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
+//            uNormilized = normalizeU( u.second , averageU);
+//
+//            if(! isZeroVector(uNormilized.getCoords())){
+//
+//                userTweetsSentimScoreNormalized_umap.insert(make_pair(u.first,uNormilized));
+//            }
+//
+//            else{
+//                continue;
+//            }
+//
+//
+//        }
+//
+//    }
+//
+//}
 
-        //TODO to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myVector
-
-        //todo EDW THA TO KANW INSERT STO MAP userTweetsSentimScore_umap
-
-        string clusterId = to_string(cluster->getId());
-//        cout << clusterId <<endl;
-        virtualUserTweetsSentimScore_umap.insert(make_pair(clusterId , c));
-
-    }
 
 
-}
+
 
 
 
