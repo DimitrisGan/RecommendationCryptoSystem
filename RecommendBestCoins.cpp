@@ -217,8 +217,37 @@ void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCo
 }
 
 
-void RecommendCoins::operator()(DistanceMetrics *metric, Lsh *lsh_ptr) {
 
-    RecommendationSystem(metric,lsh_ptr);
+RecommendCoins::RecommendCoins(Lsh *lsh_ptr, int P, int numberOfCoins2recommend, const vector<string> &CoinsList,
+                               const unordered_map<string, myVector> &userTweetsSentimScore_umap,
+                               const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+                                unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                               const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+                                unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
+        : lsh_ptr(lsh_ptr), P(P), numberOfCoins2recommend(numberOfCoins2recommend), CoinsList(CoinsList),
+          userTweetsSentimScore_umap(userTweetsSentimScore_umap),
+          U_userTweetsAverageSentimScore_umap(U_userTweetsAverageSentimScore_umap),
+          U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap(U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap),
+          V_userTweetsAverageSentimScore_umap(V_userTweetsAverageSentimScore_umap),
+          V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap(
+                  V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap) {}
 
+void
+RecommendCoins::operator()(map<string, vector<string>> &RecommendedCoins2Users, DistanceMetrics *metric) {
+    RecommendationSystem(  RecommendedCoins2Users,
+                           lsh_ptr,
+                           metric,
+                           P, //number of best Neighbors
+                           numberOfCoins2recommend, //number2recommend
+                           CoinsList,
+                           userTweetsSentimScore_umap , //we need it to not a recommend an laready existing coin that user has spoken about
+
+                           U_userTweetsAverageSentimScore_umap,
+                           V_userTweetsAverageSentimScore_umap,
+                           U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                           V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
+    );
 }
+
+
+

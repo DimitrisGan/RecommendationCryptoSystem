@@ -200,7 +200,8 @@ int main(int argc , char** argv) {
 
 
     int P = 20; //range: [20-50]
-    int numberOfCoins2recommend = 2;
+    int numberOfCoins2recommend_U = 5;
+    int numberOfCoins2recommend_C = 2;
     DistanceMetrics *metric = new CosineMetric;
 
 
@@ -213,60 +214,71 @@ int main(int argc , char** argv) {
     map<string,vector<string>> RecommendedCoins2VirtualUsers;
 
 
-//    void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
-////                            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ const vector<string> &bestP_u ,
-//            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ Lsh *lsh_ptr,
-//                                 DistanceMetrics *metric,
-//                                 int P, //number of best Neighbors
-//                                 int numberOfCoins2recommend, //number2recommend
-//                                 const vector <string> &CoinsList,
-//                                 const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
+
+
+//    RecommendationSystem(  RecommendedCoins2Users,
+//                           lsh_virtualUsers_ptr,
+//                           metric,
+//                           P,
+//                           numberOfCoins2recommend,//number2recommend
+//                           CoinsList,
+//                           userTweetsSentimScore_umap,
 //
-//                                 const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
-//                                 const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
-//                                 unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                                 unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
-//    )
+//                           userTweetsAverageSentimScore_umap,
+//                           virtualUserTweetsAverageSentimScore_umap,
+//                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+//                           virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 //
-//    {
-
-    RecommendationSystem(  RecommendedCoins2Users,
-                           lsh_virtualUsers_ptr,
-                           metric,
-                           P,
-                           numberOfCoins2recommend,//number2recommend
-                           CoinsList,
-                           userTweetsSentimScore_umap,
-
-                           userTweetsAverageSentimScore_umap,
-                           virtualUserTweetsAverageSentimScore_umap,
-                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                           virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-
-
-// /*FOR C-VIRTUAL USERS*/
-//cout << "\n\n\n\n\n\n\n\n\n";
-
-    RecommendationSystem(  RecommendedCoins2Users,
-                           lsh_Users_ptr,
-                           metric,
-                           P,
-                           numberOfCoins2recommend,//number2recommend
-                           CoinsList,
-                           userTweetsSentimScore_umap ,
-
-                           userTweetsAverageSentimScore_umap,
-                           userTweetsAverageSentimScore_umap,
-                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+//
+//// /*FOR C-VIRTUAL USERS*/
+////cout << "\n\n\n\n\n\n\n\n\n";
+//
+//    RecommendationSystem(  RecommendedCoins2Users,
+//                           lsh_Users_ptr,
+//                           metric,
+//                           P,
+//                           numberOfCoins2recommend,//number2recommend
+//                           CoinsList,
+//                           userTweetsSentimScore_umap ,
+//
+//                           userTweetsAverageSentimScore_umap,
+//                           userTweetsAverageSentimScore_umap,
+//                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+//                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+//
 
 
 
+    /*INSTANTIATIONS*/
+
+    /*FOR REAL-U USERS*/
+    auto *RecommendForsUsers = new RecommendCoins(lsh_Users_ptr, P, numberOfCoins2recommend_U, CoinsList,
+                                            userTweetsSentimScore_umap,
+                                            userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
+                                            userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                            userTweetsAverageSentimScore_umap,//    V_userTweetsAverageSentimScore_umap,
+                                            userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);//    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+    /*FOR VIRTUAL-C USERS*/
+    auto *RecommendForsVirtulUsers = new RecommendCoins(lsh_virtualUsers_ptr, P, numberOfCoins2recommend_C, CoinsList,
+                                                                  userTweetsSentimScore_umap,
+                                                                  userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
+                                                                  userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                                  virtualUserTweetsAverageSentimScore_umap,//    V_userTweetsAverageSentimScore_umap,
+                                                                  virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);//    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);;
+
+
+
+
+    (*RecommendForsUsers)(RecommendedCoins2Users,metric);
+    (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsers,metric);
 
 
     printrecommendedCoins2Users(RecommendedCoins2Users);
+    printrecommendedCoins2Users(RecommendedCoins2VirtualUsers);
 
     cout << "\n\n RecommendedCoins2Userssizeof = " << RecommendedCoins2Users.size()<<endl;
+    cout << "\n\n RecommendedCoins2VirtualUsers = " << RecommendedCoins2VirtualUsers.size()<<endl;
 
     cout << "\n\n userTweetsSentimScore_umap = " << userTweetsSentimScore_umap.size()<<endl;
     cout << "\n\n userTweetsSentimScoreWithoutInfsAndZeroVectors_umap = " << userTweetsSentimScoreWithoutInfsAndZeroVectors_umap.size()<<endl;

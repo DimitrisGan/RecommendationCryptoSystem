@@ -17,6 +17,8 @@
 
 class RecommendCoins{
 private:
+    ;
+
     Lsh *lsh_ptr;
     int P; //number of best Neighbors;
     int numberOfCoins2recommend; //number2recommend
@@ -26,11 +28,27 @@ private:
     unordered_map<string, double> U_userTweetsAverageSentimScore_umap;
     unordered_map<string, myVector> U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
 
+    const unordered_map<string, double> V_userTweetsAverageSentimScore_umap;
+    unordered_map<string, myVector> V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
+
 public:
-    void operator()(DistanceMetrics *metric,   /*todo*/ Lsh *lsh_ptr);
+    void operator()(map<string,vector<string>>  &RecommendedCoins2Users ,DistanceMetrics *metric );
+
+    RecommendCoins(Lsh *lsh_ptr, int P, int numberOfCoins2recommend, const vector<string> &CoinsList,
+                   const unordered_map<string, myVector> &userTweetsSentimScore_umap,
+                   const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+                    unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                   const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+                    unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
     virtual ~RecommendCoins() = default;
 };
+
+
+
+
+//==============================================================================================
+//==============================================================================================
 
 void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCoins2Users);
 
