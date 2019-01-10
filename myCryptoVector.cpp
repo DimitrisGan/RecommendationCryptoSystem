@@ -215,9 +215,6 @@ void calculateVirtualUsersFromTwitterCluster(unordered_map<string, myVector> &vi
 //
 //        u.printCryptoVector();
 
-        //TODO to prosthetw sto userTweetsSentimScore_umap setarwntas prwta to myVector
-
-        //todo EDW THA TO KANW INSERT STO MAP userTweetsSentimScore_umap
 
         string clusterId = to_string(cluster->getId());
 //        cout << clusterId <<endl;

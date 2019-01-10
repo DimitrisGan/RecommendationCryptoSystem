@@ -15,20 +15,31 @@
 #include "SearchingAlgorithms.h"
 
 
+//class RecommendCoins{
+//public:
+//    virtual void operator()(const unsigned int &k ,  unordered_map<string, myVector> &in_umap , vector <myVector> &k_initial_vectors) = 0;
+//
+//    virtual ~RecommendCoins() = default;
+//};
+
 void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCoins2Users);
 
 
 double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id,
-                  const unordered_map<string, double> &userTweetsAverageSentimScore_umap,
-                  const unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, int i);
+                  const unordered_map<string, double> &U_rating_umap,
+                  const unordered_map<string,double> &V_rating_umap,
+                  const unordered_map<string, myVector> &V_users_umap, int i);
 
 
 
+/*from all the neighbors calculate all the crypto's the Sentiment Score*/
+vector <string> recommendBestCoinsForUser(myVector &u ,const vector<string> &bestP_u ,const string &u_Id ,int number2recommend,
+                                          const vector <string> &CoinsList,
+                                          const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
 
-//todo prepei na kanw recommend coins pou den exei hdh
-vector<pair<int, double>> EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id,
-                                            const unordered_map<string, double> &userTweetsAverageSentimScore_umap,
-                                            const unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+                                          const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+                                          const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+                                          const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
 //todo prepei na kane iterate epanalipsi gia kathe u sto map na callarw evaluate kai meta na vriskw to katallhlo pou thelw
@@ -41,27 +52,34 @@ vector <string> recommendBestCoinsForUser(myVector &u ,const vector<string> &bes
 
 
 
-void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
-//                            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ const vector<string> &bestP_u ,
-        /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ Lsh *lsh_ptr,
-                             DistanceMetrics *metric,
-                             int P, //number of best Neighbors
-                             int numberOfCoins2recommend, //number2recommend
-                             const vector <string> &CoinsList,
-                             const unordered_map<string, double> &userTweetsAverageSentimScore_umap,
-                             const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
-                             unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-
-
-
 //void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
-//                             const vector<string> &bestP_u ,int number2recommend,
+////                            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ const vector<string> &bestP_u ,
+//        /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ Lsh *lsh_ptr,
+//                             DistanceMetrics *metric,
+//                             int P, //number of best Neighbors
+//                             int numberOfCoins2recommend, //number2recommend
 //                             const vector <string> &CoinsList,
 //                             const unordered_map<string, double> &userTweetsAverageSentimScore_umap,
 //                             const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
 //                             unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-//
-//
+
+
+
+void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
+//                            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ const vector<string> &bestP_u ,
+        /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/
+                             Lsh *lsh_ptr,
+                             DistanceMetrics *metric,
+                             int P, //number of best Neighbors
+                             int numberOfCoins2recommend, //number2recommend
+                             const vector <string> &CoinsList,
+                             const unordered_map <string , myVector > &userTweetsSentimScore_umap , //we need it to not a recommend an laready existing coin that user has spoken about
+
+                             const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+                             const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+                             unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                             unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
+);
 
 
 #endif //RECOMMENDATIONCRYPTOSYSTEM_RECOMMENDBESTCOINS_H

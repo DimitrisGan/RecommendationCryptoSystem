@@ -88,7 +88,7 @@ int main(int argc , char** argv) {
 
     ReadCoinsFile_saveIt(inCoinsFileName , CoinsList , coins_umap );
 
-    int dimUserVectors = CoinsList.size();
+    unsigned  dimUserSentScoreVectors = static_cast<int>(CoinsList.size());
 
     ReadVaderLexicon_saveIt(inVadarLexinconFile , vaderLexicon_umap);
 
@@ -104,7 +104,7 @@ int main(int argc , char** argv) {
     /*U USERS-VECTORS*/
     calculateUsersSentimentCryptoScoreMap(userTweetsSentimScore_umap, userTweetsRelation_ummap, Tweets_umap,
                                           vaderLexicon_umap,
-                                          coins_umap, dimUserVectors);
+                                          coins_umap, dimUserSentScoreVectors);
 
     /*U USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*/
     unordered_map <string , myVector > userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
@@ -120,16 +120,16 @@ int main(int argc , char** argv) {
 
     //================== making the virtual clusters ================
 
-    unsigned int dim_tfidfVec = 0;
+    unsigned int dimTfIdfVec = 0;
 //    int DistMetricFlag =1;
 
     unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
 
-    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dim_tfidfVec );
+    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dimTfIdfVec );
 
 
     kClusters TwitterCluster;
-    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dim_tfidfVec);
+    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dimTfIdfVec);
 
     TwitterCluster.print_allClusters();
 
@@ -138,36 +138,34 @@ int main(int argc , char** argv) {
 /*C VIRTUAL-USERS-VECTORS*/
 
     unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
-    unordered_map <string , myVector > virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap_umap;
 //
 //
     calculateVirtualUsersFromTwitterCluster(virtualUserTweetsSentimScore_umap, TwitterCluster, Tweets_umap,
                                             vaderLexicon_umap,
-                                            coins_umap, dimUserVectors);
-
-    exit(1);
-/*
-
-    */
-/*U USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*//*
-
-    unordered_map <string , myVector > userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
-    unordered_map <string , double > userTweetsAverageSentimScore_umap;
+                                            coins_umap, dimUserSentScoreVectors);
 
 
-    calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap);
+/*C USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*/
 
-    changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                                                       userTweetsSentimScore_umap, userTweetsAverageSentimScore_umap);
+    unordered_map <string , myVector > virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
+    unordered_map <string , double > virtualUserTweetsAverageSentimScore_umap;
+
+
+    calculateAverageU_umap(virtualUserTweetsAverageSentimScore_umap, virtualUserTweetsSentimScore_umap);
+
+    changeInfsToAverageSentimentsAndDiscardZeroVectors(virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                       virtualUserTweetsSentimScore_umap, virtualUserTweetsAverageSentimScore_umap);
 //    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
-*/
 
     cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
-    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScore_umap);
+    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
-    exit(1);
+    cout << "\n\n virtualUserTweetsSentimScore_umap = " << virtualUserTweetsSentimScore_umap.size()<<endl;
+    cout << "\n\n virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap = " << virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap.size()<<endl;
+
+
 
 //    //==========================================================================
 
@@ -177,9 +175,7 @@ int main(int argc , char** argv) {
     unsigned int W = 1;
     auto M_lsh = static_cast<long long int>(pow(2, 32) - 5);
     unsigned L = 2;
-    unsigned  TableSize = static_cast<unsigned int>(pow(2, k_hf));
-
-    unsigned int dim_sentScoreVectors = static_cast<unsigned int>(CoinsList.size());
+    auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
 
 
 
@@ -188,8 +184,12 @@ int main(int argc , char** argv) {
 //                                               W , dim_sentScoreVectors , M_lsh ,L , userTweetsSentimScoreNormalized_umap ) ;
 
 
-    /*SAVE THE NORMALIZED U's IN THE LSH*/
-    Lsh *lsh_ptr = new Lsh ( TableSize, k_hf , dim_sentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
+//    /*SAVE THE nonInf&zero U's IN THE LSH*/
+    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
+
+    /*SAVE THE nonInf&zero C's IN THE LSH*/
+    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized c's
+
 
 
     //=============================== add function to this  todo findBestPForU===================================
@@ -199,8 +199,8 @@ int main(int argc , char** argv) {
 //    set<string> multiMapKeys = extractMultiMapKeys (userTweetsRelation_ummap); //In this set now I have all the keys of the multiset
 
 
-    int P = 50;
-    int numberOfCoins2recommend = 5;
+    int P = 20; //range: [20-50]
+    int numberOfCoins2recommend = 2;
     DistanceMetrics *metric = new CosineMetric;
 
 
@@ -212,16 +212,55 @@ int main(int argc , char** argv) {
     map<string,vector<string>> RecommendedCoins2Users;
     map<string,vector<string>> RecommendedCoins2VirtualUsers;
 
+
+//    void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
+////                            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ const vector<string> &bestP_u ,
+//            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ Lsh *lsh_ptr,
+//                                 DistanceMetrics *metric,
+//                                 int P, //number of best Neighbors
+//                                 int numberOfCoins2recommend, //number2recommend
+//                                 const vector <string> &CoinsList,
+//                                 const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
+//
+//                                 const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+//                                 const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+//                                 unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+//                                 unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
+//    )
+//
+//    {
+
     RecommendationSystem(  RecommendedCoins2Users,
-                           lsh_ptr,
+                           lsh_virtualUsers_ptr,
                            metric,
                            P,
                            numberOfCoins2recommend,//number2recommend
                            CoinsList,
-                           userTweetsAverageSentimScore_umap,
-                           userTweetsSentimScore_umap ,
-                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+                           userTweetsSentimScore_umap,
 
+                           userTweetsAverageSentimScore_umap,
+                           virtualUserTweetsAverageSentimScore_umap,
+                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                           virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+
+// /*FOR C-VIRTUAL USERS*/
+
+
+//    RecommendationSystem(  RecommendedCoins2Users,
+//                           lsh_Users_ptr,
+//                           metric,
+//                           P,
+//                           numberOfCoins2recommend,//number2recommend
+//                           CoinsList,
+//                           userTweetsSentimScore_umap ,
+//
+//                           userTweetsAverageSentimScore_umap,
+//                           userTweetsAverageSentimScore_umap,
+//                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+//                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+//
+//
 
 
 

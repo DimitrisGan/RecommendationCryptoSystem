@@ -60,37 +60,6 @@ vector<string> NN_searchForBestP(myVector &q, const string &q_id, DistanceMetric
     myVector p;
     double distance;
 
-//    if (list2search.size() == 1){return bestP;} //it means that lsh returned only the query vector
-
-//    for (int i = 0; i < number; ++i) {
-//
-//
-//        if(list2search.size() < number && i== list2search.size())
-//            break;
-//
-//        double smallest_dist = numeric_limits<double>::infinity();
-//        double curr_dist;
-//
-//        for (auto &p_id : list2search) {
-//
-//            if (p_id == q_id)
-//                continue;
-//
-//            if (std::find(bestP.begin(), bestP.end(),p_id)!=bestP.end()){ //if is already in the bestP vector then continue
-//                continue;
-//            }
-//
-//            p = in_umap[p_id];
-//            curr_dist = metric->distance(q, p);
-//
-//            if (curr_dist < smallest_dist) {
-//                b = p_id;
-//                smallest_dist = curr_dist;
-//            }
-//        }
-//        bestP.push_back(b);
-//
-//    }
 
     vector <pair<string,double>> neighborVectorsDistance;
     for (auto &p_id : list2search) {
