@@ -115,6 +115,7 @@ int main(int argc , char** argv) {
 
     changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                                                        userTweetsSentimScore_umap, userTweetsAverageSentimScore_umap);
+
 //    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
@@ -132,7 +133,6 @@ int main(int argc , char** argv) {
     ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName , dimTfIdfVec);
 
     TwitterCluster.print_allClusters();
-
 
 
 /*C VIRTUAL-USERS-VECTORS*/
@@ -171,6 +171,8 @@ int main(int argc , char** argv) {
 
 
 
+
+
     unsigned k_hf =  4;
     unsigned int W = 1;
     auto M_lsh = static_cast<long long int>(pow(2, 32) - 5);
@@ -178,21 +180,31 @@ int main(int argc , char** argv) {
     auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
 
 
-
-
-//    AbstractLshCube* Lsh_ForNormalizedU = constructLshDatastructure(1/*Cosine*/,   lsh_ptr , k_hf ,
-//                                               W , dim_sentScoreVectors , M_lsh ,L , userTweetsSentimScoreNormalized_umap ) ;
+//    ============================ U-V LSH's =================================
 
 
 //    /*SAVE THE nonInf&zero U's IN THE LSH*/
-    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
 
-    /*SAVE THE nonInf&zero C's IN THE LSH*/
-    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized c's
+//    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
+//
+//    /*SAVE THE nonInf&zero C's IN THE LSH*/
+//    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized c's
 
 
 
+    //=============================== U CLUSTER ==============================
+
+    string configFileName2 = configFileName;
+
+    kClusters UCluster;
+    ClusterProcedure(UCluster , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,
+            configFileName2 , dimUserSentScoreVectors);
+
+    UCluster.print_allClusters();
+
+exit(1);
     //=============================== add function to this  todo findBestPForU===================================
+
 
     //     recommendCryptoForEveryU( ,Lsh *lshForNormalized_U_Vectors_ptr )
 
@@ -249,7 +261,7 @@ int main(int argc , char** argv) {
 
 
 
-    /*INSTANTIATIONS*/
+//=====================================     /*INSTANTIATIONS*/      =======================================
 
     /*FOR REAL-U USERS*/
     auto *RecommendForsUsers = new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
@@ -267,11 +279,14 @@ int main(int argc , char** argv) {
                                                                   virtualUserTweetsAverageSentimScore_umap,//    V_userTweetsAverageSentimScore_umap,
                                                                   virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);//    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);;
 
+//==========================================================================================================
 
 
+/*
 
     (*RecommendForsUsers)(RecommendedCoins2Users,metric , lsh_Users_ptr);
     (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsers,metric, lsh_virtualUsers_ptr);
+*/
 
 
     printrecommendedCoins2Users(RecommendedCoins2Users);

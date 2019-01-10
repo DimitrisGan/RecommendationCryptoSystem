@@ -67,6 +67,11 @@ public:
     kClusters()= default;
 
 
+    /*new function*/
+
+    vector <pair<myVector,unsigned >>  getCentroidsAndTheirClusterIds();
+
+
 
 };
 

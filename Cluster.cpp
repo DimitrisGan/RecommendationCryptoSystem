@@ -131,6 +131,18 @@ kClusters::~kClusters() {
 }
 
 
+vector<pair<myVector, unsigned >> kClusters::getCentroidsAndTheirClusterIds() {
+
+    vector<pair<myVector, unsigned >> returnedVector;
+
+    for (auto clust : this->getClusters()){
+        returnedVector.emplace_back(clust->getCentroid(),clust->getId());
+    }
+
+    return returnedVector;
+}
+
+
 void Cluster::printClust(){
 
     cout<<"[";

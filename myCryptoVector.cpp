@@ -342,7 +342,7 @@ void printUsersSentimentCryptoScoreMap(const unordered_map <string , myVector > 
     int i=0;
     for (auto user : userTweetsSentimScore_umap){
 
-        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<i++<<": USER'S U  #"<<user.first <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+        cout << "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<i++<<": USER'S U/C  #"<<user.first <<" ~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
         user.second.print_vector();
 
     }

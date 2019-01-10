@@ -3,6 +3,7 @@
 //
 
 #include "Initialization.h"
+#include "AssistantFunctions.h"
 
 
 void RandomInit::operator()(const unsigned int &k ,  unordered_map<string, myVector> &in_umap , vector <myVector> &k_initial_vectors) {
@@ -40,23 +41,27 @@ double randomDoubleNumberGen (int FromNum , int ToNum  ){
 
 void Random_selection_of_k_points (const unsigned int &k ,  unordered_map<string, myVector> &in_umap , vector <myVector> &k_initial_vectors ) { //todo na ginei functor
 
-    int item_id ;
-    string str_item_id ;
+    int indexItems_id ;
+    string itemId;
     k_initial_vectors.resize(k);
     vector <int> centroids_ids;
+
+    vector<string> listKeys = extract_keys(in_umap);
 
     for ( auto &init_vector : k_initial_vectors) {
         while(true) {
             bool alreadyExistFlag = 0;
             bool isUnique=0;
 
-            item_id = randomIntNumberGen(1, static_cast<int>(in_umap.size()));
+            indexItems_id = randomIntNumberGen(0, static_cast<int>(listKeys.size()-1)); //TODO CHANGE
 
-            str_item_id = std::to_string(item_id);
+
+             itemId = listKeys[indexItems_id];
+
 
             for (auto &Centr :  centroids_ids ){
                 string Centr_str = to_string(Centr);
-                if (in_umap[Centr_str].getCoords() == in_umap[str_item_id].getCoords() ){
+                if (in_umap[Centr_str].getCoords() == in_umap[itemId].getCoords() ){
 
                     isUnique = 1;
                 }
@@ -66,8 +71,8 @@ void Random_selection_of_k_points (const unsigned int &k ,  unordered_map<string
             }
         }
 
-        init_vector = in_umap[str_item_id];
-        centroids_ids.push_back(item_id);
+        init_vector = in_umap[itemId];
+        centroids_ids.push_back(std::stoi( itemId ));
 //        init_vector.print_vector();
 
     }
@@ -100,7 +105,7 @@ void k_meanspp(const unsigned int &k ,  unordered_map<string, myVector> &in_umap
 
     vector <string > centroids_ids ;
 
-    int firstRandomK = randomIntNumberGen (1 , static_cast<int>(in_umap.size()));
+    int firstRandomK = randomIntNumberGen (1 , static_cast<int>(in_umap.size())); //TODO CHANGE
     string firstRandomK_str = to_string(firstRandomK);
 
     centroids_ids.push_back(firstRandomK_str);
