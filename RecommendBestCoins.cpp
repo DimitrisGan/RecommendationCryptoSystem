@@ -167,11 +167,18 @@ void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
     for (auto &u :  U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap){
 
         set <string> list2search = lsh_ptr->getSuperSet(u.second , V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-        if (list2search.size() == 1){
+        if (list2search.empty()){ //case in  dataStructure with virtual Users
             vector <string> NoneVector {"NONE"};
             RecommendedCoins2Users[u.first] = NoneVector;
             continue;
         }
+        if (list2search.size() == 1 && list2search.count(u.first)) {//case in  dataStructure with real Users and is the only one on the dataset
+            // u is in the set, count is 1
+            vector<string> NoneVector{"NONE"};
+            RecommendedCoins2Users[u.first] = NoneVector;
+            continue;
+        }
+
         vector<string> bestP_u  = NN_searchForBestP(u.second,u.first, metric, V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, list2search, P);
 
 
@@ -206,5 +213,12 @@ void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCo
         cout << "]\n";
 
     }
+
+}
+
+
+void RecommendCoins::operator()(DistanceMetrics *metric, Lsh *lsh_ptr) {
+
+    RecommendationSystem(metric,lsh_ptr);
 
 }

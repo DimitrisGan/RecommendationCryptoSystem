@@ -75,7 +75,9 @@ vector<string> NN_searchForBestP(myVector &q, const string &q_id, DistanceMetric
 
     for (int i = 0; i < number; ++i) {
 
-        if((list2search.size()-1) < number && i== (list2search.size()-1)) {break;}
+        if((list2search.size()-1) < number && i== (list2search.size()-1)) {
+            break;
+        }
         bestP.push_back(neighborVectorsDistance.at(i).first);
     }
 

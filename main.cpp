@@ -245,22 +245,22 @@ int main(int argc , char** argv) {
 
 
 // /*FOR C-VIRTUAL USERS*/
+//cout << "\n\n\n\n\n\n\n\n\n";
+
+    RecommendationSystem(  RecommendedCoins2Users,
+                           lsh_Users_ptr,
+                           metric,
+                           P,
+                           numberOfCoins2recommend,//number2recommend
+                           CoinsList,
+                           userTweetsSentimScore_umap ,
+
+                           userTweetsAverageSentimScore_umap,
+                           userTweetsAverageSentimScore_umap,
+                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
-//    RecommendationSystem(  RecommendedCoins2Users,
-//                           lsh_Users_ptr,
-//                           metric,
-//                           P,
-//                           numberOfCoins2recommend,//number2recommend
-//                           CoinsList,
-//                           userTweetsSentimScore_umap ,
-//
-//                           userTweetsAverageSentimScore_umap,
-//                           userTweetsAverageSentimScore_umap,
-//                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-//
-//
 
 
 

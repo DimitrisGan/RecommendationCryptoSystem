@@ -15,12 +15,22 @@
 #include "SearchingAlgorithms.h"
 
 
-//class RecommendCoins{
-//public:
-//    virtual void operator()(const unsigned int &k ,  unordered_map<string, myVector> &in_umap , vector <myVector> &k_initial_vectors) = 0;
-//
-//    virtual ~RecommendCoins() = default;
-//};
+class RecommendCoins{
+private:
+    Lsh *lsh_ptr;
+    int P; //number of best Neighbors;
+    int numberOfCoins2recommend; //number2recommend
+    const vector <string> CoinsList;
+    unordered_map <string , myVector > userTweetsSentimScore_umap;  //we need it to not a recommend an laready existing coin that user has spoken about
+
+    unordered_map<string, double> U_userTweetsAverageSentimScore_umap;
+    unordered_map<string, myVector> U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
+
+public:
+    void operator()(DistanceMetrics *metric,   /*todo*/ Lsh *lsh_ptr);
+
+    virtual ~RecommendCoins() = default;
+};
 
 void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCoins2Users);
 
