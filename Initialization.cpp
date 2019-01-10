@@ -50,7 +50,6 @@ void Random_selection_of_k_points (const unsigned int &k ,  unordered_map<string
 
     for ( auto &init_vector : k_initial_vectors) {
         while(true) {
-            bool alreadyExistFlag = 0;
             bool isUnique=0;
 
             indexItems_id = randomIntNumberGen(0, static_cast<int>(listKeys.size()-1)); //TODO CHANGE
@@ -103,13 +102,15 @@ bool sortbysec(const pair<string,double> &a,
 
 void k_meanspp(const unsigned int &k ,  unordered_map<string, myVector> &in_umap , DistanceMetrics* dist , vector <myVector> &k_initial_vectors ){
 
+    string itemId;
+    vector<string> listKeys = extract_keys(in_umap);
+
     vector <string > centroids_ids ;
 
-    int firstRandomK = randomIntNumberGen (1 , static_cast<int>(in_umap.size())); //TODO CHANGE
-    string firstRandomK_str = to_string(firstRandomK);
+    int firstRandomKIndex = randomIntNumberGen (0 , static_cast<int>(in_umap.size()-1)); //TODO CHANGE
+    string firstRandomK = listKeys[firstRandomKIndex];
 
-    centroids_ids.push_back(firstRandomK_str);
-    cout << endl;
+    centroids_ids.push_back(firstRandomK);
 
     int i=0;
 
