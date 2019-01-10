@@ -10,12 +10,17 @@
 #include <iostream>
 #include <unordered_map>
 #include <set>
+#include "MyVector.h"
+#include <utility>
+
 
 #include "AssistantFunctions.h"
 
 #include "LshSimple.h"
 #include "CubeAbstract.h"
 
+class LshSimple;
+class CubeAbstract;
 
 
 using namespace std;

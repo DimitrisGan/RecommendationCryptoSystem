@@ -43,3 +43,7 @@ set<string> ClusteringProxSearching::getSuperSet(myVector &query, unordered_map<
 
     return set<string>();
 }
+
+ kClusters &ClusteringProxSearching::getAllClusters()    {
+    return allClusters;
+}

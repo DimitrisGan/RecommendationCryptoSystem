@@ -17,8 +17,11 @@
 #include "MyVector.h"
 #include "Tweet.h"
 
-#include "HyperCube.h"
-#include "LSH.h"
+//#include "HyperCube.h"
+//#include "LSH.h"
+
+class Lsh;
+class HyperCube;
 
 /*
 #include "AbstractLSH_CUBE.h"

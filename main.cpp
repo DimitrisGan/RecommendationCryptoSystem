@@ -8,6 +8,7 @@
 #include "ClusterAPI.h"
 #include "SearchingAlgorithms.h"
 #include "RecommendBestCoins.h"
+#include "ClusteringProxSearching.h"
 #include <cmath>
 
 
@@ -183,24 +184,33 @@ int main(int argc , char** argv) {
 //    ============================ U-V LSH's =================================
 
 
-//    /*SAVE THE nonInf&zero U's IN THE LSH*/
+    /*SAVE THE nonInf&zero U's IN THE LSH*/
 
-//    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
-//
-//    /*SAVE THE nonInf&zero C's IN THE LSH*/
-//    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized c's
+    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
+
+    /*SAVE THE nonInf&zero C's IN THE LSH*/
+    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized c's
 
 
 
     //=============================== U CLUSTER ==============================
 
-    string configFileName2 = configFileName;
+    string configFileName2 = configFileName; //TODO FTIAXNW NWO CONFIG FILE H STO IDIO DIABAZW APO KEI POU MEINA
 
     kClusters UCluster;
     ClusterProcedure(UCluster , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,
             configFileName2 , dimUserSentScoreVectors);
 
     UCluster.print_allClusters();
+
+    //TODO TO XWNW STH NEA DOMH MOU PROXSEARXHINGCLUSTERING
+
+
+    ClusteringProxSearching cluster2nQuestion(UCluster);
+
+    cluster2nQuestion.getAllClusters().print_allClusters();
+
+
 
 exit(1);
     //=============================== add function to this  todo findBestPForU===================================

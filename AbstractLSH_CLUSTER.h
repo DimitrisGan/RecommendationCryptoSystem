@@ -10,8 +10,7 @@
 #include <string>
 #include <unordered_map>
 #include "MyVector.h"
-#include "LSH.h"
-#include "Cluster.h"
+
 
 using namespace std;
 

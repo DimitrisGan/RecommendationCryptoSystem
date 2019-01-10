@@ -17,11 +17,13 @@ private:
     kClusters allClusters;
 
 public:
-    ClusteringProxSearching(const kClusters &allClusters);
+    explicit ClusteringProxSearching(const kClusters &allClusters);
 
-    virtual ~ClusteringProxSearching();
+    ~ClusteringProxSearching() override;
 
     set<string> getSuperSet(myVector &query, unordered_map<string, myVector> &in_umap) override;
+
+     kClusters &getAllClusters() ;
 };
 
 

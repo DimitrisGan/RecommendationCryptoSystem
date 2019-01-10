@@ -6,19 +6,26 @@
 #define LSH_LSH_H
 
 
-#include <set>
-#include "LshSimple.h"
-class AbstractLSH_CUBE;
 
 #include "HashTablesStructures.h"
 #include "EuclideanSpaceLSH.h"
 #include "CosineSimilarityLSH.h"
 
+
+
+#include <string>
+#include <set>
+#include <unordered_map>
+#include "MyVector.h"
+#include "AbstractLSH_CLUSTER.h"
+#include "AbstractLSH_CUBE.h"
+
 class multi_hash_table;
 
 using namespace std;
 
-class Lsh  : public AbstractLshCube {
+class Lsh  : public AbstractLshCluster,public AbstractLshCube
+{
 private:
 
     multi_hash_table *MHT_ptr;
