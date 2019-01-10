@@ -218,13 +218,13 @@ void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCo
 
 
 
-RecommendCoins::RecommendCoins(Lsh *lsh_ptr, int P, int numberOfCoins2recommend, const vector<string> &CoinsList,
+RecommendCoins::RecommendCoins(int P, int numberOfCoins2recommend, const vector<string> &CoinsList,
                                const unordered_map<string, myVector> &userTweetsSentimScore_umap,
                                const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
                                 unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                                const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
                                 unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
-        : lsh_ptr(lsh_ptr), P(P), numberOfCoins2recommend(numberOfCoins2recommend), CoinsList(CoinsList),
+        : P(P), numberOfCoins2recommend(numberOfCoins2recommend), CoinsList(CoinsList),
           userTweetsSentimScore_umap(userTweetsSentimScore_umap),
           U_userTweetsAverageSentimScore_umap(U_userTweetsAverageSentimScore_umap),
           U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap(U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap),
@@ -233,7 +233,7 @@ RecommendCoins::RecommendCoins(Lsh *lsh_ptr, int P, int numberOfCoins2recommend,
                   V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap) {}
 
 void
-RecommendCoins::operator()(map<string, vector<string>> &RecommendedCoins2Users, DistanceMetrics *metric) {
+RecommendCoins::operator()(map<string, vector<string>> &RecommendedCoins2Users, DistanceMetrics *metric ,Lsh *lsh_ptr) {
     RecommendationSystem(  RecommendedCoins2Users,
                            lsh_ptr,
                            metric,

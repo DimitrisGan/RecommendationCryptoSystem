@@ -252,7 +252,7 @@ int main(int argc , char** argv) {
     /*INSTANTIATIONS*/
 
     /*FOR REAL-U USERS*/
-    auto *RecommendForsUsers = new RecommendCoins(lsh_Users_ptr, P, numberOfCoins2recommend_U, CoinsList,
+    auto *RecommendForsUsers = new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
                                             userTweetsSentimScore_umap,
                                             userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
                                             userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -260,7 +260,7 @@ int main(int argc , char** argv) {
                                             userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);//    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
     /*FOR VIRTUAL-C USERS*/
-    auto *RecommendForsVirtulUsers = new RecommendCoins(lsh_virtualUsers_ptr, P, numberOfCoins2recommend_C, CoinsList,
+    auto *RecommendForsVirtulUsers = new RecommendCoins(P, numberOfCoins2recommend_C, CoinsList,
                                                                   userTweetsSentimScore_umap,
                                                                   userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
                                                                   userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -270,8 +270,8 @@ int main(int argc , char** argv) {
 
 
 
-    (*RecommendForsUsers)(RecommendedCoins2Users,metric);
-    (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsers,metric);
+    (*RecommendForsUsers)(RecommendedCoins2Users,metric , lsh_Users_ptr);
+    (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsers,metric, lsh_virtualUsers_ptr);
 
 
     printrecommendedCoins2Users(RecommendedCoins2Users);

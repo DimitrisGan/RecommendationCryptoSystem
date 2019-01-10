@@ -32,9 +32,9 @@ private:
     unordered_map<string, myVector> V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
 
 public:
-    void operator()(map<string,vector<string>>  &RecommendedCoins2Users ,DistanceMetrics *metric );
+    void operator()(map<string,vector<string>>  &RecommendedCoins2Users ,DistanceMetrics *metric ,Lsh *lsh_ptr);
 
-    RecommendCoins(Lsh *lsh_ptr, int P, int numberOfCoins2recommend, const vector<string> &CoinsList,
+    RecommendCoins(int P, int numberOfCoins2recommend, const vector<string> &CoinsList,
                    const unordered_map<string, myVector> &userTweetsSentimScore_umap,
                    const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
                     unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
