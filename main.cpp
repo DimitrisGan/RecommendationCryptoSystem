@@ -193,7 +193,7 @@ int main(int argc , char** argv) {
 
 
 
-    //=============================== U CLUSTER ==============================
+    //=============================== U-V CLUSTER's ==============================
 
     string configFileName2 = configFileName; //TODO FTIAXNW NWO CONFIG FILE H STO IDIO DIABAZW APO KEI POU MEINA
 
@@ -206,9 +206,11 @@ int main(int argc , char** argv) {
     //TODO TO XWNW STH NEA DOMH MOU PROXSEARXHINGCLUSTERING
 
 
-    ClusteringProxSearching cluster2nQuestion(UCluster);
+    ClusteringProxSearching  *clV = new ClusteringProxSearching(UCluster);
 
-    cluster2nQuestion.getAllClusters().print_allClusters();
+    clV->getAllClusters().print_allClusters();
+
+    AbstractLshCluster* AbstractObjForUcluster =  clV ;
 
 
 
