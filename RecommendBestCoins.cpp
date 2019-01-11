@@ -6,9 +6,9 @@
 #include "RecommendBestCoins.h"
 
 /*from all the neighbors calculate in the current crypto the Sentiment Score*/
-double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id,
+double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id, DistanceMetrics *metric,
                   const unordered_map<string, double> &U_rating_umap,
-                  const unordered_map<string,double> &V_rating_umap,
+                  const unordered_map<string, double> &V_rating_umap,
                   const unordered_map<string, myVector> &V_users_umap, int i)
 
 {
@@ -20,11 +20,9 @@ double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 //    assert(!bestP_u.empty());
     for (const auto &v_Id : bestP_u){
         myVector v = V_users_umap.at(v_Id);
+        double dist = metric->distance(u,v);
+        double similarity =metric->similairty(dist);
 
-        double enumerator = u.dot_product(v);
-        double denominator = u.euclidean_norm()/v.euclidean_norm();
-
-        double similarity = enumerator/denominator;
         sumSimilarities +=  abs(similarity);
 
         double vCryptoRating = v.getCoords().at(i);
@@ -50,10 +48,11 @@ double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 //todo prepei na kanw recommend coins pou den exei hdh
 
 /*from all the neighbors calculate all the crypto's the Sentiment Score*/
-vector<pair<int, double>> EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id,
-                                            const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
-                                            const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
-                                            const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
+vector<pair<int, double>>
+EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id, DistanceMetrics *metric,
+                  const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+                  const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+                  const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
 {
 
     vector <pair<int,double>> cryptoRatings;
@@ -64,7 +63,7 @@ vector<pair<int, double>> EvaluateAllCrypto(myVector &u, const vector<string> &b
 //        double coord = userTweetsSentimScore_umap.at(u_Id).getCoords().at(i);
 //        if (coord == inf){ continue;}
 
-        double RatingOfCurrentCrypto  = RateCrypto(u, bestP_u, u_Id, U_userTweetsAverageSentimScore_umap,
+        double RatingOfCurrentCrypto  = RateCrypto(u, bestP_u, u_Id, metric, U_userTweetsAverageSentimScore_umap,
                                                    V_userTweetsAverageSentimScore_umap,
                                                    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, i);
 
@@ -87,21 +86,20 @@ vector<pair<int, double>> EvaluateAllCrypto(myVector &u, const vector<string> &b
 
 
 //todo prepei na kane iterate epanalipsi gia kathe u sto map na callarw evaluate kai meta na vriskw to katallhlo pou thelw
-vector <string> recommendBestCoinsForUser(myVector &u ,const vector<string> &bestP_u ,const string &u_Id ,int number2recommend,
-                                          const vector <string> &CoinsList,
-                                          const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
-
-                                          const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
-                                          const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
-                                          const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap
-)
+vector<string> recommendBestCoinsForUser(myVector &u, const vector<string> &bestP_u, const string &u_Id, int number2recommend,
+                                         const vector<string> &CoinsList, DistanceMetrics *metric,
+                                         const unordered_map<string, myVector> &userTweetsSentimScore_umap,
+                                         const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+                                         const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+                                         const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
 {
 
     double inf = std::numeric_limits<double>::infinity();
 
     vector <string> coins2Recommend;
 
-    vector <pair<int,double>> cryptosRatings = EvaluateAllCrypto(u ,bestP_u ,u_Id,U_userTweetsAverageSentimScore_umap,
+    vector <pair<int,double>> cryptosRatings = EvaluateAllCrypto(u, bestP_u, u_Id,
+                                                                 metric, U_userTweetsAverageSentimScore_umap,
                                                                  V_userTweetsAverageSentimScore_umap,
                                                                  V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
@@ -187,8 +185,10 @@ void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
 //            continue; //to lsh de gurise geitones
 //        }
 
-        vector <string> recommendBestCoinsForCurrentUserU = recommendBestCoinsForUser(u.second ,bestP_u ,u.first , numberOfCoins2recommend, CoinsList,
-                                                                                      userTweetsSentimScore_umap ,
+        vector <string> recommendBestCoinsForCurrentUserU = recommendBestCoinsForUser(u.second, bestP_u, u.first,
+                                                                                      numberOfCoins2recommend,
+                                                                                      CoinsList, metric,
+                                                                                      userTweetsSentimScore_umap,
 
                                                                                       U_userTweetsAverageSentimScore_umap,
                                                                                       V_userTweetsAverageSentimScore_umap,

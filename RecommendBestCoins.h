@@ -54,21 +54,20 @@ public:
 void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCoins2Users);
 
 
-double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id,
+double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id, DistanceMetrics *metric,
                   const unordered_map<string, double> &U_rating_umap,
-                  const unordered_map<string,double> &V_rating_umap,
+                  const unordered_map<string, double> &V_rating_umap,
                   const unordered_map<string, myVector> &V_users_umap, int i);
 
 
 
 /*from all the neighbors calculate all the crypto's the Sentiment Score*/
-vector <string> recommendBestCoinsForUser(myVector &u ,const vector<string> &bestP_u ,const string &u_Id ,int number2recommend,
-                                          const vector <string> &CoinsList,
-                                          const unordered_map <string , myVector > &userTweetsSentimScore_umap ,
-
-                                          const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
-                                          const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
-                                          const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+vector<string> recommendBestCoinsForUser(myVector &u, const vector<string> &bestP_u, const string &u_Id, int number2recommend,
+                                         const vector<string> &CoinsList, DistanceMetrics *metric,
+                                         const unordered_map<string, myVector> &userTweetsSentimScore_umap,
+                                         const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
+                                         const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
+                                         const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
 //todo prepei na kane iterate epanalipsi gia kathe u sto map na callarw evaluate kai meta na vriskw to katallhlo pou thelw
