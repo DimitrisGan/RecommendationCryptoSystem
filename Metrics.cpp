@@ -50,6 +50,11 @@ double EuclideanMetric::distance(myVector& p,myVector& q){
     return dist;
 }
 
+double EuclideanMetric::similairty(double dist) {
+
+    return 1/(1+dist);
+}
+
 //=========================================================
 
 double CosineMetric::distance(myVector& p,myVector& q){
@@ -68,5 +73,9 @@ double CosineMetric::distance(myVector& p,myVector& q){
         dist =0; //ta dianusmata einai idia kai de theloume sfalma strogguleushs
     }
     return dist;
+}
+
+double CosineMetric::similairty(double dist) {
+    return (1-dist);
 }
 
