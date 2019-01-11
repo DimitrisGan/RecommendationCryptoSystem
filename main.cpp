@@ -193,26 +193,20 @@ int main(int argc , char** argv) {
 
     /*SAVE THE nonInf&zero U's IN THE LSH*/
 
-    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized u's
+    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for  u's
 
     /*SAVE THE nonInf&zero C's IN THE LSH*/
-    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized c's
+    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for  c's
 
 
 
     //=============================== U-V CLUSTER's ==============================
-
-//    string configFileName2 = configFileName; //TODO FTIAXNW NWO CONFIG FILE H STO IDIO DIABAZW APO KEI POU MEINA
 
     kClusters UsCluster;
     ClusterProcedure(UsCluster , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,
             configFileName2 , dimUserSentScoreVectors);
 
     UsCluster.print_allClusters();
-
-    //=============================================================================
-//    string configFileName3 = configFileName; //TODO FTIAXNW NWO CONFIG FILE H STO IDIO DIABAZW APO KEI POU MEINA
-
 
 
     kClusters CsCluster;
@@ -221,39 +215,38 @@ int main(int argc , char** argv) {
 
     CsCluster.print_allClusters();
 
-    //TODO TO XWNW STH NEA DOMH MOU PROXSEARXHINGCLUSTERING
+    //=============================================================================
 
 
-    ClusteringProxSearching  *clust_U = new ClusteringProxSearching(UsCluster);
-    ClusteringProxSearching  *clust_C = new ClusteringProxSearching(CsCluster);
+    //ADD UsCluster && CsCluster IN NEW STRUCTURE THAT IMPLEMENTS getSuperSet() and keeps as attribute the euclidean distance
 
-
+    auto *clust_U = new ClusteringProxSearching(UsCluster);
+    auto *clust_C = new ClusteringProxSearching(CsCluster);
 
     //================================================================
 
-
-
+    /*NUMBER OF COINS TO RECOMMEND*/
     int numberOfCoins2recommend_U = 5;
     int numberOfCoins2recommend_C = 2;
 
 
-//=====================================     /*INSTANTIATIONS*/      =======================================
+//=====================================     /*FUNCTOR INSTANTIATIONS*/      =======================================
 
     /*FOR REAL-U USERS*/
-    auto *RecommendForsUsers = new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
+    auto *RecommendForsUsers =  new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
                                             userTweetsSentimScore_umap,
-                                            userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
-                                            userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                                            userTweetsAverageSentimScore_umap,//    V_userTweetsAverageSentimScore_umap,
-                                            userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);//    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+                                            userTweetsAverageSentimScore_umap,                      //U_userTweetsAverageSentimScore_umap,
+                                            userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,    //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                            userTweetsAverageSentimScore_umap,                      //V_userTweetsAverageSentimScore_umap,
+                                            userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);   //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
     /*FOR VIRTUAL-C USERS*/
     auto *RecommendForsVirtulUsers = new RecommendCoins(P, numberOfCoins2recommend_C, CoinsList,
                                                                   userTweetsSentimScore_umap,
-                                                                  userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
-                                                                  userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                                                                  virtualUserTweetsAverageSentimScore_umap,//    V_userTweetsAverageSentimScore_umap,
-                                                                  virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);//    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);;
+                                                                  userTweetsAverageSentimScore_umap,                            //U_userTweetsAverageSentimScore_umap,
+                                                                  userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,          //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                                  virtualUserTweetsAverageSentimScore_umap,                     //V_userTweetsAverageSentimScore_umap,
+                                                                  virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);  //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);;
 
 
 //==========================================================================================================
@@ -269,22 +262,26 @@ int main(int argc , char** argv) {
 
 
     cout <<"Processing...Stand by from real Users results LSH...\n";
-
+/*1A*/
     (*RecommendForsUsers)(RecommendedCoins2UsersLSH,metricCos , lsh_Users_ptr);
     printrecommendedCoins2Users(RecommendedCoins2UsersLSH);
 
-    cout <<"\nProcessing...Stand by from real Users results CLUSTERING...\n";
-
-    (*RecommendForsUsers)(RecommendedCoins2UsersCLUSTER,metricEucl , clust_U);
-    printrecommendedCoins2Users(RecommendedCoins2UsersCLUSTER);
-
     cout <<"\nProcessing...Stand by from virtual Users results LSH...\n";
-
+/*1B*/
     (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsersLSH,metricCos, lsh_virtualUsers_ptr);
     printrecommendedCoins2Users(RecommendedCoins2VirtualUsersLSH);
 
+
+    cout <<"\nProcessing...Stand by from real Users results CLUSTERING...\n";
+
+/*2A*/
+    (*RecommendForsUsers)(RecommendedCoins2UsersCLUSTER,metricEucl , clust_U);
+    printrecommendedCoins2Users(RecommendedCoins2UsersCLUSTER);
+
+
     cout <<"\nProcessing...Stand by from virtual Users results CLUSTERING...\n";
 
+/*2B*/
     (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsersCLUSTER,metricEucl, clust_C);
 
     printrecommendedCoins2Users(RecommendedCoins2VirtualUsersCLUSTER);

@@ -19,7 +19,6 @@ class RecommendCoins{
 private:
     ;
 
-    Lsh *lsh_ptr;
     int P; //number of best Neighbors;
     int numberOfCoins2recommend; //number2recommend
     const vector <string> CoinsList;
