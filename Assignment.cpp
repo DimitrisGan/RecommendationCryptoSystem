@@ -106,7 +106,8 @@ void ReverseAssignment::RevAssign(kClusters &allClusters , unordered_map<string 
 }
 
 ReverseAssignment::~ReverseAssignment() {
-    free (this->myStructure_ptr);
+    delete this->myStructure_ptr;
+    this->myStructure_ptr= nullptr;
 }
 
 
