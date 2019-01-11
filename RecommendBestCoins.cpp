@@ -148,7 +148,7 @@ vector <string> recommendBestCoinsForUser(myVector &u ,const vector<string> &bes
 void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
 //                            /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/ const vector<string> &bestP_u ,
         /*todo auto tha to vgalw de paizei///tha pairnaw pointer lsh-cluster*/
-                             Lsh *lsh_ptr,
+                             AbstractLshCluster *abstractLshClust_ptr,
                              DistanceMetrics *metric,
                              int P, //number of best Neighbors
                              int numberOfCoins2recommend, //number2recommend
@@ -166,7 +166,8 @@ void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
 
     for (auto &u :  U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap){
 
-        set <string> list2search = lsh_ptr->getSuperSet(u.second , V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+        set <string> list2search = abstractLshClust_ptr->getSuperSet(u.second , V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
         if (list2search.empty()){ //case in  dataStructure with virtual Users
             vector <string> NoneVector {"NONE"};
             RecommendedCoins2Users[u.first] = NoneVector;
@@ -233,9 +234,12 @@ RecommendCoins::RecommendCoins(int P, int numberOfCoins2recommend, const vector<
                   V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap) {}
 
 void
-RecommendCoins::operator()(map<string, vector<string>> &RecommendedCoins2Users, DistanceMetrics *metric ,Lsh *lsh_ptr) {
+RecommendCoins::operator()(map<string, vector<string>> &RecommendedCoins2Users, DistanceMetrics *metric,
+                           AbstractLshCluster *abstractLshClust_ptr) {
+
+
     RecommendationSystem(  RecommendedCoins2Users,
-                           lsh_ptr,
+                           abstractLshClust_ptr,
                            metric,
                            P, //number of best Neighbors
                            numberOfCoins2recommend, //number2recommend

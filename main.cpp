@@ -206,15 +206,17 @@ int main(int argc , char** argv) {
     //TODO TO XWNW STH NEA DOMH MOU PROXSEARXHINGCLUSTERING
 
 
-    ClusteringProxSearching  *clV = new ClusteringProxSearching(UCluster);
+    ClusteringProxSearching  *clust_U = new ClusteringProxSearching(UCluster);
 
-    clV->getAllClusters().print_allClusters();
+    clust_U->getAllClusters().print_allClusters();
 
-    AbstractLshCluster* AbstractObjForUcluster =  clV ;
+    AbstractLshCluster* Abstract_clV =  clust_U ;
+
+//    Abstract_clV->getSuperSet(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap[0],userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 
 
-exit(1);
+//exit(1);
     //=============================== add function to this  todo findBestPForU===================================
 
 
@@ -226,16 +228,10 @@ exit(1);
     int P = 20; //range: [20-50]
     int numberOfCoins2recommend_U = 5;
     int numberOfCoins2recommend_C = 2;
-    DistanceMetrics *metric = new CosineMetric;
-
-
 
     //todo na ftiaxtei suanrthsh
 //    vector <int>  RecommendedCoinsIndexes =recommend5BestCoinsForUser(u ,bestP_u ,userTweetsSentimScore_umap  );
 //    vector <double>  RecommendedCoinsIndexes =EvaluateAllCrypto(u ,bestP_u ,userTweetsSentimScoreNormalized_umap  );
-
-    map<string,vector<string>> RecommendedCoins2Users;
-    map<string,vector<string>> RecommendedCoins2VirtualUsers;
 
 
 
@@ -293,18 +289,26 @@ exit(1);
 
 //==========================================================================================================
 
+    DistanceMetrics *metricCos = new CosineMetric;
+    DistanceMetrics *metricEucl = new EuclideanMetric;
 
-/*
-
-    (*RecommendForsUsers)(RecommendedCoins2Users,metric , lsh_Users_ptr);
-    (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsers,metric, lsh_virtualUsers_ptr);
-*/
+    map<string,vector<string>> RecommendedCoins2UsersLSH;
+    map<string,vector<string>> RecommendedCoins2UsersCLUSTER;
+    map<string,vector<string>> RecommendedCoins2VirtualUsers;
 
 
-    printrecommendedCoins2Users(RecommendedCoins2Users);
-    printrecommendedCoins2Users(RecommendedCoins2VirtualUsers);
 
-    cout << "\n\n RecommendedCoins2Userssizeof = " << RecommendedCoins2Users.size()<<endl;
+
+//    (*RecommendForsUsers)(RecommendedCoins2UsersLSH,metricCos , lsh_Users_ptr);
+    (*RecommendForsUsers)(RecommendedCoins2UsersCLUSTER,metricEucl , clust_U);
+//    (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsers,metric, lsh_virtualUsers_ptr);
+
+
+    printrecommendedCoins2Users(RecommendedCoins2UsersLSH);
+    printrecommendedCoins2Users(RecommendedCoins2UsersCLUSTER);
+
+    cout << "\n\n RecommendedCoins2UsersLSHssizeof = " << RecommendedCoins2UsersLSH.size()<<endl;
+    cout << "\n\n RecommendedCoins2UsersCLUSTERsizeof = " << RecommendedCoins2UsersCLUSTER.size()<<endl;
     cout << "\n\n RecommendedCoins2VirtualUsers = " << RecommendedCoins2VirtualUsers.size()<<endl;
 
     cout << "\n\n userTweetsSentimScore_umap = " << userTweetsSentimScore_umap.size()<<endl;

@@ -44,7 +44,7 @@
 
 
 
-#define ITERATIONS 10 //TODO VALTO 20
+#define ITERATIONS 3 //TODO VALTO 20
 
 using namespace std;
 

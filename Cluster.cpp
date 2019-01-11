@@ -142,6 +142,11 @@ vector<pair<myVector, unsigned >> kClusters::getCentroidsAndTheirClusterIds() {
     return returnedVector;
 }
 
+vector<string> kClusters::getDatapointsForGivenClusterId(unsigned ClusterId) {
+
+    return this->clusters[ClusterId]->getDatapoints();
+}
+
 
 void Cluster::printClust(){
 

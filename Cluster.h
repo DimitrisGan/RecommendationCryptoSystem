@@ -71,6 +71,7 @@ public:
 
     vector <pair<myVector,unsigned >>  getCentroidsAndTheirClusterIds();
 
+    vector <string> getDatapointsForGivenClusterId(unsigned ClusterId);
 
 
 };

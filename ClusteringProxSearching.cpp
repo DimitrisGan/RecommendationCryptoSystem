@@ -2,6 +2,7 @@
 // Created by dimitrisgan on 10/1/2019.
 //
 
+#include <algorithm>
 #include "ClusteringProxSearching.h"
 
 
@@ -33,15 +34,22 @@ set<string> ClusteringProxSearching::getSuperSet(myVector &query, unordered_map<
         distancesFromCentroidsAndTheirClusterIds.emplace_back(dist,myPair.second);
     }
 
-//    std::get<1>(*std::min_element(begin(distancesFromCentroidsAndTheirClusterIds), end(distancesFromCentroidsAndTheirClusterIds),
-//            [](auto lhs, auto rhs){return std::get<1>(lhs)<std::get<1>(rhs);}));
+    //partial sort to take in the first index the minimum pair and thus the Centroid with the minimum distance
+    std::partial_sort(distancesFromCentroidsAndTheirClusterIds.begin(), distancesFromCentroidsAndTheirClusterIds.begin() +1,
+                      distancesFromCentroidsAndTheirClusterIds.end() , [](pair<double,unsigned> a, pair<double,unsigned> b){ return a.first < b.first;} );
 
-    double minDist ;
-    unsigned clustId;
+
+    unsigned closestClusterId = distancesFromCentroidsAndTheirClusterIds[0].second;
+
 
     //todo apo to mindist pairnw to clusterId kai peristrefw gi auto to clustId to clust se set
 
-    return set<string>();
+    vector<string> ClustersDataset= this->allClusters.getDatapointsForGivenClusterId(closestClusterId);
+
+
+    std::set<string> st( ClustersDataset.begin(), ClustersDataset.end() );
+
+    return st;
 }
 
  kClusters &ClusteringProxSearching::getAllClusters()    {
