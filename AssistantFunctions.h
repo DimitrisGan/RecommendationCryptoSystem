@@ -40,7 +40,7 @@ class HyperCube;
 
 
 void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_map<string, Tweet> &tweets_umap,
-                               unordered_multimap<string, string> &userTweetsRelation_ummap);
+                               unordered_multimap<string, string> &userTweetsRelation_ummap, int &P);
 void printTweetsIdsForGivenUserId(const string &userId , const unordered_multimap<string, string> &userTweetsRelation_ummap);
 void printMultiUMap(const unordered_multimap<string, string> &userTweetsRelation_ummap);
 void printTweetsUmap(const unordered_map<string, Tweet> &tweets_umap);

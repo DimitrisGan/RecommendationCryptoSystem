@@ -98,9 +98,14 @@ int main(int argc , char** argv) {
 
     unordered_map <string , Tweet > Tweets_umap;
     unordered_multimap <string ,string> userTweetsRelation_ummap;
+    int P ;
 
-    ReadTweetsInputDat_saveIt(inTweetsDatasetFile, Tweets_umap,userTweetsRelation_ummap);
+    ReadTweetsInputDat_saveIt(inTweetsDatasetFile, Tweets_umap, userTweetsRelation_ummap, P);
 
+    cout << "P: "<<P<<endl;
+
+    cout << "userTweetsRelation_ummap.size0f : "<<userTweetsRelation_ummap.size()<<endl;
+    cout << "Tweets_umap.size0f : "<<Tweets_umap.size()<<endl;
 
     unordered_map <string , myVector > userTweetsSentimScore_umap;
 
@@ -227,8 +232,7 @@ int main(int argc , char** argv) {
     //================================================================
 
 
-    int P_2U = 20; //range: [20-50]
-    int P_2C = 20; //range: [20-50]
+
     int numberOfCoins2recommend_U = 5;
     int numberOfCoins2recommend_C = 2;
 
@@ -236,7 +240,7 @@ int main(int argc , char** argv) {
 //=====================================     /*INSTANTIATIONS*/      =======================================
 
     /*FOR REAL-U USERS*/
-    auto *RecommendForsUsers = new RecommendCoins(P_2U, numberOfCoins2recommend_U, CoinsList,
+    auto *RecommendForsUsers = new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
                                             userTweetsSentimScore_umap,
                                             userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
                                             userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -244,7 +248,7 @@ int main(int argc , char** argv) {
                                             userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);//    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
     /*FOR VIRTUAL-C USERS*/
-    auto *RecommendForsVirtulUsers = new RecommendCoins(P_2C, numberOfCoins2recommend_C, CoinsList,
+    auto *RecommendForsVirtulUsers = new RecommendCoins(P, numberOfCoins2recommend_C, CoinsList,
                                                                   userTweetsSentimScore_umap,
                                                                   userTweetsAverageSentimScore_umap,//    U_userTweetsAverageSentimScore_umap,
                                                                   userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,//    U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -269,17 +273,17 @@ int main(int argc , char** argv) {
     (*RecommendForsUsers)(RecommendedCoins2UsersLSH,metricCos , lsh_Users_ptr);
     printrecommendedCoins2Users(RecommendedCoins2UsersLSH);
 
-    cout <<"Processing...Stand by from real Users results CLUSTERING...\n";
+    cout <<"\nProcessing...Stand by from real Users results CLUSTERING...\n";
 
     (*RecommendForsUsers)(RecommendedCoins2UsersCLUSTER,metricEucl , clust_U);
     printrecommendedCoins2Users(RecommendedCoins2UsersCLUSTER);
 
-    cout <<"Processing...Stand by from virtual Users results LSH...\n";
+    cout <<"\nProcessing...Stand by from virtual Users results LSH...\n";
 
     (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsersLSH,metricCos, lsh_virtualUsers_ptr);
     printrecommendedCoins2Users(RecommendedCoins2VirtualUsersLSH);
 
-    cout <<"Processing...Stand by from virtual Users results CLUSTERING...\n";
+    cout <<"\nProcessing...Stand by from virtual Users results CLUSTERING...\n";
 
     (*RecommendForsVirtulUsers)(RecommendedCoins2VirtualUsersCLUSTER,metricEucl, clust_C);
 

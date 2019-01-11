@@ -75,23 +75,27 @@ void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsL
 
 
 void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_map<string, Tweet> &tweets_umap,
-                               unordered_multimap<string, string> &userTweetsRelation_ummap){
+                               unordered_multimap<string, string> &userTweetsRelation_ummap, int &P) {
     ifstream inFile;
     inFile.open(inTweetsDatasetFileName);
     if (!inFile) {
         cout << "Unable to open inTweetsDatasetFile\n";
         exit(1); // terminate with error
     }
+    P =20; //default value
 
     string line;
+    int flagFirstLine=0;
 
     while (getline(inFile, line, '\n')) {
+
+
+        if (line[line.size() - 1] == '\r')
+            line.erase(line.size() - 1);
 
         // skip empty lines:
         if (line.empty()) continue;
 
-        if (line[line.size() - 1] == '\r')
-            line.erase(line.size() - 1);
 
 
         istringstream iss(line);
@@ -99,6 +103,21 @@ void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_
         string tweetId;
 
         iss >> userId;
+
+
+        if (flagFirstLine==0) {
+            if (userId == "P:") {
+                flagFirstLine = 1;
+
+                iss >> P;
+
+
+                continue;
+
+            }
+        }
+        flagFirstLine=1;
+
         iss >> tweetId;
 //        cout << "userId :"<<userId<<endl;
 //        cout << "tweetId :"<<tweetId<<endl;
