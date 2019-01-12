@@ -86,7 +86,8 @@ void ReadTabTypeFile_save2umap(const string &inFileName,unordered_map<string, my
 
 void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int &k_hf, unsigned int &L, unsigned int &M_cube,
                     unsigned int &probes, int &I_option, int &A_option, int &U_option, int &flagInputLsh, string &algOptions,
-                    int &metricOption, int &SilhouetteOption, string &outputFileName, int &completeOption);
+                    int &metricOption, int &SilhouetteOption, string &outputFileName, int &completeOption,
+                    int &MAX_ITERATIONS_VAR);
 
 //=====================================================================
 

@@ -44,8 +44,6 @@
 
 
 
-#define ITERATIONS 3 //TODO VALTO 20
-
 using namespace std;
 
 

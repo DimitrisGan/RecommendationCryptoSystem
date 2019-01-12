@@ -367,7 +367,8 @@ bool checkIfEqual(vector <myVector> &previousStateCentroids , vector <myVector> 
 
 void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int &k_hf, unsigned int &L, unsigned int &M_cube,
                     unsigned int &probes, int &I_option, int &A_option, int &U_option, int &flagInputLsh, string &algOptions,
-                    int &metricOption, int &SilhouetteOption, string &outputFileName, int &completeOption) {
+                    int &metricOption, int &SilhouetteOption, string &outputFileName, int &completeOption,
+                    int &MAX_ITERATIONS_VAR) {
 
     ifstream configFile;
     configFile.open(configFileName);
@@ -389,8 +390,10 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
     int flagCompleteOptionGiven =0;
 
 
+
+
     //Default Initialiazation
-    outputFileName;
+    MAX_ITERATIONS_VAR = 20;
     completeOption=0;
     metricOption=0;
     SilhouetteOption=0;
@@ -422,6 +425,9 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
 
         getline(iss , type , ':');
 
+        if (type == "MAX_ITERATIONS" ) {
+            iss >> MAX_ITERATIONS_VAR;
+        }
         if (type == "complete" ) {
             iss >> completeOptionString;
             flagCompleteOptionGiven = 1;
@@ -511,7 +517,7 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
 
 
 
-    if (flagSilhouetteOptionGiven){
+    if (flagSilhouetteOptionGiven ){
         if (SilhouetteOptionString == "yes"){
             SilhouetteOption = 1;
         }

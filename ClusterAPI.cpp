@@ -34,12 +34,14 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
     int outputOption;
     string OutFileName;
 
+    int MAX_ITERATIONS;
+
 //    ReadHandleArgms(argc, argv , inFileName  , configFileName  , OutFileName , DistMetricFlag ,completeFlag );
 
 
     ReadConfigFile(configFileName, k, k_hf, L, M_cube, probes,
                    I_option, A_option, U_option, flagInputLsh, algOptions, DistMetricFlag,
-                   SilhouetteOption, OutFileName, completeFlag);
+                   SilhouetteOption, OutFileName, completeFlag, MAX_ITERATIONS);
 
     cout << "k = "<<k<<endl;
     cout << "k_hf = "<<k_hf<<endl;
@@ -127,7 +129,7 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
     Assigner* lastAssignWithLloyd_ptr = new LloydAssignment();
 
     beginTime = clock();
-    for (i = 0; i < ITERATIONS ; ++i) {
+    for (i = 0; i < MAX_ITERATIONS ; ++i) {
 
         bool flagCentroidsEqual;
         previousStateCentroids = allClusters.listOfCentroids();
