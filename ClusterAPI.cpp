@@ -15,7 +15,7 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
 
 //    unsigned int d = static_cast<unsigned int>(in_umap.at(0).getCoords().size());
     int DistMetricFlag; // 0 --> for euclidean  and 1 --> cosine
-//    int completeFlag = 0; // 0 --> for euclidean  and 1 --> cosine
+    int completeFlag ; // 0 --> no  and 1 --> yes
 
     unsigned int M_cube;
     unsigned int probes;
@@ -31,13 +31,15 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
 
 
     int SilhouetteOption;
+    int outputOption;
+    string OutFileName;
 
 //    ReadHandleArgms(argc, argv , inFileName  , configFileName  , OutFileName , DistMetricFlag ,completeFlag );
 
 
     ReadConfigFile(configFileName, k, k_hf, L, M_cube, probes,
                    I_option, A_option, U_option, flagInputLsh, algOptions, DistMetricFlag,
-                   SilhouetteOption);
+                   SilhouetteOption, OutFileName, completeFlag);
 
     cout << "k = "<<k<<endl;
     cout << "k_hf = "<<k_hf<<endl;
@@ -161,17 +163,21 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
 
 //    allClusters.print_ClustersDatasetSize();
 
+    vector<double> listClustersSilhouette;
+    ofstream outFile;
+
     if (SilhouetteOption){
-        vector<double> listClustersSilhouette = Silhouette (in_umap , allClusters , distMetric ,emptyClusters);
+        listClustersSilhouette = Silhouette (in_umap , allClusters , distMetric ,emptyClusters);
     }
 //    cout << "Number of empty clusters = "<<emptyClusters<<endl;
 //    cout << "ITERATIONS #"<<i<<endl;
 
 //    allClusters.print_allClusters();
 
-//    Write2_OutFile(outFile ,OutFileName , algOptions , DistMetricFlag ,
-//                   listClustersSilhouette , allClusters , in_umap ,elapsed_secs_for_Clustering ,completeFlag);
-
+    if(!OutFileName.empty()) {
+        Write2_OutFile(outFile, OutFileName, algOptions, DistMetricFlag,
+                       listClustersSilhouette, allClusters, in_umap, elapsed_secs_for_Clustering, completeFlag);
+    }
 //here free the memory before exit
     delete init_ptr;init_ptr = nullptr;
     delete assign_ptr;assign_ptr = nullptr; // here also happens   delete myPtr;myPtr= nullptr;

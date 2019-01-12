@@ -16,6 +16,7 @@
 
 #include "MyVector.h"
 #include "Tweet.h"
+#include "Cluster.h"
 
 //#include "HyperCube.h"
 //#include "LSH.h"
@@ -52,13 +53,13 @@ void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsL
 void print_map(const unordered_map<string, int> &CoinsUmap) ;
 
 
-/*
+
 
 void Write2_OutFile(std::ofstream& outFile ,string &OutFileName , string &algOptions , int &DistMetricFlag ,
                     vector<double> listClustersSilhouette , kClusters &allClusters , unordered_map<string , myVector> &in_umap, double &elapsed_secs_for_Clustering ,int &completeFlag);
 
 
-
+/*
 AbstractLshCube* constructLshDatastructure(const int &DistMetricFlag ,   Lsh *lsh_ptr , unsigned &k_hf ,
                                            unsigned &W , unsigned &d , long long int &M_lsh ,unsigned &L , unordered_map<string, myVector> &in_umap ) ;
 
@@ -85,7 +86,7 @@ void ReadTabTypeFile_save2umap(const string &inFileName,unordered_map<string, my
 
 void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int &k_hf, unsigned int &L, unsigned int &M_cube,
                     unsigned int &probes, int &I_option, int &A_option, int &U_option, int &flagInputLsh, string &algOptions,
-                    int &metricOption, int &SilhouetteOption);
+                    int &metricOption, int &SilhouetteOption, string &outputFileName, int &completeOption);
 
 //=====================================================================
 

@@ -143,6 +143,7 @@ int main(int argc , char** argv) {
     TwitterCluster.print_allClusters();
 
 
+
 /*C VIRTUAL-USERS-VECTORS*/
 
     unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
@@ -207,6 +208,7 @@ int main(int argc , char** argv) {
             configFileName2 , dimUserSentScoreVectors);
 
     UsCluster.print_allClusters();
+
 
 
     kClusters CsCluster;

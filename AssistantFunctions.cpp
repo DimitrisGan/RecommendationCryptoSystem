@@ -240,7 +240,6 @@ void ReadVaderLexicon_saveIt(const string &inVaderFileName , unordered_map<strin
 //==================================================================================================================
 //==================================================================================================================
 //==================================================================================================================
-/*
 void Write2_OutFile(std::ofstream& outFile ,string &OutFileName , string &algOptions , int &DistMetricFlag ,
                     vector<double> listClustersSilhouette , kClusters &allClusters , unordered_map<string , myVector> &in_umap ,double &elapsed_secs_for_Clustering ,int &completeFlag){
 
@@ -321,7 +320,7 @@ void Write2_OutFile(std::ofstream& outFile ,string &OutFileName , string &algOpt
     outFile.close();
 
 
-}*/
+}
 
 
 
@@ -368,7 +367,7 @@ bool checkIfEqual(vector <myVector> &previousStateCentroids , vector <myVector> 
 
 void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int &k_hf, unsigned int &L, unsigned int &M_cube,
                     unsigned int &probes, int &I_option, int &A_option, int &U_option, int &flagInputLsh, string &algOptions,
-                    int &metricOption, int &SilhouetteOption) {
+                    int &metricOption, int &SilhouetteOption, string &outputFileName, int &completeOption) {
 
     ifstream configFile;
     configFile.open(configFileName);
@@ -385,8 +384,14 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
     int flagDistanceMetricGiven =0;
     int flagSilhouetteOptionGiven =0;
 
+    int flagOutputOptionGiven =0;
+    int flagOutputFileNameOptionGiven =0;
+    int flagCompleteOptionGiven =0;
+
 
     //Default Initialiazation
+    outputFileName;
+    completeOption=0;
     metricOption=0;
     SilhouetteOption=0;
     k_hf = 4;
@@ -400,6 +405,9 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
 
     string distMetricString ;
     string SilhouetteOptionString ;
+    string completeOptionString ;
+
+    string flagOutputOptionString ;
 
     algOptions = "I1A1U1" ;
     string reverseAssignmentOption ;
@@ -414,6 +422,20 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
 
         getline(iss , type , ':');
 
+        if (type == "complete" ) {
+            iss >> completeOptionString;
+            flagCompleteOptionGiven = 1;
+        }
+        if (type == "Output_file_name" ){
+            iss>>outputFileName;
+            flagOutputFileNameOptionGiven =1;
+
+        }
+        if (type == "Output" ){
+            iss>>flagOutputOptionString;
+            flagOutputOptionGiven =1;
+
+        }
         if (type == "Silhouette" ){
             iss>>SilhouetteOptionString;
             flagSilhouetteOptionGiven =1;
@@ -471,6 +493,23 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
         cout << "ERROR : NOT VALID CONFIG FILE -> NOT GIVEN NUMBER OF CLUSTERS";
         exit(1);
     }
+
+    if (flagCompleteOptionGiven){
+        if (completeOptionString == "yes"){
+            completeOption=1;
+        }
+
+    }
+
+    if (flagOutputOptionString=="yes" ){
+        if(flagOutputFileNameOptionGiven ==0  || (flagSilhouetteOptionGiven ==0 || SilhouetteOptionString == "no") ) { //if one of these 2 is zero
+            cout << "ERROR : NOT VALID CONFIG FILE -> NOT GIVEN OUTPUT FILE NAME OR SILHOUETTE OPTION \"YES\" ";
+            exit(1);
+        }
+    }
+
+
+
 
     if (flagSilhouetteOptionGiven){
         if (SilhouetteOptionString == "yes"){
@@ -712,7 +751,7 @@ void ReadHandleArgms( int& argc,  char**& argv , string &inFileName  , string &c
 
     }
 
-    if(input.cmdOptionExists("-complete"))
+    if(input.cmdOptionExists("-completeOption"))
     {
         completeFlag =1;
     }
