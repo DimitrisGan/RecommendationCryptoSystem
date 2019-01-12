@@ -83,8 +83,9 @@ void ReadCommaTypeFile_save2umap(const string &inFileName,unordered_map<string, 
 void ReadTabTypeFile_save2umap(const string &inFileName,unordered_map<string, myVector > &umap ,unsigned  int &d );
 
 
-void ReadConfigFile(const string &configFileName , unsigned  int &k , unsigned  int &k_hf , unsigned  int &L , unsigned int &M_cube , unsigned int &probes ,
-                    int &I_option ,int &A_option ,int &U_option ,int& flagInputLsh , string &algOptions);
+void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int &k_hf, unsigned int &L, unsigned int &M_cube,
+                    unsigned int &probes, int &I_option, int &A_option, int &U_option, int &flagInputLsh, string &algOptions,
+                    int &metricOption, int &SilhouetteOption);
 
 //=====================================================================
 

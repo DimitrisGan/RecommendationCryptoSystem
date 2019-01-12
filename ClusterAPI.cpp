@@ -14,8 +14,8 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
     unsigned int k_hf; // for k h  //default:k_hf=4
 
 //    unsigned int d = static_cast<unsigned int>(in_umap.at(0).getCoords().size());
-    int DistMetricFlag = 0; // 0 --> for euclidean  and 1 --> cosine
-    int completeFlag = 0; // 0 --> for euclidean  and 1 --> cosine
+    int DistMetricFlag; // 0 --> for euclidean  and 1 --> cosine
+//    int completeFlag = 0; // 0 --> for euclidean  and 1 --> cosine
 
     unsigned int M_cube;
     unsigned int probes;
@@ -30,10 +30,14 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
     auto M_lsh = static_cast<long long int>(pow(2, 32) - 5);
 
 
+    int SilhouetteOption;
+
 //    ReadHandleArgms(argc, argv , inFileName  , configFileName  , OutFileName , DistMetricFlag ,completeFlag );
 
 
-    ReadConfigFile(configFileName , k , k_hf , L ,M_cube ,probes , I_option , A_option ,U_option , flagInputLsh ,algOptions);
+    ReadConfigFile(configFileName, k, k_hf, L, M_cube, probes,
+                   I_option, A_option, U_option, flagInputLsh, algOptions, DistMetricFlag,
+                   SilhouetteOption);
 
     cout << "k = "<<k<<endl;
     cout << "k_hf = "<<k_hf<<endl;
@@ -44,6 +48,7 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
     cout << "A_option = "<<A_option<<endl;
     cout << "U_option = "<<U_option<<endl;
     cout << "dimensions = "<<d<<endl;
+    cout << "SilhouetteOption = "<<SilhouetteOption<<endl;
 
 //    ========================================================================================
 /*INSTANTIATIONS*/
@@ -156,7 +161,9 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
 
 //    allClusters.print_ClustersDatasetSize();
 
-//    vector<double> listClustersSilhouette = Silhouette (in_umap , allClusters , distMetric ,emptyClusters);
+    if (SilhouetteOption){
+        vector<double> listClustersSilhouette = Silhouette (in_umap , allClusters , distMetric ,emptyClusters);
+    }
 //    cout << "Number of empty clusters = "<<emptyClusters<<endl;
 //    cout << "ITERATIONS #"<<i<<endl;
 
@@ -167,7 +174,7 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
 
 //here free the memory before exit
     delete init_ptr;init_ptr = nullptr;
-    delete assign_ptr;assign_ptr = nullptr;
+    delete assign_ptr;assign_ptr = nullptr; // here also happens   delete myPtr;myPtr= nullptr;
     delete update_ptr;assign_ptr = nullptr;
 
 

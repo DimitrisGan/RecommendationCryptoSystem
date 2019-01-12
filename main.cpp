@@ -188,7 +188,7 @@ int main(int argc , char** argv) {
     auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
 
 
-//    ============================ U-V LSH's =================================
+//    ============================ U-V LSH's ====================================
 
 
     /*SAVE THE nonInf&zero U's IN THE LSH*/
@@ -223,14 +223,13 @@ int main(int argc , char** argv) {
     auto *clust_U = new ClusteringProxSearching(UsCluster);
     auto *clust_C = new ClusteringProxSearching(CsCluster);
 
-    //================================================================
-
+    //=============================================================================
     /*NUMBER OF COINS TO RECOMMEND*/
     int numberOfCoins2recommend_U = 5;
     int numberOfCoins2recommend_C = 2;
 
 
-//=====================================     /*FUNCTOR INSTANTIATIONS*/      =======================================
+//===================================== FUNCTOR INSTANTIATIONS =======================================
 
     /*FOR REAL-U USERS*/
     auto *RecommendForsUsers =  new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,

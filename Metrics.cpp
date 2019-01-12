@@ -70,6 +70,7 @@ double CosineMetric::distance(myVector& p,myVector& q){
     double dist = (1.0 - cos);
 //    cout << "dist = "<< dist <<endl;
     if (dist < 0){
+        assert(1);
         dist =0; //ta dianusmata einai idia kai de theloume sfalma strogguleushs
     }
     return dist;

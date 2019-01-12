@@ -366,8 +366,9 @@ bool checkIfEqual(vector <myVector> &previousStateCentroids , vector <myVector> 
 
 
 
-void ReadConfigFile(const string &configFileName , unsigned  int &k , unsigned  int &k_hf , unsigned  int &L , unsigned int &M_cube , unsigned int &probes ,
-                    int &I_option ,int &A_option ,int &U_option ,int& flagInputLsh , string &algOptions) {
+void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int &k_hf, unsigned int &L, unsigned int &M_cube,
+                    unsigned int &probes, int &I_option, int &A_option, int &U_option, int &flagInputLsh, string &algOptions,
+                    int &metricOption, int &SilhouetteOption) {
 
     ifstream configFile;
     configFile.open(configFileName);
@@ -381,8 +382,13 @@ void ReadConfigFile(const string &configFileName , unsigned  int &k , unsigned  
     int flagAlgorOtionsGiven=0;
     int flagRevAssignOtionsGiven=0;
 
+    int flagDistanceMetricGiven =0;
+    int flagSilhouetteOptionGiven =0;
+
 
     //Default Initialiazation
+    metricOption=0;
+    SilhouetteOption=0;
     k_hf = 4;
     L = 5;
     M_cube = std::numeric_limits<unsigned  int>::max();
@@ -391,6 +397,9 @@ void ReadConfigFile(const string &configFileName , unsigned  int &k , unsigned  
     A_option = 1;
     U_option = 1;
     flagInputLsh =1; //default lsh
+
+    string distMetricString ;
+    string SilhouetteOptionString ;
 
     algOptions = "I1A1U1" ;
     string reverseAssignmentOption ;
@@ -405,6 +414,16 @@ void ReadConfigFile(const string &configFileName , unsigned  int &k , unsigned  
 
         getline(iss , type , ':');
 
+        if (type == "Silhouette" ){
+            iss>>SilhouetteOptionString;
+            flagSilhouetteOptionGiven =1;
+
+        }
+        if (type == "distance_metric" ){
+            iss>>distMetricString;
+            flagDistanceMetricGiven =1;
+
+        }
         if (type == "number_of_clusters" ){
             iss>>number;
 
@@ -447,9 +466,21 @@ void ReadConfigFile(const string &configFileName , unsigned  int &k , unsigned  
     }
 
 
+
     if (flagValidConfigFile == 0 ){
         cout << "ERROR : NOT VALID CONFIG FILE -> NOT GIVEN NUMBER OF CLUSTERS";
         exit(1);
+    }
+
+    if (flagSilhouetteOptionGiven){
+        if (SilhouetteOptionString == "yes"){
+            SilhouetteOption = 1;
+        }
+    }
+    if (flagDistanceMetricGiven){
+        if (distMetricString == "cosine"){
+            metricOption = 1;
+        }
     }
 
     if (flagAlgorOtionsGiven){
