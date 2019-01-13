@@ -18,15 +18,14 @@ class AbstractLshCluster {
 
 public:
 
+
+
     virtual ~AbstractLshCluster() = default;
 
-
     virtual set<string> getSuperSet(myVector &query, unordered_map<string, myVector> &in_umap) = 0;
-
 };
 
 
-//    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for normalized c's
 
 
 

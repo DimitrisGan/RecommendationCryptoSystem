@@ -10,6 +10,10 @@
 #include "SearchingAlgorithms.h"
 #include "Cluster.h"
 
+
+
+
+
 vector<double> Silhouette (unordered_map<string, myVector> &in_umap , kClusters &allClusters , DistanceMetrics* dist ,int &clustersWithoutDataset);
 
 #endif //PROJECT2_EVALUATIONMETRIC_H

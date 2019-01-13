@@ -4,6 +4,9 @@
 #include "LSH.h"
 
 
+
+
+
 set<string> Lsh::getSuperSet(myVector &query, unordered_map<string, myVector> &in_umap) {
     //todo gia kathe hashtable pare ta buckets
     vector <string> list =  this->MHT_ptr->getFiltered_buckets_from_All_HTs(query , in_umap );
@@ -54,3 +57,4 @@ Lsh::~Lsh() {
     cout <<"the destructor lsh class has been called\n";
     delete MHT_ptr;
 }
+

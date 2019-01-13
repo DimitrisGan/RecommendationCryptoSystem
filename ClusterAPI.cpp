@@ -181,8 +181,10 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
                        listClustersSilhouette, allClusters, in_umap, elapsed_secs_for_Clustering, completeFlag);
     }
 //here free the memory before exit
+    delete distMetric;distMetric= nullptr;
     delete init_ptr;init_ptr = nullptr;
     delete assign_ptr;assign_ptr = nullptr; // here also happens   delete myPtr;myPtr= nullptr;
+    delete lastAssignWithLloyd_ptr;lastAssignWithLloyd_ptr = nullptr; // here also happens   delete myPtr;myPtr= nullptr;
     delete update_ptr;assign_ptr = nullptr;
 
 
