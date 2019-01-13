@@ -124,6 +124,7 @@ vector <myVector> kClusters::listOfCentroids(){
 }
 
 kClusters::~kClusters() {
+    cout << "THE DESTRUCTOR OF ALL/kClusters HAS BEEN CALLED"<<endl;
     for (auto &clust  : this->clusters) {
         delete clust;
     }

@@ -167,13 +167,13 @@ void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
         set <string> list2search = abstractLshClust_ptr->getSuperSet(u.second , V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
         if (list2search.empty()){ //case in  dataStructure with virtual Users
-            vector <string> NoneVector {"NONE"};
+            vector <string> NoneVector {"NO SUGGESTION"};
             RecommendedCoins2Users[u.first] = NoneVector;
             continue;
         }
         if (list2search.size() == 1 && list2search.count(u.first)) {//case in  dataStructure with real Users and is the only one on the dataset
             // u is in the set, count is 1
-            vector<string> NoneVector{"NONE"};
+            vector<string> NoneVector{"NO SUGGESTION"};
             RecommendedCoins2Users[u.first] = NoneVector;
             continue;
         }

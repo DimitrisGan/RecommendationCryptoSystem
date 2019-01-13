@@ -17,17 +17,15 @@ private:
     kClusters allClusters;
 
 public:
-    explicit ClusteringProxSearching(const kClusters &allClusters);
+//     ClusteringProxSearching(kClusters allClusters);
+
+     ClusteringProxSearching(const string& configFileName ,  unordered_map <string , myVector > &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,unsigned dimUserSentScoreVectors );
 
     ~ClusteringProxSearching() override;
 
     set<string> getSuperSet(myVector &query, unordered_map<string, myVector> &in_umap) override;
 
-     kClusters &getAllClusters() ;
 };
-
-
-
 
 
 

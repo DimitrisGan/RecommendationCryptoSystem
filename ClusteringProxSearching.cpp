@@ -4,14 +4,33 @@
 
 #include <algorithm>
 #include "ClusteringProxSearching.h"
+#include "ClusterAPI.h"
+
+
+//ClusteringProxSearching::ClusteringProxSearching( kClusters allClusters) : allClusters(allClusters) {
+//
+//   euclidean = new EuclideanMetric();
+//
+//
+//
+//}
 
 
 
-ClusteringProxSearching::ClusteringProxSearching(const kClusters &allClusters) : allClusters(allClusters) {
+ClusteringProxSearching::ClusteringProxSearching(const string &configFileName,
+                                                  unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                 unsigned dimUserSentScoreVectors) {
 
-   euclidean = new EuclideanMetric();
+    euclidean = new EuclideanMetric();
+
+    ClusterProcedure(allClusters , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,
+                     configFileName , dimUserSentScoreVectors);
+
+    allClusters.print_allClusters();
+
 
 }
+
 
 ClusteringProxSearching::~ClusteringProxSearching() {
     delete euclidean; euclidean=nullptr;
@@ -52,6 +71,4 @@ set<string> ClusteringProxSearching::getSuperSet(myVector &query, unordered_map<
     return st;
 }
 
- kClusters &ClusteringProxSearching::getAllClusters()    {
-    return allClusters;
-}
+
