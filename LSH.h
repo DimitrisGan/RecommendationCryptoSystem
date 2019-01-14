@@ -44,6 +44,8 @@ public:
     Lsh (unsigned  int TableSize, unsigned int& k ,unsigned int& d , unsigned int& L  , unordered_map<string, myVector >& in_umap  );
 
 
+    Lsh(const string &confilFileName, unordered_map<string, myVector> &in_umap, unsigned int &d);
+
 };
 
 

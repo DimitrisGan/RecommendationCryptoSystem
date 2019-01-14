@@ -47,7 +47,8 @@
 using namespace std;
 
 
-void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &in_umap , const string &configFileName , unsigned int d);
+void ClusterProcedure(kClusters &allClusters, unordered_map<string, myVector> &in_umap, const string &configFileName,
+                      unsigned int d, int flagValidation);
 
 
 

@@ -362,6 +362,56 @@ bool checkIfEqual(vector <myVector> &previousStateCentroids , vector <myVector> 
 }
 
 
+//unsigned k_hf =  4;
+//unsigned L = 2;
+//auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
+
+
+
+void ReadConfigFileLsh(const string &configFileName, unsigned int &k_hf, unsigned int &L) {
+
+    ifstream configFile;
+    configFile.open(configFileName);
+
+    if (!configFile) {
+        cout << "Unable to open config file for lsh";
+        exit(1); // terminate with error
+    }
+    string line;
+
+    //DEFAULT VALUES
+    k_hf = 4;
+    L = 5;
+
+    while (getline(configFile, line, '\n')) {
+
+        // skip empty lines:
+        if (line.empty()) continue;
+        if (line[0] == '#' ){ //comments
+            continue;
+        }
+        std::stringstream   linestream(line);
+        istringstream iss(line);
+        string type;
+        unsigned int number;
+
+        getline(iss , type , ':');
+
+        if (type == "L" ) {
+            iss >> L;
+        }
+        if (type == "k_hf" ) {
+            iss >> k_hf;
+        }
+
+
+
+    }
+
+    configFile.close();
+
+
+}
 
 
 

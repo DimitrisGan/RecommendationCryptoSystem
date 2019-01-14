@@ -18,13 +18,13 @@
 
 
 ClusteringProxSearching::ClusteringProxSearching(const string &configFileName,
-                                                  unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                                                 unsigned dimUserSentScoreVectors) {
+                                                 unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                 unsigned dimUserSentScoreVectors, int validationFlag) {
 
     euclidean = new EuclideanMetric();
 
-    ClusterProcedure(allClusters , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,
-                     configFileName , dimUserSentScoreVectors);
+    ClusterProcedure(allClusters, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                     configFileName, dimUserSentScoreVectors, validationFlag);
 
     allClusters.print_allClusters();
 

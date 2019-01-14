@@ -58,3 +58,30 @@ Lsh::~Lsh() {
     delete MHT_ptr;
 }
 
+Lsh::Lsh(const string &confilFileName, unordered_map<string, myVector> &in_umap, unsigned int &d) {
+    cout << "~~~~~ CONSTRUCTOR LSH - COSINE CALLED ~~~~~\n";
+
+
+    unsigned k ;
+    unsigned L ;
+
+    ReadConfigFileLsh(confilFileName,k,L);
+
+
+    auto TableSize = static_cast<unsigned int>(pow(2, k));
+
+
+    vector <LshSimple* > list_lsh;
+    list_lsh.resize(L);
+    for (int i = 0; i < L; ++i) {
+
+        list_lsh[i] = new CosineSimilarityLSH(k , d);
+    }
+
+    this->MHT_ptr = new multi_hash_table(L,TableSize,list_lsh);
+
+    MHT_ptr->SaveDataset2_All_HastTables(in_umap);
+
+    MHT_ptr->print_MHT();
+}
+

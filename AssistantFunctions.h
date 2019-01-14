@@ -38,7 +38,7 @@ class HyperCube;
 */
 
 
-
+void ReadConfigFileLsh(const string &configFileName, unsigned int &k_hf, unsigned int &L);
 
 void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_map<string, Tweet> &tweets_umap,
                                unordered_multimap<string, string> &userTweetsRelation_ummap, int &P);

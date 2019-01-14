@@ -24,6 +24,7 @@ double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
         double similarity =metric->similairty(dist);
 
         sumSimilarities +=  abs(similarity);
+        assert(abs(similarity) >= 0);
 
         double vCryptoRating = v.getCoords().at(i);
         double avrgV_CryptoRating = V_rating_umap.at(v_Id);
@@ -34,6 +35,7 @@ double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 
     }
 
+    assert(sumSimilarities != 0);
     double z = 1/sumSimilarities;
 
     double uCryptoRating= avrgU_CryptoRating + z*sumV_normalizedRatings;

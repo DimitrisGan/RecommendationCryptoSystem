@@ -19,7 +19,9 @@ private:
 public:
 //     ClusteringProxSearching(kClusters allClusters);
 
-     ClusteringProxSearching(const string& configFileName ,  unordered_map <string , myVector > &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,unsigned dimUserSentScoreVectors );
+     ClusteringProxSearching(const string &configFileName,
+                                  unordered_map<string, myVector> &userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                  unsigned dimUserSentScoreVectors, int validationFlag);
 
     ~ClusteringProxSearching() override;
 

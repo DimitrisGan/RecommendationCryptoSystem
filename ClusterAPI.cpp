@@ -5,7 +5,8 @@
 #include "ClusterAPI.h"
 
 using namespace std;
-void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &in_umap , const string &configFileName , unsigned int d){
+void ClusterProcedure(kClusters &allClusters, unordered_map<string, myVector> &in_umap, const string &configFileName,
+                      unsigned int d, int flagValidation) {
 //    configFileName = "cluster.conf";
 
     /*int Radius=0;*/
@@ -168,17 +169,19 @@ void ClusterProcedure(kClusters &allClusters , unordered_map<string, myVector> &
     vector<double> listClustersSilhouette;
     ofstream outFile;
 
-    if (SilhouetteOption){
-        listClustersSilhouette = Silhouette (in_umap , allClusters , distMetric ,emptyClusters);
-    }
+    if (!flagValidation) {
+        if (SilhouetteOption) {
+            listClustersSilhouette = Silhouette(in_umap, allClusters, distMetric, emptyClusters);
+        }
 //    cout << "Number of empty clusters = "<<emptyClusters<<endl;
 //    cout << "ITERATIONS #"<<i<<endl;
 
 //    allClusters.print_allClusters();
 
-    if(!OutFileName.empty()) {
-        Write2_OutFile(outFile, OutFileName, algOptions, DistMetricFlag,
-                       listClustersSilhouette, allClusters, in_umap, elapsed_secs_for_Clustering, completeFlag);
+        if (!OutFileName.empty()) {
+            Write2_OutFile(outFile, OutFileName, algOptions, DistMetricFlag,
+                           listClustersSilhouette, allClusters, in_umap, elapsed_secs_for_Clustering, completeFlag);
+        }
     }
 //here free the memory before exit
     delete distMetric;distMetric= nullptr;

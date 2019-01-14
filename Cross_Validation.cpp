@@ -23,7 +23,7 @@ cross_validation(string configFileName, string type,
         metric = new CosineMetric();
     }
     else{
-        metric = new EuclideanMetric;
+        metric = new EuclideanMetric();
     }
 
     unordered_map<string, myVector> userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState;
@@ -51,17 +51,12 @@ cross_validation(string configFileName, string type,
                                                            userTweetsAverageSentimScore_umap);
 
         AbstractLshCluster *abstractLshClust_ptr;
-        Lsh *lsh_ptr;
         if (type == "LSH" || type == "lsh") {
-            unsigned k_hf = 4;
-            unsigned L = 2;
-            auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
-
-            abstractLshClust_ptr = new Lsh(TableSize, k_hf, dimUserSentScoreVectors, L,
-                                           userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+            abstractLshClust_ptr = new Lsh(configFileName,userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, dimUserSentScoreVectors);
         } else { //type == "cluster"
-            //todo make a cluster
-            //myStructure_ptr = new ClusteringProxSearching (configFileName ,userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,  dimUserSentScoreVectors);
+            abstractLshClust_ptr = new ClusteringProxSearching(configFileName,
+                                                               userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                               dimUserSentScoreVectors, 1);
         }
 
 
@@ -80,11 +75,15 @@ cross_validation(string configFileName, string type,
 
 
 
-            set<string> list2search = abstractLshClust_ptr->getSuperSet(u,
-                                                                        userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+            set<string> list2search = abstractLshClust_ptr->getSuperSet(u, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
+            assert(!list2search.empty());
+
+            if (list2search.size() == 1){continue;} //no reason because we cant predict
 
             vector<string> bestP_u  = NN_searchForBestP(u,uId, metric, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, list2search, P);
+
+
 
 
             double realRating = userTweetsSentimScore_umapStartState.at(uId).getCoords().at(index2change);
@@ -97,6 +96,7 @@ cross_validation(string configFileName, string type,
             predictedAndRealScorePair.emplace_back(predictedRating,realRating);
             cout << "realRating:" << realRating<<endl;
             cout << "predictedRating:" << predictedRating<<endl;
+
         }
 
         double MeanAbsoluteError = MAE(predictedAndRealScorePair);
@@ -105,7 +105,8 @@ cross_validation(string configFileName, string type,
         cout <<"\n\n";
         cout <<"MAE = "<< MeanAbsoluteError<<endl;
 
-                userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState; //return 2 initial umap dataset (userTweetsSentimScore)
+        userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState; //return 2 initial umap dataset (userTweetsSentimScore)
+
         delete abstractLshClust_ptr;abstractLshClust_ptr= nullptr;
 
     }
@@ -128,10 +129,11 @@ double MAE(vector <pair<double,double>> predictedAndRealScorePair) {//Mean Absol
     int j=0;
     for (auto& myPair : predictedAndRealScorePair ){
         mae += abs(myPair.second - myPair.first);
+        assert(mae >=0);
         j++;
     }
 
-
+    assert(j>0);
     return mae/j;
 }
 

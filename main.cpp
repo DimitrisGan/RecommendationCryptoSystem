@@ -81,9 +81,11 @@ int main(int argc , char** argv) {
 
     string inFileName = "./inputs/twitter_dataset_small_v2.csv";
 
-    string configFileName1 = "./configs/cluster1.conf";
-    string configFileName2 = "./configs/cluster2.conf";
-    string configFileName3 = "./configs/cluster3.conf";
+    string configFileNameForLsh1 = "./configs/lsh1.conf";
+    string configFileNameForLsh2 = "./configs/lsh2.conf";
+    string configFileNameForCluster1 = "./configs/cluster1.conf";
+    string configFileNameForCluster2 = "./configs/cluster2.conf";
+    string configFileNameForCluster3 = "./configs/cluster3.conf";
 
 
     vector <string> CoinsList;
@@ -128,65 +130,68 @@ int main(int argc , char** argv) {
 
 //    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
+/*
 
     //================== making the virtual clusters ================
 
-//    unsigned int dimTfIdfVec = 0;
-////    int DistMetricFlag =1;
-//
-//    unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
-//
-//    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dimTfIdfVec );
-//
-//
-//    kClusters TwitterCluster;
-//    ClusterProcedure(TwitterCluster , in_Tf_Idf_Tweets_umap , configFileName1 , dimTfIdfVec);
-//
-//    TwitterCluster.print_allClusters();
-//
-//
-//
-///*C VIRTUAL-USERS-VECTORS*/
-//
-//    unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
-////
-////
-//    calculateVirtualUsersFromTwitterCluster(virtualUserTweetsSentimScore_umap, TwitterCluster, Tweets_umap,
-//                                            vaderLexicon_umap,
-//                                            coins_umap, dimUserSentScoreVectors);
-//
-//
-///*C USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*/
-//
-//    unordered_map <string , myVector > virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
-//    unordered_map <string , double > virtualUserTweetsAverageSentimScore_umap;
-//
-//
-//    calculateAverageU_umap(virtualUserTweetsAverageSentimScore_umap, virtualUserTweetsSentimScore_umap);
-//
-//    changeInfsToAverageSentimentsAndDiscardZeroVectors(virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                                                       virtualUserTweetsSentimScore_umap, virtualUserTweetsAverageSentimScore_umap);
-////    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-//
-//
-//    cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
-//    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
-//
-//
-//    cout << "\n\n virtualUserTweetsSentimScore_umap = " << virtualUserTweetsSentimScore_umap.size()<<endl;
-//    cout << "\n\n virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap = " << virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap.size()<<endl;
-//
+    unsigned int dimTfIdfVec = 0;
+//    int DistMetricFlag =1;
+
+    unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
+
+    ReadInFile_save2umap(inFileName, in_Tf_Idf_Tweets_umap, dimTfIdfVec );
 
 
-//    //==========================================================================
+    kClusters TwitterCluster;
+    ClusterProcedure(TwitterCluster, in_Tf_Idf_Tweets_umap, configFileNameForCluster1, dimTfIdfVec, 0);
 
+    TwitterCluster.print_allClusters();
+
+
+
+*/
+/*C VIRTUAL-USERS-VECTORS*//*
+
+
+    unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
 //
 //
-//
-//
-    unsigned k_hf =  4;
-    unsigned L = 2;
-    auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
+    calculateVirtualUsersFromTwitterCluster(virtualUserTweetsSentimScore_umap, TwitterCluster, Tweets_umap,
+                                            vaderLexicon_umap,
+                                            coins_umap, dimUserSentScoreVectors);
+
+
+*/
+/*C USERS-VECTORS CHANGED THE INFS TO AVRG SENTIMENT*//*
+
+
+    unordered_map <string , myVector > virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
+    unordered_map <string , double > virtualUserTweetsAverageSentimScore_umap;
+
+
+    calculateAverageU_umap(virtualUserTweetsAverageSentimScore_umap, virtualUserTweetsSentimScore_umap);
+
+    changeInfsToAverageSentimentsAndDiscardZeroVectors(virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                       virtualUserTweetsSentimScore_umap, virtualUserTweetsAverageSentimScore_umap);
+//    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+
+    cout << "\n\n\n\n============   VIRTUAL USERS   ============\n\n\n\n";
+    printUsersSentimentCryptoScoreMap(virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+
+    cout << "\n\n virtualUserTweetsSentimScore_umap = " << virtualUserTweetsSentimScore_umap.size()<<endl;
+    cout << "\n\n virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap = " << virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap.size()<<endl;
+
+
+
+    //==========================================================================
+
+*/
+
+
+
+
 
 
 //    ============================ U-V LSH's ====================================
@@ -194,43 +199,37 @@ int main(int argc , char** argv) {
 //
 //    /*SAVE THE nonInf&zero U's IN THE LSH*/
 //
-    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for  u's
+    Lsh *lsh_Users_ptr = new Lsh(configFileNameForLsh1, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                 dimUserSentScoreVectors); //lsh-cosine for  u's
 //
 //    /*SAVE THE nonInf&zero C's IN THE LSH*/
-//    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for  c's
+//    Lsh *lsh_virtualUsers_ptr = new Lsh(configFileNameForLsh2,
+//                                        virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+//                                        dimUserSentScoreVectors); //lsh-cosine for  c's
 //
-//
+
 ////
 //    //=============================== U-V CLUSTER's ==============================
 //
-////    kClusters UsCluster;
-////    ClusterProcedure(UsCluster , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,
-////            configFileName2 , dimUserSentScoreVectors);
-////
-////    UsCluster.print_allClusters();
-////
-////
-////
-////    kClusters CsCluster;
-////    ClusterProcedure(CsCluster , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,
-////                     configFileName3 , dimUserSentScoreVectors);
-////
-////    CsCluster.print_allClusters();
-//
+
 //    //=============================================================================
 //
-//
-//    //ADD UsCluster && CsCluster IN NEW STRUCTURE THAT IMPLEMENTS getSuperSet() and keeps as attribute the euclidean distance
-//
-//    auto *clust_U = new ClusteringProxSearching (configFileName2 ,userTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,  dimUserSentScoreVectors);
-//    auto *clust_C = new ClusteringProxSearching (configFileName3 ,virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap ,  dimUserSentScoreVectors);
+
+    //ADD UsCluster && CsCluster IN NEW STRUCTURE THAT IMPLEMENTS getSuperSet() and keeps as attribute the euclidean distance
+
+    auto *clust_U = new ClusteringProxSearching(configFileNameForCluster2,
+                                                userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                dimUserSentScoreVectors, 0);
+//    auto *clust_C = new ClusteringProxSearching(configFileNameForCluster3,
+//                                                virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+//                                                dimUserSentScoreVectors, 0);
 //
 //    //=============================================================================
-//    /*NUMBER OF COINS TO RECOMMEND*/
-//    int numberOfCoins2recommend_U = 5;
-//    int numberOfCoins2recommend_C = 2;
-//
-//
+    /*NUMBER OF COINS TO RECOMMEND*/
+    int numberOfCoins2recommend_U = 5;
+    int numberOfCoins2recommend_C = 2;
+
+
 ////===================================== FUNCTOR INSTANTIATIONS =======================================
 //
     /*FOR REAL-U USERS*/
@@ -305,8 +304,12 @@ int main(int argc , char** argv) {
 //    cout << "\n\n coins_umap = " << coins_umap.size()<<endl;
 
 
-    cross_validation("./configs/cluster2.conf", "LSH", userTweetsSentimScore_umap,
+    cross_validation("./configs/cluster2.conf", "CLUSTER", userTweetsSentimScore_umap,
                      P, dimUserSentScoreVectors, 10, 1);
+
+
+//    cross_validation("./configs/lsh1.conf", "lsh", userTweetsSentimScore_umap,
+//                     P, dimUserSentScoreVectors, 10, 1);
 
 
     /*DELETION OF POINTERS*/
