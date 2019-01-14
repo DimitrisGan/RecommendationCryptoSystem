@@ -301,38 +301,6 @@ int isZeroVector(const vector <double> &coords){
 
 
 
-//void calculateNormalizeUsersSentimentCryptoScoreMap(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
-//                                                    const unordered_map <string , myVector > &userTweetsSentimScore_umap )
-//
-//{
-//    for (const auto &u : userTweetsSentimScore_umap){
-//
-//        double averageU = calculateAverageU(u.second );
-//        myVector uNormilized;
-//
-//
-//        if (averageU != 0){  //means that the user has only 1 tweet or that refers to only one crypto
-//
-//            //    convertInfs2Zeros(unordered_map <string , myVector > &userTweetsSentimScoreNormalized_umap,
-//            uNormilized = normalizeU( u.second , averageU);
-//
-//            if(! isZeroVector(uNormilized.getCoords())){
-//
-//                userTweetsSentimScoreNormalized_umap.insert(make_pair(u.first,uNormilized));
-//            }
-//
-//            else{
-//                continue;
-//            }
-//
-//
-//        }
-//
-//    }
-//
-//}
-
-
 
 
 

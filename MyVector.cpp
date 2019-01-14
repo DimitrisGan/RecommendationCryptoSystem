@@ -125,5 +125,9 @@ void myVector::setVectorToSpecificIndexes(set<int> coinsIndexes2addScoreInUser, 
     }
 }
 
+void myVector::changeValueToSpecificIndex(int index, double value) {
+    this->coords[index] = value;
+}
+
 
 

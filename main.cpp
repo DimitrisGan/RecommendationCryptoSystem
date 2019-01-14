@@ -75,8 +75,8 @@ int main(int argc , char** argv) {
 
     string inCoinsFileName = "./inputs/coins_queries.csv";
     string inVadarLexinconFile = "./inputs/vader_lexicon.csv";
-//    string inTweetsDatasetFile = "./inputs/tweets_dataset_small.csv";
-    string inTweetsDatasetFile = "./inputs/MINE_tweets_dataset_small.csv";
+    string inTweetsDatasetFile = "./inputs/tweets_dataset_small.csv";
+//    string inTweetsDatasetFile = "./inputs/MINE_tweets_dataset_small.csv";
 //    string inTweetsDatasetFile = "tweets_dataset_big.csv";
 
     string inFileName = "./inputs/twitter_dataset_small_v2.csv";
@@ -184,25 +184,23 @@ int main(int argc , char** argv) {
 //
 //
 //
-//    unsigned k_hf =  4;
-//    unsigned int W = 1;
-//    auto M_lsh = static_cast<long long int>(pow(2, 32) - 5);
-//    unsigned L = 2;
-//    auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
-//
-//
-////    ============================ U-V LSH's ====================================
-//
+    unsigned k_hf =  4;
+    unsigned L = 2;
+    auto TableSize = static_cast<unsigned int>(pow(2, k_hf));
+
+
+//    ============================ U-V LSH's ====================================
+
 //
 //    /*SAVE THE nonInf&zero U's IN THE LSH*/
 //
-//    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for  u's
+    Lsh *lsh_Users_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , userTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for  u's
 //
 //    /*SAVE THE nonInf&zero C's IN THE LSH*/
 //    Lsh *lsh_virtualUsers_ptr = new Lsh ( TableSize, k_hf , dimUserSentScoreVectors , L  , virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap); //lsh-cosine for  c's
 //
 //
-//
+////
 //    //=============================== U-V CLUSTER's ==============================
 //
 ////    kClusters UsCluster;
@@ -235,7 +233,7 @@ int main(int argc , char** argv) {
 //
 ////===================================== FUNCTOR INSTANTIATIONS =======================================
 //
-//    /*FOR REAL-U USERS*/
+    /*FOR REAL-U USERS*/
 //    auto *RecommendForsUsers =  new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
 //                                            userTweetsSentimScore_umap,
 //                                            userTweetsAverageSentimScore_umap,                      //U_userTweetsAverageSentimScore_umap,
@@ -250,7 +248,7 @@ int main(int argc , char** argv) {
 //                                                                  userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,          //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
 //                                                                  virtualUserTweetsAverageSentimScore_umap,                     //V_userTweetsAverageSentimScore_umap,
 //                                                                  virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);  //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);;
-
+//
 
 //==========================================================================================================
 
@@ -308,7 +306,7 @@ int main(int argc , char** argv) {
 
 
     cross_validation("./configs/cluster2.conf", "LSH", userTweetsSentimScore_umap,
-            P , dimUserSentScoreVectors ,10);
+                     P, dimUserSentScoreVectors, 10, 1);
 
 
     /*DELETION OF POINTERS*/

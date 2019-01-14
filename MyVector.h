@@ -33,6 +33,7 @@ public:
 
     void initializeToInf(int size);
     void setVectorToSpecificIndexes(set<int> coinsIndexes2addScoreInUser , double Si);
+    void changeValueToSpecificIndex(int index,double value);
 
 
     const vector<double> &getCoords() const ;
