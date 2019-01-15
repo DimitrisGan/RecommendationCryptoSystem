@@ -217,9 +217,9 @@ void printrecommendedCoins2Users(const map<string,vector<string>> &RecommendedCo
 RecommendCoins::RecommendCoins(int P, int numberOfCoins2recommend, const vector<string> &CoinsList,
                                const unordered_map<string, myVector> &userTweetsSentimScore_umap,
                                const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
-                                unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                               unordered_map<string, myVector> &U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                                const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
-                                unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
+                               unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
         : P(P), numberOfCoins2recommend(numberOfCoins2recommend), CoinsList(CoinsList),
           userTweetsSentimScore_umap(userTweetsSentimScore_umap),
           U_userTweetsAverageSentimScore_umap(U_userTweetsAverageSentimScore_umap),

@@ -31,16 +31,13 @@ void callWriter(std::ofstream& outFile, string &firstLine,
 
 
 //==================================================================================================================
-//todo thelw ola ta umaps na diavazw
-void Write_OutFileCoinRecommendation(string &OutFileName,
-                                     double mae1A, double executTime1A,
-                                     double mae2A, double executTime2A,
-                                     double mae1B, double executTime1B,
-                                     double mae2B, double executTime2B,
-                                     const map<string, vector<string>> &RecommendedCoins2UsersLSH,
+void Write_OutFileCoinRecommendation(string &OutFileName, double mae1A, double executTime1A, double mae2A,
+                                     double executTime2A, double mae1B, double executTime1B, double mae2B,
+                                     double executTime2B, const map<string, vector<string>> &RecommendedCoins2UsersLSH,
                                      const map<string, vector<string>> &RecommendedCoins2UsersCLUSTER,
                                      const map<string, vector<string>> &RecommendedCoins2VirtualUsersLSH,
-                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersCLUSTER){
+                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersCLUSTER,
+                                     int validateFlag) {
 
     std::ofstream outFile;
     outFile.open(OutFileName);//erase the content of the output file if already exists
@@ -63,11 +60,12 @@ void Write_OutFileCoinRecommendation(string &OutFileName,
         callWriter(outFile ,type2B ,RecommendedCoins2VirtualUsersCLUSTER,executTime2B);
         outFile << "--------------------------------------------\n\n";
 
-        outFile << "1A :Cosine LSH Recommendation MAE: "<< mae1A <<endl;
-        outFile << "1B :Cosine LSH Recommendation MAE: "<< mae1B <<endl;
-        outFile << "2A :Clustering Recommendation MAE: "<< mae2A <<endl;
-        outFile << "2B :Clustering Recommendation MAE: "<< mae2B <<endl;
-
+        if (validateFlag) {
+            outFile << "1A :Cosine LSH Recommendation MAE: " << mae1A << endl;
+            outFile << "1B :Cosine LSH Recommendation MAE: " << mae1B << endl;
+            outFile << "2A :Clustering Recommendation MAE: " << mae2A << endl;
+            outFile << "2B :Clustering Recommendation MAE: " << mae2B << endl;
+        }
 
     }
     else {
@@ -78,8 +76,7 @@ void Write_OutFileCoinRecommendation(string &OutFileName,
 
 }
 
-
-
+//============================================================
 
 
 
@@ -820,31 +817,22 @@ void ReadTabTypeFile_save2umap(const string &inFileName,unordered_map<string, my
 
 
 
-void ReadHandleArgms( int& argc,  char**& argv , string &inFileName  , string &configFileName  , string &OutFileName , int &metric_flag ,int &completeFlag){
+
+//$./recommendation –d <input file> -o <output file>
+//$./recommendation –d <input file> -o <output file> -validate
+void ReadHandleArgms( int& argc,  char**& argv , string &inFileName , string &OutFileName , int &validateFlag){
 
     InputParser input(argc, argv);
 
-    if(input.cmdOptionExists("-i"))
+    if(input.cmdOptionExists("-d"))
     {
-        const string &arg_str = input.getCmdOption("-i");
+        const string &arg_str = input.getCmdOption("-d");
         inFileName = arg_str;
     }
     else
     {
         cout<<"->Please enter input file name:"<<endl;
         cin >> inFileName;
-    }
-
-
-    if(input.cmdOptionExists("-c"))
-    {
-        const string &arg_str = input.getCmdOption("-c");
-        configFileName = arg_str;
-    }
-    else
-    {
-        cout<<"->Please enter configuration file name:"<<endl;
-        cin >> configFileName;
     }
 
 
@@ -859,29 +847,13 @@ void ReadHandleArgms( int& argc,  char**& argv , string &inFileName  , string &c
         cin >> OutFileName;
     }
 
-//    Euclidean ή Cosine
 
-    if(input.cmdOptionExists("-d"))
+    if(input.cmdOptionExists("-validate"))
     {
-        const string &arg_str = input.getCmdOption("-d");
-        const string &metricName = arg_str;
-        if (metricName == "Euclidean" || metricName == "euclidean" || metricName == "eucl")
-        {
-//               metric_flag =0;
-        }
-        else if (metricName == "Cosine" || metricName == "cosine" || metricName == "cos"){
-            metric_flag = 1;
-        }
-
+        validateFlag =1;
     }
-    else {
-        cout << "->You forgot to choose distance metric. Euclidean was set by default." << endl;
-
-    }
-
-    if(input.cmdOptionExists("-completeOption"))
-    {
-        completeFlag =1;
+    else{
+        validateFlag=0;
     }
 
 

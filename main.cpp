@@ -16,68 +16,10 @@
 int main(int argc , char** argv) {
 
 
-/*int Radius=0;*//*
-
-    unsigned  int L ; //default:L=5
-    unsigned int k ; //for k clusters todo
-    unsigned int k_hf; // for k h  //default:k_hf=4
-
-    unsigned int d = 0;
-    int DistMetricFlag = 0; // 0 --> for euclidean  and 1 --> cosine
-    int completeFlag = 0; // 0 --> for euclidean  and 1 --> cosine
-
-    unsigned int M_cube;
-    unsigned int probes;
-    int I_option,A_option,U_option;
-    int flagInputLsh;
-    string algOptions;
-
-    unsigned int i;
-
-    unsigned int TableSize;
-    unsigned int W = 1;
-    auto M_lsh = static_cast<long long int>(pow(2, 32) - 5);
-
-    unordered_map<string, myVector> in_umap;
-
-    ReadHandleArgms(argc, argv , inFileName  , configFileName  , OutFileName , DistMetricFlag ,completeFlag );
-
-    cout << "inFileName = "<<inFileName<<endl;
-    cout << "configFileName = "<<configFileName<<endl;
-    cout << "OutFileName = "<<OutFileName<<endl;
-    cout << "DistMetricFlag = "<<DistMetricFlag<<endl;
-
-    ReadInFile_save2umap(inFileName, in_umap, d );
-
-    ReadConfigFile(configFileName , k , k_hf , L ,M_cube ,probes , I_option , A_option ,U_option , flagInputLsh ,algOptions);
-
-    cout << "k = "<<k<<endl;
-    cout << "k_hf = "<<k_hf<<endl;
-    cout << "L = "<<L<<endl;
-    cout << "M_cube = "<<M_cube<<endl;
-    cout << "probes = "<<probes<<endl;
-    cout << "I_option = "<<I_option<<endl;
-    cout << "A_option = "<<A_option<<endl;
-    cout << "U_option = "<<U_option<<endl;
-    cout << "dimensions = "<<d<<endl;
-
-//    ========================================================================================
-*/
-
-
-    //todo ftiaxnw ta input
-
-
-//    InputParser
-//    InputReader
-
 
     string inCoinsFileName = "./inputs/coins_queries.csv";
     string inVadarLexinconFile = "./inputs/vader_lexicon.csv";
     string inTweetsDatasetFile = "./inputs/tweets_dataset_small.csv";
-//    string inTweetsDatasetFile = "./inputs/MINE_tweets_dataset_small.csv";
-//    string inTweetsDatasetFile = "tweets_dataset_big.csv";
-
 
     string configFileNameForLsh1 = "./configs/lsh1.conf";
     string configFileNameForLsh2 = "./configs/lsh2.conf";
@@ -88,6 +30,9 @@ int main(int argc , char** argv) {
     string inFileName = "./inputs/twitter_dataset_small_v2.csv";
     string OutFileName = "./outputs/OutputProject3";
 
+
+    int validateFlag;
+    ReadHandleArgms( argc,  argv , inFileName , OutFileName , validateFlag);
 
 
     vector <string> CoinsList;
@@ -210,11 +155,11 @@ int main(int argc , char** argv) {
 //
     /*FOR REAL-U USERS*/
     auto *RecommendFromRealUsers =  new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
-                                                   userTweetsSentimScore_umap,
-                                                   userTweetsAverageSentimScore_umap,                      //U_userTweetsAverageSentimScore_umap,
-                                                   userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,    //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                                                   userTweetsAverageSentimScore_umap,                      //V_userTweetsAverageSentimScore_umap,
-                                                   userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);   //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+                                                       userTweetsSentimScore_umap,
+                                                       userTweetsAverageSentimScore_umap,                      //U_userTweetsAverageSentimScore_umap,
+                                                       userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,    //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                       userTweetsAverageSentimScore_umap,                      //V_userTweetsAverageSentimScore_umap,
+                                                       userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);   //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 //    /*FOR VIRTUAL-C USERS*/
     auto *RecommendFromVirtualUsers = new RecommendCoins(P, numberOfCoins2recommend_C, CoinsList,
@@ -287,44 +232,46 @@ int main(int argc , char** argv) {
 //    printrecommendedCoins2Users(RecommendedCoins2VirtualUsersCLUSTER);
 
 
+    double mae1A;double mae2A;double mae1B;double mae2B;
+    if (validateFlag ) {
+        mae1A = cross_validation_for_U("./configs/lsh1.conf", "LSH", userTweetsSentimScore_umap,
+                                       P, dimUserSentScoreVectors, 10, 1);
 
-    double mae1A = cross_validation_for_U("./configs/lsh1.conf", "LSH", userTweetsSentimScore_umap,
-                                          P, dimUserSentScoreVectors, 10, 1);
-
-    double mae2A =cross_validation_for_U("./configs/cluster2.conf", "CLUSTER", userTweetsSentimScore_umap,
-                                         P, dimUserSentScoreVectors, 10, 1);
-
-
-
-
-    double mae1B = cross_validation_for_C(  userTweetsSentimScore_umap,
-                                            virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                                            virtualUserTweetsAverageSentimScore_umap,
-                                            lsh_virtualUsers_ptr ,
-                                            metricCos,
-                                            P,
-                                            10,  1) ; //iterates , crypto2hide
+        mae2A = cross_validation_for_U("./configs/cluster2.conf", "CLUSTER", userTweetsSentimScore_umap,
+                                       P, dimUserSentScoreVectors, 10, 1);
 
 
-    double mae2B = cross_validation_for_C(  userTweetsSentimScore_umap,
-                                            virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-                                            virtualUserTweetsAverageSentimScore_umap,
-                                            clust_C ,
-                                            metricEucl,
-                                            P,
-                                            10, 1) ;//iterates , crypto2hide
+        mae1B = cross_validation_for_C(userTweetsSentimScore_umap,
+                                       virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                       virtualUserTweetsAverageSentimScore_umap,
+                                       lsh_virtualUsers_ptr,
+                                       metricCos,
+                                       P,
+                                       10, 1); //iterates , crypto2hide
 
 
+        mae2B = cross_validation_for_C(userTweetsSentimScore_umap,
+                                       virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                       virtualUserTweetsAverageSentimScore_umap,
+                                       clust_C,
+                                       metricEucl,
+                                       P,
+                                       10, 1);//iterates , crypto2hide
+
+
+    }
 
     Write_OutFileCoinRecommendation(OutFileName,
-                                    mae1A,  executTime1A,
-                                    mae2A,  executTime2A,
-                                    mae1B,  executTime1B,
-                                    mae2B,  executTime2B,
+                                    mae1A, executTime1A,
+                                    mae2A, executTime2A,
+                                    mae1B, executTime1B,
+                                    mae2B, executTime2B,
                                     RecommendedCoins2UsersLSH,
                                     RecommendedCoins2UsersCLUSTER,
                                     RecommendedCoins2VirtualUsersLSH,
-                                    RecommendedCoins2VirtualUsersCLUSTER);
+                                    RecommendedCoins2VirtualUsersCLUSTER, validateFlag);
+
+
 
 
 

@@ -47,19 +47,19 @@ void callWriter(std::ofstream& outFile, string &firstLine,
 
 
 
-void Write_OutFileCoinRecommendation(string &OutFileName,
-                                     double mae1A, double executTime1A,
-                                     double mae2A, double executTime2A,
-                                     double mae1B, double executTime1B,
-                                     double mae2B, double executTime2B,
-                                     const map<string, vector<string>> &RecommendedCoins2UsersLSH,
+void Write_OutFileCoinRecommendation(string &OutFileName, double mae1A, double executTime1A, double mae2A,
+                                     double executTime2A, double mae1B, double executTime1B, double mae2B,
+                                     double executTime2B, const map<string, vector<string>> &RecommendedCoins2UsersLSH,
                                      const map<string, vector<string>> &RecommendedCoins2UsersCLUSTER,
                                      const map<string, vector<string>> &RecommendedCoins2VirtualUsersLSH,
-                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersCLUSTER);
+                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersCLUSTER,
+                                     int validateFlag);
 
 
 
-    void ReadConfigFileLsh(const string &configFileName, unsigned int &k_hf, unsigned int &L);
+void ReadHandleArgms( int& argc,  char**& argv , string &inFileName , string &OutFileName , int &validateFlag);
+
+void ReadConfigFileLsh(const string &configFileName, unsigned int &k_hf, unsigned int &L);
 
 void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_map<string, Tweet> &tweets_umap,
                                unordered_multimap<string, string> &userTweetsRelation_ummap, int &P);
@@ -98,7 +98,7 @@ bool checkIfEqual( vector <myVector> &previousStateCentroids , vector <myVector>
 
 
 
-void ReadHandleArgms( int& argc,  char**& argv , string &inFileName  , string &configFileName  , string &OutFileName , int &metric_flag ,int &completeFlag);
+//void ReadHandleArgms( int& argc,  char**& argv , string &inFileName  , string &configFileName  , string &OutFileName , int &metric_flag ,int &completeFlag);
 
 void ReadInFile_save2umap(const string &inFileName,unordered_map<string, myVector > &umap ,unsigned  int &d );
 void ReadCommaTypeFile_save2umap(const string &inFileName,unordered_map<string, myVector > &umap ,unsigned  int &d );
