@@ -25,8 +25,8 @@ int main(int argc , char** argv) {
     string configFileNameForCluster2 = "./configs/cluster2.conf";
     string configFileNameForCluster3 = "./configs/cluster3.conf";
 
-    string inFileName = "./inputs/twitter_dataset_small_v2.csv";
-    string OutFileName = "./outputs/OutputProject3";
+    string inFileName; //= "./inputs/twitter_dataset_small_v2.csv";
+    string OutFileName; //= "./outputs/OutputProject3";
 
 
     int validateFlag ;
@@ -173,7 +173,7 @@ int main(int argc , char** argv) {
 
 
 //1A
-    cout <<"[1A]:Processing...Stand by from real Users results LSH...\n";
+    cout <<"\n[1A]:Processing...Stand by from real Users results LSH...\n";
 
     beginTime = clock();
     (*RecommendFromRealUsers)(RecommendedCoins2UsersLSH,metricCos , lsh_Users_ptr);
@@ -184,7 +184,7 @@ int main(int argc , char** argv) {
 
 
 //2A
-    cout <<"\n[2A]:Processing...Stand by from virtual Users results LSH...\n";
+    cout <<"\n[1B]:Processing...Stand by from virtual Users results LSH...\n";
 
     beginTime = clock();
     (*RecommendFromVirtualUsers)(RecommendedCoins2VirtualUsersLSH,metricCos, lsh_virtualUsers_ptr);
@@ -194,7 +194,7 @@ int main(int argc , char** argv) {
 //    printrecommendedCoins2Users(RecommendedCoins2VirtualUsersLSH);
 
 
-    cout <<"\n[1B]:Processing...Stand by from real Users results CLUSTERING...\n";
+    cout <<"\n[2A]:Processing...Stand by from real Users results CLUSTERING...\n";
 
 //1B
 
