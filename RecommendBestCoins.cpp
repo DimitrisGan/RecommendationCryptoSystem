@@ -62,8 +62,6 @@ EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 
     for (int i = 0; i < u.getCoords().size(); ++i) {
 
-//        double coord = userTweetsSentimScore_umap.at(u_Id).getCoords().at(i);
-//        if (coord == inf){ continue;}
 
         double RatingOfCurrentCrypto  = RateCrypto(u, bestP_u, u_Id, metric, U_userTweetsAverageSentimScore_umap,
                                                    V_userTweetsAverageSentimScore_umap,
@@ -71,7 +69,6 @@ EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 
         cryptoRatings.emplace_back(i,RatingOfCurrentCrypto);
     }
-
 
 
     return cryptoRatings;
@@ -182,10 +179,6 @@ void  RecommendationSystem(  map<string,vector<string>> &RecommendedCoins2Users,
 
         vector<string> bestP_u  = NN_searchForBestP(u.second,u.first, metric, V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, list2search, P);
 
-
-//todo        if (bestP_u.empty()){
-//            continue; //to lsh de gurise geitones
-//        }
 
         vector <string> recommendBestCoinsForCurrentUserU = recommendBestCoinsForUser(u.second, bestP_u, u.first,
                                                                                       numberOfCoins2recommend,

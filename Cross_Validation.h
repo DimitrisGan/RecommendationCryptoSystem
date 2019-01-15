@@ -24,10 +24,23 @@ using namespace std;
 
 
 double
-cross_validation(string configFileName, string type,
-                 const unordered_map<string, myVector> &userTweetsSentimScore_umapStartState,
-                 int P,
-                 unsigned dimUserSentScoreVectors, int foldingTimes, int crypto2hide);
+cross_validation_for_U(string configFileName, string type,
+                       const unordered_map<string, myVector> &userTweetsSentimScore_umapStartState,
+                       int P,
+                       unsigned dimUserSentScoreVectors, int foldingTimes, int crypto2hide);
+
+
+double
+cross_validation_for_C(
+        const unordered_map<string, myVector> &userTweetsSentimScore_umapStartState,
+        unordered_map <string , myVector > virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+        const unordered_map <string , double > &virtualUserTweetsAverageSentimScore_umap,
+        AbstractLshCluster *abstractLshClust_ptr ,
+        DistanceMetrics *metric,
+        int P,
+        int foldingTimes, int crypto2hide) ;
+
+
 
 
 double MAE(vector <pair<double,double>> predictedAndRealScorePair);//Mean Absolute Error

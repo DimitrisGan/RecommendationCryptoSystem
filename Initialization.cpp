@@ -76,7 +76,7 @@ void Random_selection_of_k_points (const unsigned int &k ,  unordered_map<string
 
     }
 
-    printInitialCentroids(centroids_ids);
+    //printInitialCentroids(centroids_ids);
 
 }
 
@@ -167,7 +167,7 @@ void k_meanspp(const unsigned int &k ,  unordered_map<string, myVector> &in_umap
         k_initial_vectors.push_back(in_umap[centroidId]);
     }
 
-    printInitialCentroids(centroids_ids);
+    //printInitialCentroids(centroids_ids);
 
 }
 

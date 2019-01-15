@@ -44,16 +44,6 @@ void ClusterProcedure(kClusters &allClusters, unordered_map<string, myVector> &i
                    I_option, A_option, U_option, flagInputLsh, algOptions, DistMetricFlag,
                    SilhouetteOption, OutFileName, completeFlag, MAX_ITERATIONS);
 
-    cout << "k = "<<k<<endl;
-    cout << "k_hf = "<<k_hf<<endl;
-    cout << "L = "<<L<<endl;
-    cout << "M_cube = "<<M_cube<<endl;
-    cout << "probes = "<<probes<<endl;
-    cout << "I_option = "<<I_option<<endl;
-    cout << "A_option = "<<A_option<<endl;
-    cout << "U_option = "<<U_option<<endl;
-    cout << "dimensions = "<<d<<endl;
-    cout << "SilhouetteOption = "<<SilhouetteOption<<endl;
 
 //    ========================================================================================
 /*INSTANTIATIONS*/

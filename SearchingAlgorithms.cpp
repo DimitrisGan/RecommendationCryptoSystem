@@ -70,9 +70,16 @@ vector<string> NN_searchForBestP(myVector &q, const string &q_id, DistanceMetric
         neighborVectorsDistance.emplace_back(p_id,distance);
     }
 
+
+    if (number > list2search.size()){
+        std::vector<string> listReturned(list2search.begin(), list2search.end());
+        return listReturned;
+    }
+
     std::sort(neighborVectorsDistance.begin(),neighborVectorsDistance.end(), [](pair<string,double> a, pair<string,double> b){ return a.second > b.second;} );
 
 
+    bestP.reserve(number);
     for (int i = 0; i < number; ++i) {
 
         if((list2search.size()-1) < number && i== (list2search.size()-1)) {

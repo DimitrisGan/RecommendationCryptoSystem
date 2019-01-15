@@ -7,16 +7,112 @@
 #include "RecommendBestCoins.h"
 
 
+
 double
-cross_validation(string configFileName, string type,
-                 const unordered_map<string, myVector> &userTweetsSentimScore_umapStartState,
-                 int P,
-                 unsigned dimUserSentScoreVectors, int foldingTimes, int crypto2hide) {
+cross_validation_for_C(
+                       const unordered_map<string, myVector> &userTweetsSentimScore_umapStartState,
+                       unordered_map <string , myVector > virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                       const unordered_map <string , double > &virtualUserTweetsAverageSentimScore_umap,
+                       AbstractLshCluster *abstractLshClust_ptr ,
+                       DistanceMetrics *metric,
+                       int P,
+                       int foldingTimes, int crypto2hide) {
 
     double avrgMAE;
     vector <double> MAE_list;
 
-    cout <<"HI MAIN \n";
+
+    unordered_map<string, myVector> userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState;
+    vector <string> keysU = extract_keys(userTweetsSentimScore_umapStartState);
+    int foldIn_f_piecesNumber = static_cast<int>(keysU.size() / foldingTimes);
+
+
+
+    for (int i = 0; i < foldingTimes ; ++i) {
+        cout << "~~~~~~~~~~~~~~~~~~~~~~ITERATIONS #" << i << "~~~~~~~~~~~~~~~~~~~~~~" << endl;
+        vector<string> keysU2Change = keys2change(keysU, i, foldIn_f_piecesNumber); //EDW PAIRNW TO 1/10 KATHE FORA
+
+
+        unordered_map<string, myVector> userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
+        unordered_map<string, double> userTweetsAverageSentimScore_umap;
+
+
+        vector<pair<string, int>> UserIndexesPairsChanged = changeDataset(userTweetsSentimScore_umap2change,
+                                                                          keysU2Change, crypto2hide);
+
+
+        calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap2change);
+
+
+        changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                           userTweetsSentimScore_umap2change,
+                                                           userTweetsAverageSentimScore_umap);
+
+
+
+        vector <pair<double,double>> predictedAndRealScorePair;
+
+        for (auto &UserScorePairChanged :  UserIndexesPairsChanged) {
+
+            string uId = UserScorePairChanged.first;
+            int index2change = UserScorePairChanged.second;
+            myVector u = userTweetsSentimScoreWithoutInfsAndZeroVectors_umap[uId];
+
+            assert(!u.getCoords().empty());
+
+            set<string> list2search = abstractLshClust_ptr->getSuperSet(u, virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
+
+
+            if (list2search.empty()){continue;} //no reason because we cant predict
+
+
+            vector<string> bestP_u  = NN_searchForBestP(u,uId, metric, virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap, list2search, P);
+
+
+            double realRating = userTweetsSentimScore_umapStartState.at(uId).getCoords().at(index2change);
+            double  predictedRating = RateCrypto(u, bestP_u, uId, metric,
+                                                 userTweetsAverageSentimScore_umap,
+                                                 virtualUserTweetsAverageSentimScore_umap,
+                                                 virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap, index2change);
+
+
+
+            predictedAndRealScorePair.emplace_back(predictedRating,realRating);
+
+
+        }
+
+        double MeanAbsoluteError = MAE(predictedAndRealScorePair);
+        MAE_list.push_back(MeanAbsoluteError);
+
+        cout <<"\n\n";
+        cout <<"MAE = "<< MeanAbsoluteError<<endl;
+
+        userTweetsSentimScore_umap2change.clear();
+        userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState; //return 2 initial umap dataset (userTweetsSentimScore)
+
+        predictedAndRealScorePair.clear();
+
+    }
+
+    avrgMAE = accumulate( MAE_list.begin(), MAE_list.end(), 0.0)/MAE_list.size(); ;
+
+    cout << "AVERAGE MAE: "<<avrgMAE<<endl;
+
+    return avrgMAE;
+}
+
+
+
+double
+cross_validation_for_U(string configFileName, string type,
+                       const unordered_map<string, myVector> &userTweetsSentimScore_umapStartState,
+                       int P,
+                       unsigned dimUserSentScoreVectors, int foldingTimes, int crypto2hide) {
+
+    double avrgMAE;
+    vector <double> MAE_list;
+
 
     DistanceMetrics *metric;
     if (type == "LSH" || type =="lsh"){
@@ -35,7 +131,7 @@ cross_validation(string configFileName, string type,
     for (int i = 0; i < foldingTimes ; ++i) {
         cout << "~~~~~~~~~~~~~~~~~~~~~~ITERATIONS #" << i << "~~~~~~~~~~~~~~~~~~~~~~" << endl;
         vector<string> keysU2Change = keys2change(keysU, i, foldIn_f_piecesNumber); //EDW PAIRNW TO 1/10 KATHE FORA
-        print_keys(keysU2Change);
+
 
         unordered_map<string, myVector> userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
         unordered_map<string, double> userTweetsAverageSentimScore_umap;
@@ -44,7 +140,9 @@ cross_validation(string configFileName, string type,
         vector<pair<string, int>> UserIndexesPairsChanged = changeDataset(userTweetsSentimScore_umap2change,
                                                                           keysU2Change, crypto2hide);
 
+
         calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap2change);
+
 
         changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                                                            userTweetsSentimScore_umap2change,
@@ -60,20 +158,15 @@ cross_validation(string configFileName, string type,
         }
 
 
-
-        //todo gia tis times pou allaksa kanw rate ta crypto "predicted score"
-        //todo tha parw mono ta u pou allaksa kai tha ta elenksw
-
         vector <pair<double,double>> predictedAndRealScorePair;
 
         for (auto &UserScorePairChanged :  UserIndexesPairsChanged) {
-            cout << UserScorePairChanged.first << ":" << UserScorePairChanged.second << endl;
 
             string uId = UserScorePairChanged.first;
             int index2change = UserScorePairChanged.second;
             myVector u = userTweetsSentimScoreWithoutInfsAndZeroVectors_umap[uId];
 
-
+            assert(!u.getCoords().empty());
 
             set<string> list2search = abstractLshClust_ptr->getSuperSet(u, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
@@ -81,9 +174,18 @@ cross_validation(string configFileName, string type,
 
             if (list2search.size() == 1){continue;} //no reason because we cant predict
 
+
+            int index_u2remove=0;
+            for (auto currId : list2search){
+                if (currId == uId){
+                    list2search.erase(currId);
+                    break;
+                }
+                index_u2remove++;
+            }
+
+
             vector<string> bestP_u  = NN_searchForBestP(u,uId, metric, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, list2search, P);
-
-
 
 
             double realRating = userTweetsSentimScore_umapStartState.at(uId).getCoords().at(index2change);
@@ -92,10 +194,7 @@ cross_validation(string configFileName, string type,
                                                  userTweetsAverageSentimScore_umap,
                                                  userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, index2change);
 
-
             predictedAndRealScorePair.emplace_back(predictedRating,realRating);
-            cout << "realRating:" << realRating<<endl;
-            cout << "predictedRating:" << predictedRating<<endl;
 
         }
 
@@ -105,11 +204,15 @@ cross_validation(string configFileName, string type,
         cout <<"\n\n";
         cout <<"MAE = "<< MeanAbsoluteError<<endl;
 
+        userTweetsSentimScore_umap2change.clear();
         userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState; //return 2 initial umap dataset (userTweetsSentimScore)
 
         delete abstractLshClust_ptr;abstractLshClust_ptr= nullptr;
+        predictedAndRealScorePair.clear();
+
 
     }
+
 
     delete metric;metric= nullptr;
 
@@ -117,20 +220,21 @@ cross_validation(string configFileName, string type,
 
     cout << "AVERAGE MAE: "<<avrgMAE<<endl;
 
-    return 0;
+    return avrgMAE;
 }
 
 
-
+//CKECKED
 //Rj=actual rating, Pj =predicted rating
 double MAE(vector <pair<double,double>> predictedAndRealScorePair) {//Mean Absolute Error
 
     double mae=0;
-    int j=0;
+    int j= static_cast<int>(predictedAndRealScorePair.size());
+
+    assert(!predictedAndRealScorePair.empty());
     for (auto& myPair : predictedAndRealScorePair ){
         mae += abs(myPair.second - myPair.first);
         assert(mae >=0);
-        j++;
     }
 
     assert(j>0);
@@ -139,17 +243,7 @@ double MAE(vector <pair<double,double>> predictedAndRealScorePair) {//Mean Absol
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+//CKECKED
 int isNotValid2changeVector(const myVector &u, int crypto2hide){
     double inf = std::numeric_limits<double>::infinity();
     int counter=0;
@@ -162,10 +256,10 @@ int isNotValid2changeVector(const myVector &u, int crypto2hide){
                 counterZeros++;
             }
         }
-
-        if (counter > crypto2hide && counter != counterZeros){ // be sure these vectors will not be evicted from the withouInfs&Zeros umap
-            return 0; //is Valid 2 change It
-        }
+    }
+    int counterNonZeros = counter - counterZeros;
+    if (counterNonZeros > crypto2hide && counterNonZeros > 0  ){ // be sure these vectors will not be evicted from the withouInfs&Zeros umap [thus there should be at least 2 vectors
+        return 0; //is Valid 2 change It
     }
 
     return  1; //is NOT Valid 2 change It
@@ -173,21 +267,7 @@ int isNotValid2changeVector(const myVector &u, int crypto2hide){
 
 
 
-//int getNewCoinIndex2change(vector<int> coinRandomlyChosenFixed){
-//    int position;
-//
-//    while (1){
-//        position = static_cast<int>(std::rand() % coinRandomlyChosenFixed.size());
-//
-//        for (auto posFixed : coinRandomlyChosenFixed){
-//            if (position != posFixed )
-//        }
-//    }
-//
-//    return
-//}
-
-
+//CHECKED
 vector<int> changeSomeCryptoScores2unknown(myVector &u,int crypto2hide){
 
     vector <int> indexesChangedReturned;
@@ -230,6 +310,7 @@ vector<int> changeSomeCryptoScores2unknown(myVector &u,int crypto2hide){
 }
 
 
+//CKECKED
 vector<pair<string,int>> changeDataset(unordered_map<string, myVector>  &userTweetsSentimScore_umap, const vector <string> &keysU2Change,int crypto2hide){
     vector<pair<string,int>> valuesChanged;
     for (auto& u_key : keysU2Change){
@@ -238,16 +319,19 @@ vector<pair<string,int>> changeDataset(unordered_map<string, myVector>  &userTwe
             continue;
         }
         vector<int> indexesInCurrentU2change = changeSomeCryptoScores2unknown(u2change,crypto2hide);
+        assert (indexesInCurrentU2change.size() == crypto2hide);
+
         for (auto curr_index : indexesInCurrentU2change){
             valuesChanged.emplace_back(u_key,curr_index);
         }
+        userTweetsSentimScore_umap[u_key] = u2change; //new value (overrides) in the umap with the u vector been changed to inf some known cryptos
 
     }
 
     return valuesChanged;
 }
 
-
+//CKECKED
 vector<string> keys2change(const vector<string> &keysU,int i,int foldIn10piecesNumber){
     vector <string> keys2Return;
 

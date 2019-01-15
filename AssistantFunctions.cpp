@@ -2,14 +2,74 @@
 // Created by dimitrisgan on 16/11/2018.
 //
 
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
 
 #include "AssistantFunctions.h"
 
 
 using namespace std;
+
+
+
+void callWriter(std::ofstream& outFile, string &firstLine,
+                const map<string,vector<string>> &RecommendedCoins_map,double executionTime){
+
+
+    outFile << firstLine << endl;
+
+    for (const auto& coinsRecommend2UserPair : RecommendedCoins_map){
+
+        outFile << coinsRecommend2UserPair.first << endl;
+        vector <string> coinsSuggested_list = coinsRecommend2UserPair.second;
+        for (const auto &coin : coinsSuggested_list){
+            outFile << coin <<"\t";
+        }
+        outFile << endl;
+    }
+
+    outFile << "Execution Time: " << executionTime <<endl;
+}
+
+
+//==================================================================================================================
+//todo thelw ola ta umaps na diavazw
+void Write_OutFileCoinRecommendation( string &OutFileName ,
+                                      double maeA1,double executTimeA1,
+                                      double maeA2,double executTimeA2,
+                                      double maeB1,double executTimeB1,
+                                      double maeB2,double executTimeB2,
+                                      const map <string,vector<string>> &RecommendedCoins2UsersLSH,
+                                      const map <string,vector<string>> &RecommendedCoins2UsersCLUSTER,
+                                      const map <string,vector<string>> &RecommendedCoins2VirtualUsersLSH,
+                                      const map <string,vector<string>> &RecommendedCoins2VirtualUsersCLUSTER){
+
+    std::ofstream outFile;
+    outFile.open(OutFileName);//erase the content of the output file if already exists
+
+    if(outFile.is_open()) {
+
+
+        string typeA1 = "Cosine LSH to Real Users";
+        callWriter(outFile ,typeA1 ,RecommendedCoins2UsersLSH,executTimeA1);
+        outFile << "--------------------------------------------\n\n";
+        string typeA2 = "Euclidean Clustering to Real Users";
+        callWriter(outFile ,typeA2 ,RecommendedCoins2UsersCLUSTER,executTimeA2);
+        outFile << "--------------------------------------------\n\n";
+
+        //todo call it 4 times
+
+    }
+    else {
+        cout << "Could not open Output file: " << OutFileName << endl;
+    }
+    outFile.close();
+
+
+}
+
+
+
+
+
 
 
 void ReadCoinsFile_saveIt(const string &inCoinsFileName , vector<string> &CoinsList , unordered_map<string ,int> &CoinsUmap ){
@@ -579,7 +639,7 @@ void ReadConfigFile(const string &configFileName, unsigned int &k, unsigned int 
     }
 
     if (flagAlgorOtionsGiven){
-        cout << "algOptions = "<<algOptions<<endl;
+        //cout << "algOptions = "<<algOptions<<endl;
 
         I_option = (int)algOptions.at(1) - '0';
         A_option = (int)algOptions.at(3) - '0';
