@@ -21,7 +21,7 @@ double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
     for (const auto &v_Id : bestP_u){
         myVector v = V_users_umap.at(v_Id);
         double dist = metric->distance(u,v);
-        double similarity =metric->similairty(dist);
+        double similarity = metric->similarity(dist);
 
         sumSimilarities +=  abs(similarity);
         assert(abs(similarity) >= 0);
@@ -35,7 +35,7 @@ double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 
     }
 
-    assert(sumSimilarities != 0);
+    assert(sumSimilarities > 0);
     double z = 1/sumSimilarities;
 
     double uCryptoRating= avrgU_CryptoRating + z*sumV_normalizedRatings;
@@ -46,8 +46,6 @@ double RateCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 
 
 
-
-//todo prepei na kanw recommend coins pou den exei hdh
 
 /*from all the neighbors calculate all the crypto's the Sentiment Score*/
 vector<pair<int, double>>
@@ -77,14 +75,7 @@ EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
 
 
 
-//EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id,
-//const unordered_map<string, double> &U_userTweetsAverageSentimScore_umap,
-//const unordered_map<string, double> &V_userTweetsAverageSentimScore_umap,
-//const unordered_map<string, myVector> &V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap)
-//{
 
-
-//todo prepei na kane iterate epanalipsi gia kathe u sto map na callarw evaluate kai meta na vriskw to katallhlo pou thelw
 vector<string> recommendBestCoinsForUser(myVector &u, const vector<string> &bestP_u, const string &u_Id, int number2recommend,
                                          const vector<string> &CoinsList, DistanceMetrics *metric,
                                          const unordered_map<string, myVector> &userTweetsSentimScore_umap,

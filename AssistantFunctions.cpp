@@ -14,14 +14,21 @@ void callWriter(std::ofstream& outFile, string &firstLine,
                 const map<string,vector<string>> &RecommendedCoins_map,double executionTime){
 
 
-    outFile << firstLine << endl;
+    outFile << firstLine << "\n\n";
 
     for (const auto& coinsRecommend2UserPair : RecommendedCoins_map){
 
-        outFile << coinsRecommend2UserPair.first << "\t";
+        outFile << coinsRecommend2UserPair.first ;
+        if (coinsRecommend2UserPair.first.size() <=3){
+            outFile << "\t\t";
+        }
+        else{
+            outFile << "\t";
+        }
         vector <string> coinsSuggested_list = coinsRecommend2UserPair.second;
         for (const auto &coin : coinsSuggested_list){
-            outFile << coin <<"\t";
+                outFile <<setw(20)<< coin <<"\t";
+
         }
         outFile << endl;
     }

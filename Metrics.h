@@ -23,7 +23,7 @@ public:
 
     virtual  double distance(myVector& p,myVector& q) = 0;
 
-    virtual double similairty(double dist)=0;
+    virtual double similarity(double dist)=0;
 
 };
 
@@ -39,7 +39,7 @@ public:
 
     double distance(myVector& p,myVector& q) override;
 
-    double similairty(double dist) override;
+    double similarity(double dist) override;
 
 };
 
@@ -54,7 +54,7 @@ public:
 
     double distance(myVector& p,myVector& q) override;
 
-    double similairty(double dist) override;
+    double similarity(double dist) override;
 };
 
 

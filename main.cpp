@@ -15,8 +15,6 @@
 
 int main(int argc , char** argv) {
 
-
-
     string inCoinsFileName = "./inputs/coins_queries.csv";
     string inVadarLexinconFile = "./inputs/vader_lexicon.csv";
     string inTweetsDatasetFile = "./inputs/tweets_dataset_small.csv";
@@ -31,21 +29,18 @@ int main(int argc , char** argv) {
     string OutFileName = "./outputs/OutputProject3";
 
 
-    int validateFlag;
-    ReadHandleArgms( argc,  argv , inFileName , OutFileName , validateFlag);
-
+    int validateFlag=0 ;//todo change me
+//    ReadHandleArgms( argc,  argv , inFileName , OutFileName , validateFlag);
 
     vector <string> CoinsList;
     unordered_map<string ,int> coins_umap;
     unordered_map<string ,double> vaderLexicon_umap;
-
 
     ReadCoinsFile_saveIt(inCoinsFileName , CoinsList , coins_umap );
 
     unsigned  dimUserSentScoreVectors = static_cast<int>(CoinsList.size());
 
     ReadVaderLexicon_saveIt(inVadarLexinconFile , vaderLexicon_umap);
-
 
     unordered_map <string , Tweet > Tweets_umap;
     unordered_multimap <string ,string> userTweetsRelation_ummap;
@@ -66,7 +61,6 @@ int main(int argc , char** argv) {
     unordered_map <string , myVector > userTweetsSentimScoreWithoutInfsAndZeroVectors_umap;
     unordered_map <string , double > userTweetsAverageSentimScore_umap;
 
-
     calculateAverageU_umap(userTweetsAverageSentimScore_umap, userTweetsSentimScore_umap);
 
     changeInfsToAverageSentimentsAndDiscardZeroVectors(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -74,12 +68,9 @@ int main(int argc , char** argv) {
 
 //    printUsersSentimentCryptoScoreMap(userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
-
-
     //================== making the virtual clusters ================
 
     unsigned int dimTfIdfVec = 0;
-//    int DistMetricFlag =1;
 
     unordered_map<string, myVector> in_Tf_Idf_Tweets_umap; //in_umap from project2
 
@@ -90,14 +81,10 @@ int main(int argc , char** argv) {
     ClusterProcedure(TwitterCluster, in_Tf_Idf_Tweets_umap, configFileNameForCluster1, dimTfIdfVec, 0);
 
 
-
-
 /*C VIRTUAL-USERS-VECTORS*/
 
-
     unordered_map <string , myVector > virtualUserTweetsSentimScore_umap;
-//
-//
+
     calculateVirtualUsersFromTwitterCluster(virtualUserTweetsSentimScore_umap, TwitterCluster, Tweets_umap,
                                             vaderLexicon_umap,
                                             coins_umap, dimUserSentScoreVectors);
@@ -120,12 +107,12 @@ int main(int argc , char** argv) {
 
 //    ============================ U-V LSH's ====================================
 
-//
-//    /*SAVE THE nonInf&zero U's IN THE LSH*/
-////
+
+    /*SAVE THE nonInf&zero U's IN THE LSH*/
+
     Lsh *lsh_Users_ptr = new Lsh(configFileNameForLsh1, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                                  dimUserSentScoreVectors); //lsh-cosine for  u's
-//
+
     /*SAVE THE nonInf&zero C's IN THE LSH*/
     Lsh *lsh_virtualUsers_ptr = new Lsh(configFileNameForLsh2,
                                         virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -185,8 +172,8 @@ int main(int argc , char** argv) {
 
 
 
-    cout <<"Processing...Stand by from real Users results LSH...\n";
 //1A
+    cout <<"[1A]:Processing...Stand by from real Users results LSH...\n";
 
     beginTime = clock();
     (*RecommendFromRealUsers)(RecommendedCoins2UsersLSH,metricCos , lsh_Users_ptr);
@@ -196,9 +183,9 @@ int main(int argc , char** argv) {
 //    printrecommendedCoins2Users(RecommendedCoins2UsersLSH);
 
 
-    cout <<"\nProcessing...Stand by from virtual Users results LSH...\n";
 //2A
-//
+    cout <<"\n[2A]:Processing...Stand by from virtual Users results LSH...\n";
+
     beginTime = clock();
     (*RecommendFromVirtualUsers)(RecommendedCoins2VirtualUsersLSH,metricCos, lsh_virtualUsers_ptr);
     stopTime = clock();
@@ -207,10 +194,10 @@ int main(int argc , char** argv) {
 //    printrecommendedCoins2Users(RecommendedCoins2VirtualUsersLSH);
 
 
-    cout <<"\nProcessing...Stand by from real Users results CLUSTERING...\n";
+    cout <<"\n[1B]:Processing...Stand by from real Users results CLUSTERING...\n";
 
-////1B
-//
+//1B
+
     beginTime = clock();
     (*RecommendFromRealUsers)(RecommendedCoins2UsersCLUSTER,metricEucl , clust_U);
     stopTime = clock();
@@ -220,7 +207,7 @@ int main(int argc , char** argv) {
 //    printrecommendedCoins2Users(RecommendedCoins2UsersCLUSTER);
 
 
-    cout <<"\nProcessing...Stand by from virtual Users results CLUSTERING...\n";
+    cout <<"\n[2B]:Processing...Stand by from virtual Users results CLUSTERING...\n\n";
 
 //2B
 
@@ -234,12 +221,18 @@ int main(int argc , char** argv) {
 
     double mae1A;double mae2A;double mae1B;double mae2B;
     if (validateFlag ) {
+        cout <<"Cross-Validating...real Users results from LSH...\n";
+
         mae1A = cross_validation_for_U("./configs/lsh1.conf", "LSH", userTweetsSentimScore_umap,
                                        P, dimUserSentScoreVectors, 10, 1);
+
+        cout <<"Cross-Validating...real Users results from Clustering...\n";
 
         mae2A = cross_validation_for_U("./configs/cluster2.conf", "CLUSTER", userTweetsSentimScore_umap,
                                        P, dimUserSentScoreVectors, 10, 1);
 
+
+        cout <<"Cross-Validating...virtual Users results from LSH...\n";
 
         mae1B = cross_validation_for_C(userTweetsSentimScore_umap,
                                        virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -249,6 +242,8 @@ int main(int argc , char** argv) {
                                        P,
                                        10, 1); //iterates , crypto2hide
 
+
+        cout <<"Cross-Validating...virtual Users results from Clustering...\n";
 
         mae2B = cross_validation_for_C(userTweetsSentimScore_umap,
                                        virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -272,11 +267,6 @@ int main(int argc , char** argv) {
                                     RecommendedCoins2VirtualUsersCLUSTER, validateFlag);
 
 
-
-
-
-
-//
 //    /*DELETION OF POINTERS*/
     delete lsh_Users_ptr;lsh_Users_ptr= nullptr;
     delete lsh_virtualUsers_ptr;lsh_virtualUsers_ptr= nullptr;
