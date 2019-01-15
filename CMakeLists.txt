@@ -50,4 +50,4 @@ add_executable(RecommendationCryptoSystem
         Tweet.cpp
         Tweet.h
         Update.cpp
-        Update.h RecommendBestCoins.cpp RecommendBestCoins.h VirtualUsers.cpp VirtualUsers.h AbstractLSH_CLUSTER.cpp AbstractLSH_CLUSTER.h ClusteringProxSearching.cpp ClusteringProxSearching.h Cross_Validation.cpp Cross_Validation.h)
+        Update.h RecommendBestCoins.cpp RecommendBestCoins.h AbstractLSH_CLUSTER.cpp AbstractLSH_CLUSTER.h ClusteringProxSearching.cpp ClusteringProxSearching.h Cross_Validation.cpp Cross_Validation.h)
