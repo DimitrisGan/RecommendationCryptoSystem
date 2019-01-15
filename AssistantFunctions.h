@@ -45,6 +45,20 @@ class HyperCube;
 void callWriter(std::ofstream& outFile, string &firstLine,
                 const map<string,vector<string>> &RecommendedCoins_map,double executionTime);
 
+
+
+void Write_OutFileCoinRecommendation(string &OutFileName,
+                                     double mae1A, double executTime1A,
+                                     double mae2A, double executTime2A,
+                                     double mae1B, double executTime1B,
+                                     double mae2B, double executTime2B,
+                                     const map<string, vector<string>> &RecommendedCoins2UsersLSH,
+                                     const map<string, vector<string>> &RecommendedCoins2UsersCLUSTER,
+                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersLSH,
+                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersCLUSTER);
+
+
+
     void ReadConfigFileLsh(const string &configFileName, unsigned int &k_hf, unsigned int &L);
 
 void ReadTweetsInputDat_saveIt(const string &inTweetsDatasetFileName, unordered_map<string, Tweet> &tweets_umap,

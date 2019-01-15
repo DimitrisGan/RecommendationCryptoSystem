@@ -54,7 +54,7 @@ void H_Class_Cos_Lsh::print_h() const{
 
 CosineSimilarityLSH::CosineSimilarityLSH( unsigned int& k , unsigned int& d) : k(k) ,d(d) {
 
-    cout << "CosineSimilarityLSH Constructor called " << endl;
+    //cout << "CosineSimilarityLSH Constructor called " << endl;
 
     std::vector<H_Class_Cos_Lsh> h_classes(k, H_Class_Cos_Lsh(d));
 

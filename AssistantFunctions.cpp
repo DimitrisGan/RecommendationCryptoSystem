@@ -18,7 +18,7 @@ void callWriter(std::ofstream& outFile, string &firstLine,
 
     for (const auto& coinsRecommend2UserPair : RecommendedCoins_map){
 
-        outFile << coinsRecommend2UserPair.first << endl;
+        outFile << coinsRecommend2UserPair.first << "\t";
         vector <string> coinsSuggested_list = coinsRecommend2UserPair.second;
         for (const auto &coin : coinsSuggested_list){
             outFile << coin <<"\t";
@@ -32,15 +32,15 @@ void callWriter(std::ofstream& outFile, string &firstLine,
 
 //==================================================================================================================
 //todo thelw ola ta umaps na diavazw
-void Write_OutFileCoinRecommendation( string &OutFileName ,
-                                      double maeA1,double executTimeA1,
-                                      double maeA2,double executTimeA2,
-                                      double maeB1,double executTimeB1,
-                                      double maeB2,double executTimeB2,
-                                      const map <string,vector<string>> &RecommendedCoins2UsersLSH,
-                                      const map <string,vector<string>> &RecommendedCoins2UsersCLUSTER,
-                                      const map <string,vector<string>> &RecommendedCoins2VirtualUsersLSH,
-                                      const map <string,vector<string>> &RecommendedCoins2VirtualUsersCLUSTER){
+void Write_OutFileCoinRecommendation(string &OutFileName,
+                                     double mae1A, double executTime1A,
+                                     double mae2A, double executTime2A,
+                                     double mae1B, double executTime1B,
+                                     double mae2B, double executTime2B,
+                                     const map<string, vector<string>> &RecommendedCoins2UsersLSH,
+                                     const map<string, vector<string>> &RecommendedCoins2UsersCLUSTER,
+                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersLSH,
+                                     const map<string, vector<string>> &RecommendedCoins2VirtualUsersCLUSTER){
 
     std::ofstream outFile;
     outFile.open(OutFileName);//erase the content of the output file if already exists
@@ -48,14 +48,26 @@ void Write_OutFileCoinRecommendation( string &OutFileName ,
     if(outFile.is_open()) {
 
 
-        string typeA1 = "Cosine LSH to Real Users";
-        callWriter(outFile ,typeA1 ,RecommendedCoins2UsersLSH,executTimeA1);
+        string type1A = "1A :Cosine LSH to Real Users";
+        callWriter(outFile ,type1A ,RecommendedCoins2UsersLSH,executTime1A);
         outFile << "--------------------------------------------\n\n";
-        string typeA2 = "Euclidean Clustering to Real Users";
-        callWriter(outFile ,typeA2 ,RecommendedCoins2UsersCLUSTER,executTimeA2);
+        string type1B = "1B :Cosine LSH to Virtual Users";
+        callWriter(outFile ,type1B ,RecommendedCoins2VirtualUsersLSH,executTime1B);
         outFile << "--------------------------------------------\n\n";
 
-        //todo call it 4 times
+        string type2A = "2A :Euclidean Clustering to Real Users";
+        callWriter(outFile ,type2A ,RecommendedCoins2UsersCLUSTER,executTime2A);
+        outFile << "--------------------------------------------\n\n";
+
+        string type2B = "2B :Euclidean Clustering to Virtual Users";
+        callWriter(outFile ,type2B ,RecommendedCoins2VirtualUsersCLUSTER,executTime2B);
+        outFile << "--------------------------------------------\n\n";
+
+        outFile << "1A :Cosine LSH Recommendation MAE: "<< mae1A <<endl;
+        outFile << "1B :Cosine LSH Recommendation MAE: "<< mae1B <<endl;
+        outFile << "2A :Clustering Recommendation MAE: "<< mae2A <<endl;
+        outFile << "2B :Clustering Recommendation MAE: "<< mae2B <<endl;
+
 
     }
     else {

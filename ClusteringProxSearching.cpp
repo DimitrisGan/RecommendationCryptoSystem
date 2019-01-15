@@ -26,7 +26,7 @@ ClusteringProxSearching::ClusteringProxSearching(const string &configFileName,
     ClusterProcedure(allClusters, userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
                      configFileName, dimUserSentScoreVectors, validationFlag);
 
-    allClusters.print_allClusters();
+    //allClusters.print_allClusters();
 
 
 }

@@ -67,7 +67,7 @@ EvaluateAllCrypto(myVector &u, const vector<string> &bestP_u, const string &u_Id
                                                    V_userTweetsAverageSentimScore_umap,
                                                    V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap, i);
 
-        cryptoRatings.emplace_back(i,RatingOfCurrentCrypto);
+        cryptoRatings.push_back(make_pair(i,RatingOfCurrentCrypto));
     }
 
 

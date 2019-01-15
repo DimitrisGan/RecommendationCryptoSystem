@@ -29,7 +29,7 @@ cross_validation_for_C(
 
 
     for (int i = 0; i < foldingTimes ; ++i) {
-        cout << "~~~~~~~~~~~~~~~~~~~~~~ITERATIONS #" << i << "~~~~~~~~~~~~~~~~~~~~~~" << endl;
+//        cout << "~~~~~~~~~~~~~~~~~~~~~~ITERATIONS #" << i << "~~~~~~~~~~~~~~~~~~~~~~" << endl;
         vector<string> keysU2Change = keys2change(keysU, i, foldIn_f_piecesNumber); //EDW PAIRNW TO 1/10 KATHE FORA
 
 
@@ -85,8 +85,7 @@ cross_validation_for_C(
         double MeanAbsoluteError = MAE(predictedAndRealScorePair);
         MAE_list.push_back(MeanAbsoluteError);
 
-        cout <<"\n\n";
-        cout <<"MAE = "<< MeanAbsoluteError<<endl;
+//        cout <<"MAE = "<< MeanAbsoluteError<<endl;
 
         userTweetsSentimScore_umap2change.clear();
         userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState; //return 2 initial umap dataset (userTweetsSentimScore)
@@ -97,7 +96,7 @@ cross_validation_for_C(
 
     avrgMAE = accumulate( MAE_list.begin(), MAE_list.end(), 0.0)/MAE_list.size(); ;
 
-    cout << "AVERAGE MAE: "<<avrgMAE<<endl;
+//    cout << "AVERAGE MAE: "<<avrgMAE<<endl;
 
     return avrgMAE;
 }
@@ -129,7 +128,7 @@ cross_validation_for_U(string configFileName, string type,
 
 
     for (int i = 0; i < foldingTimes ; ++i) {
-        cout << "~~~~~~~~~~~~~~~~~~~~~~ITERATIONS #" << i << "~~~~~~~~~~~~~~~~~~~~~~" << endl;
+//        cout << "~~~~~~~~~~~~~~~~~~~~~~ITERATIONS #" << i << "~~~~~~~~~~~~~~~~~~~~~~" << endl;
         vector<string> keysU2Change = keys2change(keysU, i, foldIn_f_piecesNumber); //EDW PAIRNW TO 1/10 KATHE FORA
 
 
@@ -176,7 +175,7 @@ cross_validation_for_U(string configFileName, string type,
 
 
             int index_u2remove=0;
-            for (auto currId : list2search){
+            for (const auto &currId : list2search){
                 if (currId == uId){
                     list2search.erase(currId);
                     break;
@@ -201,8 +200,7 @@ cross_validation_for_U(string configFileName, string type,
         double MeanAbsoluteError = MAE(predictedAndRealScorePair);
         MAE_list.push_back(MeanAbsoluteError);
 
-        cout <<"\n\n";
-        cout <<"MAE = "<< MeanAbsoluteError<<endl;
+//        cout <<"MAE = "<< MeanAbsoluteError<<endl;
 
         userTweetsSentimScore_umap2change.clear();
         userTweetsSentimScore_umap2change= userTweetsSentimScore_umapStartState; //return 2 initial umap dataset (userTweetsSentimScore)
@@ -218,7 +216,7 @@ cross_validation_for_U(string configFileName, string type,
 
     avrgMAE = accumulate( MAE_list.begin(), MAE_list.end(), 0.0)/MAE_list.size(); ;
 
-    cout << "AVERAGE MAE: "<<avrgMAE<<endl;
+//    cout << "AVERAGE MAE: "<<avrgMAE<<endl;
 
     return avrgMAE;
 }

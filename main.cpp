@@ -14,7 +14,6 @@
 
 
 int main(int argc , char** argv) {
-    std::cout << "Hello, World!" << std::endl;
 
 
 /*int Radius=0;*//*
@@ -79,13 +78,16 @@ int main(int argc , char** argv) {
 //    string inTweetsDatasetFile = "./inputs/MINE_tweets_dataset_small.csv";
 //    string inTweetsDatasetFile = "tweets_dataset_big.csv";
 
-    string inFileName = "./inputs/twitter_dataset_small_v2.csv";
 
     string configFileNameForLsh1 = "./configs/lsh1.conf";
     string configFileNameForLsh2 = "./configs/lsh2.conf";
     string configFileNameForCluster1 = "./configs/cluster1.conf";
     string configFileNameForCluster2 = "./configs/cluster2.conf";
     string configFileNameForCluster3 = "./configs/cluster3.conf";
+
+    string inFileName = "./inputs/twitter_dataset_small_v2.csv";
+    string OutFileName = "./outputs/OutputProject3";
+
 
 
     vector <string> CoinsList;
@@ -191,12 +193,12 @@ int main(int argc , char** argv) {
 
     //ADD UsCluster && CsCluster IN NEW STRUCTURE THAT IMPLEMENTS getSuperSet() and keeps as attribute the euclidean distance
 
-//    auto *clust_U = new ClusteringProxSearching(configFileNameForCluster2,
-//                                                userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                                                dimUserSentScoreVectors, 0);
-//    auto *clust_C = new ClusteringProxSearching(configFileNameForCluster3,
-//                                                virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                                                dimUserSentScoreVectors, 0);
+    auto *clust_U = new ClusteringProxSearching(configFileNameForCluster2,
+                                                userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                dimUserSentScoreVectors, 0);
+    auto *clust_C = new ClusteringProxSearching(configFileNameForCluster3,
+                                                virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                dimUserSentScoreVectors, 0);
 
 //    //=============================================================================
     /*NUMBER OF COINS TO RECOMMEND*/
@@ -207,7 +209,7 @@ int main(int argc , char** argv) {
 ////===================================== FUNCTOR INSTANTIATIONS =======================================
 //
     /*FOR REAL-U USERS*/
-    auto *RecommendForsUsers =  new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
+    auto *RecommendFromRealUsers =  new RecommendCoins(P, numberOfCoins2recommend_U, CoinsList,
                                                    userTweetsSentimScore_umap,
                                                    userTweetsAverageSentimScore_umap,                      //U_userTweetsAverageSentimScore_umap,
                                                    userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,    //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
@@ -215,12 +217,12 @@ int main(int argc , char** argv) {
                                                    userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);   //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);
 
 //    /*FOR VIRTUAL-C USERS*/
-//    auto *RecommendForsVirtualUsers = new RecommendCoins(P, numberOfCoins2recommend_C, CoinsList,
-//                                                         userTweetsSentimScore_umap,
-//                                                         userTweetsAverageSentimScore_umap,                            //U_userTweetsAverageSentimScore_umap,
-//                                                         userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,          //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                                                         virtualUserTweetsAverageSentimScore_umap,                     //V_userTweetsAverageSentimScore_umap,
-//                                                         virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);  //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);;
+    auto *RecommendFromVirtualUsers = new RecommendCoins(P, numberOfCoins2recommend_C, CoinsList,
+                                                         userTweetsSentimScore_umap,
+                                                         userTweetsAverageSentimScore_umap,                            //U_userTweetsAverageSentimScore_umap,
+                                                         userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,          //U_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                                         virtualUserTweetsAverageSentimScore_umap,                     //V_userTweetsAverageSentimScore_umap,
+                                                         virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap);  //V_userTweetsSentimScoreWithoutInfsAndZeroVectors_umap);;
 
 
 //==========================================================================================================
@@ -233,92 +235,110 @@ int main(int argc , char** argv) {
     map<string,vector<string>> RecommendedCoins2VirtualUsersLSH;
     map<string,vector<string>> RecommendedCoins2VirtualUsersCLUSTER;
 
+    clock_t beginTime, stopTime;
+    double executTime1A ;double executTime2A ;double executTime1B ;double executTime2B ; //= double(end - begin) / CLOCKS_PER_SEC;
+
 
 
     cout <<"Processing...Stand by from real Users results LSH...\n";
 //1A
 
-    (*RecommendForsUsers)(RecommendedCoins2UsersLSH,metricCos , lsh_Users_ptr);
-    printrecommendedCoins2Users(RecommendedCoins2UsersLSH);
+    beginTime = clock();
+    (*RecommendFromRealUsers)(RecommendedCoins2UsersLSH,metricCos , lsh_Users_ptr);
+    stopTime = clock();
+
+    executTime1A = double(stopTime - beginTime) / CLOCKS_PER_SEC;
+//    printrecommendedCoins2Users(RecommendedCoins2UsersLSH);
+
 
     cout <<"\nProcessing...Stand by from virtual Users results LSH...\n";
-//1B
+//2A
 //
-//    (*RecommendForsVirtualUsers)(RecommendedCoins2VirtualUsersLSH,metricCos, lsh_virtualUsers_ptr);
+    beginTime = clock();
+    (*RecommendFromVirtualUsers)(RecommendedCoins2VirtualUsersLSH,metricCos, lsh_virtualUsers_ptr);
+    stopTime = clock();
+
+    executTime2A = double(stopTime - beginTime) / CLOCKS_PER_SEC;
 //    printrecommendedCoins2Users(RecommendedCoins2VirtualUsersLSH);
+
+
+    cout <<"\nProcessing...Stand by from real Users results CLUSTERING...\n";
+
+////1B
 //
-//
-//    cout <<"\nProcessing...Stand by from real Users results CLUSTERING...\n";
-//
-////2A
-//
-//    (*RecommendForsUsers)(RecommendedCoins2UsersCLUSTER,metricEucl , clust_U);
+    beginTime = clock();
+    (*RecommendFromRealUsers)(RecommendedCoins2UsersCLUSTER,metricEucl , clust_U);
+    stopTime = clock();
+
+
+    executTime1B = double(stopTime - beginTime) / CLOCKS_PER_SEC;
 //    printrecommendedCoins2Users(RecommendedCoins2UsersCLUSTER);
-//
-//
-//    cout <<"\nProcessing...Stand by from virtual Users results CLUSTERING...\n";
-//
-////2B
-//
-//    (*RecommendForsVirtualUsers)(RecommendedCoins2VirtualUsersCLUSTER,metricEucl, clust_C);
-//
+
+
+    cout <<"\nProcessing...Stand by from virtual Users results CLUSTERING...\n";
+
+//2B
+
+    beginTime = clock();
+    (*RecommendFromVirtualUsers)(RecommendedCoins2VirtualUsersCLUSTER,metricEucl, clust_C);
+    stopTime = clock();
+
+    executTime2B = double(stopTime - beginTime) / CLOCKS_PER_SEC;
 //    printrecommendedCoins2Users(RecommendedCoins2VirtualUsersCLUSTER);
 
 
 
+    double mae1A = cross_validation_for_U("./configs/lsh1.conf", "LSH", userTweetsSentimScore_umap,
+                                          P, dimUserSentScoreVectors, 10, 1);
+
+    double mae2A =cross_validation_for_U("./configs/cluster2.conf", "CLUSTER", userTweetsSentimScore_umap,
+                                         P, dimUserSentScoreVectors, 10, 1);
 
 
-//    cout << "\n\n RecommendedCoins2UsersLSHssizeof = " << RecommendedCoins2UsersLSH.size()<<endl;
-//    cout << "\n\n RecommendedCoins2UsersCLUSTERsizeof = " << RecommendedCoins2UsersCLUSTER.size()<<endl;
-//    cout << "\n\n RecommendedCoins2VirtualUsers = " << RecommendedCoins2VirtualUsersLSH.size()<<endl;
-//
-//    cout << "\n\n userTweetsSentimScore_umap = " << userTweetsSentimScore_umap.size()<<endl;
-//    cout << "\n\n userTweetsSentimScoreWithoutInfsAndZeroVectors_umap = " << userTweetsSentimScoreWithoutInfsAndZeroVectors_umap.size()<<endl;
-//    cout << "\n\n vaderLexicon_umap = " << vaderLexicon_umap.size()<<endl;
-//    cout << "\n\n coins_umap = " << coins_umap.size()<<endl;
 
 
-//    double maeA1 = cross_validation_for_U("./configs/lsh1.conf", "lsh", userTweetsSentimScore_umap,
-//                                          P, dimUserSentScoreVectors, 3, 1);
-//
-//    double maeA2 =cross_validation_for_U("./configs/cluster2.conf", "CLUSTER", userTweetsSentimScore_umap,
-//                                         P, dimUserSentScoreVectors, 10, 1);
-//
-//
-//
-//
-//    double maeB1 = cross_validation_for_C(  userTweetsSentimScore_umap,
-//                                            virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                                            virtualUserTweetsAverageSentimScore_umap,
-//                                            lsh_virtualUsers_ptr ,
-//                                            metricCos,
-//                                            P,
-//                                            10,  1) ; //iterates , crypto2hide
-//
-//
-//    double maeB2 =   cross_validation_for_C( userTweetsSentimScore_umap,
-//                                             virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
-//                                             virtualUserTweetsAverageSentimScore_umap,
-//                                             clust_C ,
-//                                             metricEucl,
-//                                             P,
-//                                             10, 1) ;//iterates , crypto2hide
-//
-//
-//
-//
-//
-//
+    double mae1B = cross_validation_for_C(  userTweetsSentimScore_umap,
+                                            virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                            virtualUserTweetsAverageSentimScore_umap,
+                                            lsh_virtualUsers_ptr ,
+                                            metricCos,
+                                            P,
+                                            10,  1) ; //iterates , crypto2hide
+
+
+    double mae2B = cross_validation_for_C(  userTweetsSentimScore_umap,
+                                            virtualUserTweetsSentimScoreWithoutInfsAndZeroVectors_umap,
+                                            virtualUserTweetsAverageSentimScore_umap,
+                                            clust_C ,
+                                            metricEucl,
+                                            P,
+                                            10, 1) ;//iterates , crypto2hide
+
+
+
+    Write_OutFileCoinRecommendation(OutFileName,
+                                    mae1A,  executTime1A,
+                                    mae2A,  executTime2A,
+                                    mae1B,  executTime1B,
+                                    mae2B,  executTime2B,
+                                    RecommendedCoins2UsersLSH,
+                                    RecommendedCoins2UsersCLUSTER,
+                                    RecommendedCoins2VirtualUsersLSH,
+                                    RecommendedCoins2VirtualUsersCLUSTER);
+
+
+
+
 //
 //    /*DELETION OF POINTERS*/
-//    delete lsh_Users_ptr;lsh_Users_ptr= nullptr;
-//    delete lsh_virtualUsers_ptr;lsh_virtualUsers_ptr= nullptr;
-//    delete clust_U;clust_U= nullptr;
-//    delete clust_C;clust_C= nullptr;
-//    delete RecommendForsUsers;RecommendForsUsers= nullptr;
-//    delete RecommendForsVirtualUsers;RecommendForsVirtualUsers= nullptr;
-//    delete metricCos;metricCos= nullptr;
-//    delete metricEucl;metricEucl= nullptr;
+    delete lsh_Users_ptr;lsh_Users_ptr= nullptr;
+    delete lsh_virtualUsers_ptr;lsh_virtualUsers_ptr= nullptr;
+    delete clust_U;clust_U= nullptr;
+    delete clust_C;clust_C= nullptr;
+    delete RecommendFromRealUsers;RecommendFromRealUsers= nullptr;
+    delete RecommendFromVirtualUsers;RecommendFromVirtualUsers= nullptr;
+    delete metricCos;metricCos= nullptr;
+    delete metricEucl;metricEucl= nullptr;
     cout <<"THE END"<<endl;
     return 0;
 }

@@ -52,7 +52,7 @@ hash_table::hash_table(unsigned int& HT_SIZE , LshSimple * lsh)
 
 hash_table::~hash_table()
 {   //taking care of memory leaks
-    cout << "the destructor of hash_table has been called\n";
+    //cout << "the destructor of hash_table has been called\n";
 
     for (unsigned int i=0; i < HT_SIZE ; i++)
     {
@@ -129,7 +129,7 @@ multi_hash_table::multi_hash_table(unsigned int& L, unsigned int& HT_SIZE, vecto
 //=========================================================
 
 multi_hash_table::~multi_hash_table() {
-    cout << "the destructor of multi_hash_table has been called\n";
+    //cout << "the destructor of multi_hash_table has been called\n";
     for (unsigned int i = 0; i < L ; ++i) {
         delete HT_id[i];
     }

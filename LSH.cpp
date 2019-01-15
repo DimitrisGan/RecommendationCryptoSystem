@@ -54,12 +54,12 @@ Lsh::Lsh (unsigned  int TableSize, unsigned int& k ,unsigned int& d , unsigned i
 }
 
 Lsh::~Lsh() {
-    cout <<"the destructor lsh class has been called\n";
+    //cout <<"the destructor lsh class has been called\n";
     delete MHT_ptr;
 }
 
 Lsh::Lsh(const string &confilFileName, unordered_map<string, myVector> &in_umap, unsigned int &d) {
-    cout << "~~~~~ CONSTRUCTOR LSH - COSINE CALLED ~~~~~\n";
+    //cout << "~~~~~ CONSTRUCTOR LSH - COSINE CALLED ~~~~~\n";
 
 
     unsigned k ;
@@ -82,6 +82,6 @@ Lsh::Lsh(const string &confilFileName, unordered_map<string, myVector> &in_umap,
 
     MHT_ptr->SaveDataset2_All_HastTables(in_umap);
 
-    MHT_ptr->print_MHT();
+//    MHT_ptr->print_MHT();
 }
 
