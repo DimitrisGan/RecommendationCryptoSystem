@@ -29,8 +29,8 @@ int main(int argc , char** argv) {
     string OutFileName = "./outputs/OutputProject3";
 
 
-    int validateFlag=0 ;//todo change me
-//    ReadHandleArgms( argc,  argv , inFileName , OutFileName , validateFlag);
+    int validateFlag ;
+    ReadHandleArgms( argc,  argv , inFileName , OutFileName , validateFlag);
 
     vector <string> CoinsList;
     unordered_map<string ,int> coins_umap;
@@ -267,7 +267,7 @@ int main(int argc , char** argv) {
                                     RecommendedCoins2VirtualUsersCLUSTER, validateFlag);
 
 
-//    /*DELETION OF POINTERS*/
+    /*DELETION OF POINTERS*/
     delete lsh_Users_ptr;lsh_Users_ptr= nullptr;
     delete lsh_virtualUsers_ptr;lsh_virtualUsers_ptr= nullptr;
     delete clust_U;clust_U= nullptr;
